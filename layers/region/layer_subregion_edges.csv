@@ -1,0 +1,967 @@
+src,dst,group
+AUS,NZL,Australia and New Zealand
+ATG,BHS,Caribbean
+ATG,BRB,Caribbean
+ATG,CUB,Caribbean
+ATG,DMA,Caribbean
+ATG,DOM,Caribbean
+ATG,GRD,Caribbean
+ATG,HTI,Caribbean
+ATG,JAM,Caribbean
+ATG,KNA,Caribbean
+ATG,LCA,Caribbean
+ATG,TTO,Caribbean
+ATG,VCT,Caribbean
+BHS,BRB,Caribbean
+BHS,CUB,Caribbean
+BHS,DMA,Caribbean
+BHS,DOM,Caribbean
+BHS,GRD,Caribbean
+BHS,HTI,Caribbean
+BHS,JAM,Caribbean
+BHS,KNA,Caribbean
+BHS,LCA,Caribbean
+BHS,TTO,Caribbean
+BHS,VCT,Caribbean
+BRB,CUB,Caribbean
+BRB,DMA,Caribbean
+BRB,DOM,Caribbean
+BRB,GRD,Caribbean
+BRB,HTI,Caribbean
+BRB,JAM,Caribbean
+BRB,KNA,Caribbean
+BRB,LCA,Caribbean
+BRB,TTO,Caribbean
+BRB,VCT,Caribbean
+CUB,DMA,Caribbean
+CUB,DOM,Caribbean
+CUB,GRD,Caribbean
+CUB,HTI,Caribbean
+CUB,JAM,Caribbean
+CUB,KNA,Caribbean
+CUB,LCA,Caribbean
+CUB,TTO,Caribbean
+CUB,VCT,Caribbean
+DMA,DOM,Caribbean
+DMA,GRD,Caribbean
+DMA,HTI,Caribbean
+DMA,JAM,Caribbean
+DMA,KNA,Caribbean
+DMA,LCA,Caribbean
+DMA,TTO,Caribbean
+DMA,VCT,Caribbean
+DOM,GRD,Caribbean
+DOM,HTI,Caribbean
+DOM,JAM,Caribbean
+DOM,KNA,Caribbean
+DOM,LCA,Caribbean
+DOM,TTO,Caribbean
+DOM,VCT,Caribbean
+GRD,HTI,Caribbean
+GRD,JAM,Caribbean
+GRD,KNA,Caribbean
+GRD,LCA,Caribbean
+GRD,TTO,Caribbean
+GRD,VCT,Caribbean
+HTI,JAM,Caribbean
+HTI,KNA,Caribbean
+HTI,LCA,Caribbean
+HTI,TTO,Caribbean
+HTI,VCT,Caribbean
+JAM,KNA,Caribbean
+JAM,LCA,Caribbean
+JAM,TTO,Caribbean
+JAM,VCT,Caribbean
+KNA,LCA,Caribbean
+KNA,TTO,Caribbean
+KNA,VCT,Caribbean
+LCA,TTO,Caribbean
+LCA,VCT,Caribbean
+TTO,VCT,Caribbean
+BLZ,CRI,Central America
+BLZ,GTM,Central America
+BLZ,HND,Central America
+BLZ,NIC,Central America
+BLZ,PAN,Central America
+BLZ,SLV,Central America
+CRI,GTM,Central America
+CRI,HND,Central America
+CRI,NIC,Central America
+CRI,PAN,Central America
+CRI,SLV,Central America
+GTM,HND,Central America
+GTM,NIC,Central America
+GTM,PAN,Central America
+GTM,SLV,Central America
+HND,NIC,Central America
+HND,PAN,Central America
+HND,SLV,Central America
+NIC,PAN,Central America
+NIC,SLV,Central America
+PAN,SLV,Central America
+KAZ,KGZ,Central Asia
+KAZ,TJK,Central Asia
+KAZ,TKM,Central Asia
+KAZ,UZB,Central Asia
+KGZ,TJK,Central Asia
+KGZ,TKM,Central Asia
+KGZ,UZB,Central Asia
+TJK,TKM,Central Asia
+TJK,UZB,Central Asia
+TKM,UZB,Central Asia
+AUT,CZE,Central Europe
+AUT,HUN,Central Europe
+AUT,POL,Central Europe
+AUT,SVK,Central Europe
+AUT,SVN,Central Europe
+CZE,HUN,Central Europe
+CZE,POL,Central Europe
+CZE,SVK,Central Europe
+CZE,SVN,Central Europe
+HUN,POL,Central Europe
+HUN,SVK,Central Europe
+HUN,SVN,Central Europe
+POL,SVK,Central Europe
+POL,SVN,Central Europe
+SVK,SVN,Central Europe
+BDI,COM,Eastern Africa
+BDI,DJI,Eastern Africa
+BDI,ERI,Eastern Africa
+BDI,ETH,Eastern Africa
+BDI,KEN,Eastern Africa
+BDI,MDG,Eastern Africa
+BDI,MOZ,Eastern Africa
+BDI,MUS,Eastern Africa
+BDI,MWI,Eastern Africa
+BDI,RWA,Eastern Africa
+BDI,SOM,Eastern Africa
+BDI,SYC,Eastern Africa
+BDI,TZA,Eastern Africa
+BDI,UGA,Eastern Africa
+BDI,ZMB,Eastern Africa
+BDI,ZWE,Eastern Africa
+COM,DJI,Eastern Africa
+COM,ERI,Eastern Africa
+COM,ETH,Eastern Africa
+COM,KEN,Eastern Africa
+COM,MDG,Eastern Africa
+COM,MOZ,Eastern Africa
+COM,MUS,Eastern Africa
+COM,MWI,Eastern Africa
+COM,RWA,Eastern Africa
+COM,SOM,Eastern Africa
+COM,SYC,Eastern Africa
+COM,TZA,Eastern Africa
+COM,UGA,Eastern Africa
+COM,ZMB,Eastern Africa
+COM,ZWE,Eastern Africa
+DJI,ERI,Eastern Africa
+DJI,ETH,Eastern Africa
+DJI,KEN,Eastern Africa
+DJI,MDG,Eastern Africa
+DJI,MOZ,Eastern Africa
+DJI,MUS,Eastern Africa
+DJI,MWI,Eastern Africa
+DJI,RWA,Eastern Africa
+DJI,SOM,Eastern Africa
+DJI,SYC,Eastern Africa
+DJI,TZA,Eastern Africa
+DJI,UGA,Eastern Africa
+DJI,ZMB,Eastern Africa
+DJI,ZWE,Eastern Africa
+ERI,ETH,Eastern Africa
+ERI,KEN,Eastern Africa
+ERI,MDG,Eastern Africa
+ERI,MOZ,Eastern Africa
+ERI,MUS,Eastern Africa
+ERI,MWI,Eastern Africa
+ERI,RWA,Eastern Africa
+ERI,SOM,Eastern Africa
+ERI,SYC,Eastern Africa
+ERI,TZA,Eastern Africa
+ERI,UGA,Eastern Africa
+ERI,ZMB,Eastern Africa
+ERI,ZWE,Eastern Africa
+ETH,KEN,Eastern Africa
+ETH,MDG,Eastern Africa
+ETH,MOZ,Eastern Africa
+ETH,MUS,Eastern Africa
+ETH,MWI,Eastern Africa
+ETH,RWA,Eastern Africa
+ETH,SOM,Eastern Africa
+ETH,SYC,Eastern Africa
+ETH,TZA,Eastern Africa
+ETH,UGA,Eastern Africa
+ETH,ZMB,Eastern Africa
+ETH,ZWE,Eastern Africa
+KEN,MDG,Eastern Africa
+KEN,MOZ,Eastern Africa
+KEN,MUS,Eastern Africa
+KEN,MWI,Eastern Africa
+KEN,RWA,Eastern Africa
+KEN,SOM,Eastern Africa
+KEN,SYC,Eastern Africa
+KEN,TZA,Eastern Africa
+KEN,UGA,Eastern Africa
+KEN,ZMB,Eastern Africa
+KEN,ZWE,Eastern Africa
+MDG,MOZ,Eastern Africa
+MDG,MUS,Eastern Africa
+MDG,MWI,Eastern Africa
+MDG,RWA,Eastern Africa
+MDG,SOM,Eastern Africa
+MDG,SYC,Eastern Africa
+MDG,TZA,Eastern Africa
+MDG,UGA,Eastern Africa
+MDG,ZMB,Eastern Africa
+MDG,ZWE,Eastern Africa
+MOZ,MUS,Eastern Africa
+MOZ,MWI,Eastern Africa
+MOZ,RWA,Eastern Africa
+MOZ,SOM,Eastern Africa
+MOZ,SYC,Eastern Africa
+MOZ,TZA,Eastern Africa
+MOZ,UGA,Eastern Africa
+MOZ,ZMB,Eastern Africa
+MOZ,ZWE,Eastern Africa
+MUS,MWI,Eastern Africa
+MUS,RWA,Eastern Africa
+MUS,SOM,Eastern Africa
+MUS,SYC,Eastern Africa
+MUS,TZA,Eastern Africa
+MUS,UGA,Eastern Africa
+MUS,ZMB,Eastern Africa
+MUS,ZWE,Eastern Africa
+MWI,RWA,Eastern Africa
+MWI,SOM,Eastern Africa
+MWI,SYC,Eastern Africa
+MWI,TZA,Eastern Africa
+MWI,UGA,Eastern Africa
+MWI,ZMB,Eastern Africa
+MWI,ZWE,Eastern Africa
+RWA,SOM,Eastern Africa
+RWA,SYC,Eastern Africa
+RWA,TZA,Eastern Africa
+RWA,UGA,Eastern Africa
+RWA,ZMB,Eastern Africa
+RWA,ZWE,Eastern Africa
+SOM,SYC,Eastern Africa
+SOM,TZA,Eastern Africa
+SOM,UGA,Eastern Africa
+SOM,ZMB,Eastern Africa
+SOM,ZWE,Eastern Africa
+SYC,TZA,Eastern Africa
+SYC,UGA,Eastern Africa
+SYC,ZMB,Eastern Africa
+SYC,ZWE,Eastern Africa
+TZA,UGA,Eastern Africa
+TZA,ZMB,Eastern Africa
+TZA,ZWE,Eastern Africa
+UGA,ZMB,Eastern Africa
+UGA,ZWE,Eastern Africa
+ZMB,ZWE,Eastern Africa
+CHN,JPN,Eastern Asia
+CHN,KOR,Eastern Asia
+CHN,MNG,Eastern Asia
+CHN,PRK,Eastern Asia
+JPN,KOR,Eastern Asia
+JPN,MNG,Eastern Asia
+JPN,PRK,Eastern Asia
+KOR,MNG,Eastern Asia
+KOR,PRK,Eastern Asia
+MNG,PRK,Eastern Asia
+BLR,MDA,Eastern Europe
+BLR,RUS,Eastern Europe
+BLR,UKR,Eastern Europe
+MDA,RUS,Eastern Europe
+MDA,UKR,Eastern Europe
+RUS,UKR,Eastern Europe
+FJI,NCL,Melanesia
+FJI,PNG,Melanesia
+FJI,SLB,Melanesia
+FJI,VUT,Melanesia
+NCL,PNG,Melanesia
+NCL,SLB,Melanesia
+NCL,VUT,Melanesia
+PNG,SLB,Melanesia
+PNG,VUT,Melanesia
+SLB,VUT,Melanesia
+FSM,KIR,Micronesia
+FSM,MHL,Micronesia
+FSM,MNP,Micronesia
+FSM,NRU,Micronesia
+FSM,PLW,Micronesia
+KIR,MHL,Micronesia
+KIR,MNP,Micronesia
+KIR,NRU,Micronesia
+KIR,PLW,Micronesia
+MHL,MNP,Micronesia
+MHL,NRU,Micronesia
+MHL,PLW,Micronesia
+MNP,NRU,Micronesia
+MNP,PLW,Micronesia
+NRU,PLW,Micronesia
+AGO,CAF,Middle Africa
+AGO,CMR,Middle Africa
+AGO,COD,Middle Africa
+AGO,COG,Middle Africa
+AGO,GAB,Middle Africa
+AGO,GNQ,Middle Africa
+AGO,SSD,Middle Africa
+AGO,STP,Middle Africa
+AGO,TCD,Middle Africa
+CAF,CMR,Middle Africa
+CAF,COD,Middle Africa
+CAF,COG,Middle Africa
+CAF,GAB,Middle Africa
+CAF,GNQ,Middle Africa
+CAF,SSD,Middle Africa
+CAF,STP,Middle Africa
+CAF,TCD,Middle Africa
+CMR,COD,Middle Africa
+CMR,COG,Middle Africa
+CMR,GAB,Middle Africa
+CMR,GNQ,Middle Africa
+CMR,SSD,Middle Africa
+CMR,STP,Middle Africa
+CMR,TCD,Middle Africa
+COD,COG,Middle Africa
+COD,GAB,Middle Africa
+COD,GNQ,Middle Africa
+COD,SSD,Middle Africa
+COD,STP,Middle Africa
+COD,TCD,Middle Africa
+COG,GAB,Middle Africa
+COG,GNQ,Middle Africa
+COG,SSD,Middle Africa
+COG,STP,Middle Africa
+COG,TCD,Middle Africa
+GAB,GNQ,Middle Africa
+GAB,SSD,Middle Africa
+GAB,STP,Middle Africa
+GAB,TCD,Middle Africa
+GNQ,SSD,Middle Africa
+GNQ,STP,Middle Africa
+GNQ,TCD,Middle Africa
+SSD,STP,Middle Africa
+SSD,TCD,Middle Africa
+STP,TCD,Middle Africa
+BMU,CAN,North America
+BMU,MEX,North America
+BMU,USA,North America
+CAN,MEX,North America
+CAN,USA,North America
+MEX,USA,North America
+DZA,EGY,Northern Africa
+DZA,LBY,Northern Africa
+DZA,MAR,Northern Africa
+DZA,SDN,Northern Africa
+DZA,TUN,Northern Africa
+EGY,LBY,Northern Africa
+EGY,MAR,Northern Africa
+EGY,SDN,Northern Africa
+EGY,TUN,Northern Africa
+LBY,MAR,Northern Africa
+LBY,SDN,Northern Africa
+LBY,TUN,Northern Africa
+MAR,SDN,Northern Africa
+MAR,TUN,Northern Africa
+SDN,TUN,Northern Africa
+DNK,EST,Northern Europe
+DNK,FIN,Northern Europe
+DNK,GBR,Northern Europe
+DNK,IMN,Northern Europe
+DNK,IRL,Northern Europe
+DNK,ISL,Northern Europe
+DNK,LTU,Northern Europe
+DNK,LVA,Northern Europe
+DNK,NOR,Northern Europe
+DNK,SWE,Northern Europe
+EST,FIN,Northern Europe
+EST,GBR,Northern Europe
+EST,IMN,Northern Europe
+EST,IRL,Northern Europe
+EST,ISL,Northern Europe
+EST,LTU,Northern Europe
+EST,LVA,Northern Europe
+EST,NOR,Northern Europe
+EST,SWE,Northern Europe
+FIN,GBR,Northern Europe
+FIN,IMN,Northern Europe
+FIN,IRL,Northern Europe
+FIN,ISL,Northern Europe
+FIN,LTU,Northern Europe
+FIN,LVA,Northern Europe
+FIN,NOR,Northern Europe
+FIN,SWE,Northern Europe
+GBR,IMN,Northern Europe
+GBR,IRL,Northern Europe
+GBR,ISL,Northern Europe
+GBR,LTU,Northern Europe
+GBR,LVA,Northern Europe
+GBR,NOR,Northern Europe
+GBR,SWE,Northern Europe
+IMN,IRL,Northern Europe
+IMN,ISL,Northern Europe
+IMN,LTU,Northern Europe
+IMN,LVA,Northern Europe
+IMN,NOR,Northern Europe
+IMN,SWE,Northern Europe
+IRL,ISL,Northern Europe
+IRL,LTU,Northern Europe
+IRL,LVA,Northern Europe
+IRL,NOR,Northern Europe
+IRL,SWE,Northern Europe
+ISL,LTU,Northern Europe
+ISL,LVA,Northern Europe
+ISL,NOR,Northern Europe
+ISL,SWE,Northern Europe
+LTU,LVA,Northern Europe
+LTU,NOR,Northern Europe
+LTU,SWE,Northern Europe
+LVA,NOR,Northern Europe
+LVA,SWE,Northern Europe
+NOR,SWE,Northern Europe
+ASM,COK,Polynesia
+ASM,NIU,Polynesia
+ASM,PYF,Polynesia
+ASM,TON,Polynesia
+ASM,TUV,Polynesia
+ASM,WLF,Polynesia
+ASM,WSM,Polynesia
+COK,NIU,Polynesia
+COK,PYF,Polynesia
+COK,TON,Polynesia
+COK,TUV,Polynesia
+COK,WLF,Polynesia
+COK,WSM,Polynesia
+NIU,PYF,Polynesia
+NIU,TON,Polynesia
+NIU,TUV,Polynesia
+NIU,WLF,Polynesia
+NIU,WSM,Polynesia
+PYF,TON,Polynesia
+PYF,TUV,Polynesia
+PYF,WLF,Polynesia
+PYF,WSM,Polynesia
+TON,TUV,Polynesia
+TON,WLF,Polynesia
+TON,WSM,Polynesia
+TUV,WLF,Polynesia
+TUV,WSM,Polynesia
+WLF,WSM,Polynesia
+ARG,BOL,South America
+ARG,BRA,South America
+ARG,CHL,South America
+ARG,COL,South America
+ARG,ECU,South America
+ARG,GUY,South America
+ARG,PER,South America
+ARG,PRY,South America
+ARG,SUR,South America
+ARG,URY,South America
+ARG,VEN,South America
+BOL,BRA,South America
+BOL,CHL,South America
+BOL,COL,South America
+BOL,ECU,South America
+BOL,GUY,South America
+BOL,PER,South America
+BOL,PRY,South America
+BOL,SUR,South America
+BOL,URY,South America
+BOL,VEN,South America
+BRA,CHL,South America
+BRA,COL,South America
+BRA,ECU,South America
+BRA,GUY,South America
+BRA,PER,South America
+BRA,PRY,South America
+BRA,SUR,South America
+BRA,URY,South America
+BRA,VEN,South America
+CHL,COL,South America
+CHL,ECU,South America
+CHL,GUY,South America
+CHL,PER,South America
+CHL,PRY,South America
+CHL,SUR,South America
+CHL,URY,South America
+CHL,VEN,South America
+COL,ECU,South America
+COL,GUY,South America
+COL,PER,South America
+COL,PRY,South America
+COL,SUR,South America
+COL,URY,South America
+COL,VEN,South America
+ECU,GUY,South America
+ECU,PER,South America
+ECU,PRY,South America
+ECU,SUR,South America
+ECU,URY,South America
+ECU,VEN,South America
+GUY,PER,South America
+GUY,PRY,South America
+GUY,SUR,South America
+GUY,URY,South America
+GUY,VEN,South America
+PER,PRY,South America
+PER,SUR,South America
+PER,URY,South America
+PER,VEN,South America
+PRY,SUR,South America
+PRY,URY,South America
+PRY,VEN,South America
+SUR,URY,South America
+SUR,VEN,South America
+URY,VEN,South America
+BRN,IDN,South-Eastern Asia
+BRN,KHM,South-Eastern Asia
+BRN,LAO,South-Eastern Asia
+BRN,MMR,South-Eastern Asia
+BRN,MYS,South-Eastern Asia
+BRN,PHL,South-Eastern Asia
+BRN,SGP,South-Eastern Asia
+BRN,THA,South-Eastern Asia
+BRN,TLS,South-Eastern Asia
+BRN,VNM,South-Eastern Asia
+IDN,KHM,South-Eastern Asia
+IDN,LAO,South-Eastern Asia
+IDN,MMR,South-Eastern Asia
+IDN,MYS,South-Eastern Asia
+IDN,PHL,South-Eastern Asia
+IDN,SGP,South-Eastern Asia
+IDN,THA,South-Eastern Asia
+IDN,TLS,South-Eastern Asia
+IDN,VNM,South-Eastern Asia
+KHM,LAO,South-Eastern Asia
+KHM,MMR,South-Eastern Asia
+KHM,MYS,South-Eastern Asia
+KHM,PHL,South-Eastern Asia
+KHM,SGP,South-Eastern Asia
+KHM,THA,South-Eastern Asia
+KHM,TLS,South-Eastern Asia
+KHM,VNM,South-Eastern Asia
+LAO,MMR,South-Eastern Asia
+LAO,MYS,South-Eastern Asia
+LAO,PHL,South-Eastern Asia
+LAO,SGP,South-Eastern Asia
+LAO,THA,South-Eastern Asia
+LAO,TLS,South-Eastern Asia
+LAO,VNM,South-Eastern Asia
+MMR,MYS,South-Eastern Asia
+MMR,PHL,South-Eastern Asia
+MMR,SGP,South-Eastern Asia
+MMR,THA,South-Eastern Asia
+MMR,TLS,South-Eastern Asia
+MMR,VNM,South-Eastern Asia
+MYS,PHL,South-Eastern Asia
+MYS,SGP,South-Eastern Asia
+MYS,THA,South-Eastern Asia
+MYS,TLS,South-Eastern Asia
+MYS,VNM,South-Eastern Asia
+PHL,SGP,South-Eastern Asia
+PHL,THA,South-Eastern Asia
+PHL,TLS,South-Eastern Asia
+PHL,VNM,South-Eastern Asia
+SGP,THA,South-Eastern Asia
+SGP,TLS,South-Eastern Asia
+SGP,VNM,South-Eastern Asia
+THA,TLS,South-Eastern Asia
+THA,VNM,South-Eastern Asia
+TLS,VNM,South-Eastern Asia
+ALB,BGR,Southeast Europe
+ALB,BIH,Southeast Europe
+ALB,HRV,Southeast Europe
+ALB,MKD,Southeast Europe
+ALB,MNE,Southeast Europe
+ALB,ROU,Southeast Europe
+ALB,SRB,Southeast Europe
+BGR,BIH,Southeast Europe
+BGR,HRV,Southeast Europe
+BGR,MKD,Southeast Europe
+BGR,MNE,Southeast Europe
+BGR,ROU,Southeast Europe
+BGR,SRB,Southeast Europe
+BIH,HRV,Southeast Europe
+BIH,MKD,Southeast Europe
+BIH,MNE,Southeast Europe
+BIH,ROU,Southeast Europe
+BIH,SRB,Southeast Europe
+HRV,MKD,Southeast Europe
+HRV,MNE,Southeast Europe
+HRV,ROU,Southeast Europe
+HRV,SRB,Southeast Europe
+MKD,MNE,Southeast Europe
+MKD,ROU,Southeast Europe
+MKD,SRB,Southeast Europe
+MNE,ROU,Southeast Europe
+MNE,SRB,Southeast Europe
+ROU,SRB,Southeast Europe
+BWA,LSO,Southern Africa
+BWA,NAM,Southern Africa
+BWA,SWZ,Southern Africa
+BWA,ZAF,Southern Africa
+LSO,NAM,Southern Africa
+LSO,SWZ,Southern Africa
+LSO,ZAF,Southern Africa
+NAM,SWZ,Southern Africa
+NAM,ZAF,Southern Africa
+SWZ,ZAF,Southern Africa
+AFG,BGD,Southern Asia
+AFG,BTN,Southern Asia
+AFG,IND,Southern Asia
+AFG,IRN,Southern Asia
+AFG,LKA,Southern Asia
+AFG,MDV,Southern Asia
+AFG,NPL,Southern Asia
+AFG,PAK,Southern Asia
+BGD,BTN,Southern Asia
+BGD,IND,Southern Asia
+BGD,IRN,Southern Asia
+BGD,LKA,Southern Asia
+BGD,MDV,Southern Asia
+BGD,NPL,Southern Asia
+BGD,PAK,Southern Asia
+BTN,IND,Southern Asia
+BTN,IRN,Southern Asia
+BTN,LKA,Southern Asia
+BTN,MDV,Southern Asia
+BTN,NPL,Southern Asia
+BTN,PAK,Southern Asia
+IND,IRN,Southern Asia
+IND,LKA,Southern Asia
+IND,MDV,Southern Asia
+IND,NPL,Southern Asia
+IND,PAK,Southern Asia
+IRN,LKA,Southern Asia
+IRN,MDV,Southern Asia
+IRN,NPL,Southern Asia
+IRN,PAK,Southern Asia
+LKA,MDV,Southern Asia
+LKA,NPL,Southern Asia
+LKA,PAK,Southern Asia
+MDV,NPL,Southern Asia
+MDV,PAK,Southern Asia
+NPL,PAK,Southern Asia
+AND,CYP,Southern Europe
+AND,ESP,Southern Europe
+AND,GRC,Southern Europe
+AND,ITA,Southern Europe
+AND,MLT,Southern Europe
+AND,PRT,Southern Europe
+AND,SMR,Southern Europe
+AND,VAT,Southern Europe
+CYP,ESP,Southern Europe
+CYP,GRC,Southern Europe
+CYP,ITA,Southern Europe
+CYP,MLT,Southern Europe
+CYP,PRT,Southern Europe
+CYP,SMR,Southern Europe
+CYP,VAT,Southern Europe
+ESP,GRC,Southern Europe
+ESP,ITA,Southern Europe
+ESP,MLT,Southern Europe
+ESP,PRT,Southern Europe
+ESP,SMR,Southern Europe
+ESP,VAT,Southern Europe
+GRC,ITA,Southern Europe
+GRC,MLT,Southern Europe
+GRC,PRT,Southern Europe
+GRC,SMR,Southern Europe
+GRC,VAT,Southern Europe
+ITA,MLT,Southern Europe
+ITA,PRT,Southern Europe
+ITA,SMR,Southern Europe
+ITA,VAT,Southern Europe
+MLT,PRT,Southern Europe
+MLT,SMR,Southern Europe
+MLT,VAT,Southern Europe
+PRT,SMR,Southern Europe
+PRT,VAT,Southern Europe
+SMR,VAT,Southern Europe
+BEN,BFA,Western Africa
+BEN,CIV,Western Africa
+BEN,CPV,Western Africa
+BEN,GHA,Western Africa
+BEN,GIN,Western Africa
+BEN,GMB,Western Africa
+BEN,GNB,Western Africa
+BEN,LBR,Western Africa
+BEN,MLI,Western Africa
+BEN,MRT,Western Africa
+BEN,NER,Western Africa
+BEN,NGA,Western Africa
+BEN,SEN,Western Africa
+BEN,SHN,Western Africa
+BEN,SLE,Western Africa
+BEN,TGO,Western Africa
+BFA,CIV,Western Africa
+BFA,CPV,Western Africa
+BFA,GHA,Western Africa
+BFA,GIN,Western Africa
+BFA,GMB,Western Africa
+BFA,GNB,Western Africa
+BFA,LBR,Western Africa
+BFA,MLI,Western Africa
+BFA,MRT,Western Africa
+BFA,NER,Western Africa
+BFA,NGA,Western Africa
+BFA,SEN,Western Africa
+BFA,SHN,Western Africa
+BFA,SLE,Western Africa
+BFA,TGO,Western Africa
+CIV,CPV,Western Africa
+CIV,GHA,Western Africa
+CIV,GIN,Western Africa
+CIV,GMB,Western Africa
+CIV,GNB,Western Africa
+CIV,LBR,Western Africa
+CIV,MLI,Western Africa
+CIV,MRT,Western Africa
+CIV,NER,Western Africa
+CIV,NGA,Western Africa
+CIV,SEN,Western Africa
+CIV,SHN,Western Africa
+CIV,SLE,Western Africa
+CIV,TGO,Western Africa
+CPV,GHA,Western Africa
+CPV,GIN,Western Africa
+CPV,GMB,Western Africa
+CPV,GNB,Western Africa
+CPV,LBR,Western Africa
+CPV,MLI,Western Africa
+CPV,MRT,Western Africa
+CPV,NER,Western Africa
+CPV,NGA,Western Africa
+CPV,SEN,Western Africa
+CPV,SHN,Western Africa
+CPV,SLE,Western Africa
+CPV,TGO,Western Africa
+GHA,GIN,Western Africa
+GHA,GMB,Western Africa
+GHA,GNB,Western Africa
+GHA,LBR,Western Africa
+GHA,MLI,Western Africa
+GHA,MRT,Western Africa
+GHA,NER,Western Africa
+GHA,NGA,Western Africa
+GHA,SEN,Western Africa
+GHA,SHN,Western Africa
+GHA,SLE,Western Africa
+GHA,TGO,Western Africa
+GIN,GMB,Western Africa
+GIN,GNB,Western Africa
+GIN,LBR,Western Africa
+GIN,MLI,Western Africa
+GIN,MRT,Western Africa
+GIN,NER,Western Africa
+GIN,NGA,Western Africa
+GIN,SEN,Western Africa
+GIN,SHN,Western Africa
+GIN,SLE,Western Africa
+GIN,TGO,Western Africa
+GMB,GNB,Western Africa
+GMB,LBR,Western Africa
+GMB,MLI,Western Africa
+GMB,MRT,Western Africa
+GMB,NER,Western Africa
+GMB,NGA,Western Africa
+GMB,SEN,Western Africa
+GMB,SHN,Western Africa
+GMB,SLE,Western Africa
+GMB,TGO,Western Africa
+GNB,LBR,Western Africa
+GNB,MLI,Western Africa
+GNB,MRT,Western Africa
+GNB,NER,Western Africa
+GNB,NGA,Western Africa
+GNB,SEN,Western Africa
+GNB,SHN,Western Africa
+GNB,SLE,Western Africa
+GNB,TGO,Western Africa
+LBR,MLI,Western Africa
+LBR,MRT,Western Africa
+LBR,NER,Western Africa
+LBR,NGA,Western Africa
+LBR,SEN,Western Africa
+LBR,SHN,Western Africa
+LBR,SLE,Western Africa
+LBR,TGO,Western Africa
+MLI,MRT,Western Africa
+MLI,NER,Western Africa
+MLI,NGA,Western Africa
+MLI,SEN,Western Africa
+MLI,SHN,Western Africa
+MLI,SLE,Western Africa
+MLI,TGO,Western Africa
+MRT,NER,Western Africa
+MRT,NGA,Western Africa
+MRT,SEN,Western Africa
+MRT,SHN,Western Africa
+MRT,SLE,Western Africa
+MRT,TGO,Western Africa
+NER,NGA,Western Africa
+NER,SEN,Western Africa
+NER,SHN,Western Africa
+NER,SLE,Western Africa
+NER,TGO,Western Africa
+NGA,SEN,Western Africa
+NGA,SHN,Western Africa
+NGA,SLE,Western Africa
+NGA,TGO,Western Africa
+SEN,SHN,Western Africa
+SEN,SLE,Western Africa
+SEN,TGO,Western Africa
+SHN,SLE,Western Africa
+SHN,TGO,Western Africa
+SLE,TGO,Western Africa
+ARE,ARM,Western Asia
+ARE,AZE,Western Asia
+ARE,BHR,Western Asia
+ARE,GEO,Western Asia
+ARE,IRQ,Western Asia
+ARE,ISR,Western Asia
+ARE,JOR,Western Asia
+ARE,KWT,Western Asia
+ARE,LBN,Western Asia
+ARE,OMN,Western Asia
+ARE,QAT,Western Asia
+ARE,SAU,Western Asia
+ARE,SYR,Western Asia
+ARE,TUR,Western Asia
+ARE,YEM,Western Asia
+ARM,AZE,Western Asia
+ARM,BHR,Western Asia
+ARM,GEO,Western Asia
+ARM,IRQ,Western Asia
+ARM,ISR,Western Asia
+ARM,JOR,Western Asia
+ARM,KWT,Western Asia
+ARM,LBN,Western Asia
+ARM,OMN,Western Asia
+ARM,QAT,Western Asia
+ARM,SAU,Western Asia
+ARM,SYR,Western Asia
+ARM,TUR,Western Asia
+ARM,YEM,Western Asia
+AZE,BHR,Western Asia
+AZE,GEO,Western Asia
+AZE,IRQ,Western Asia
+AZE,ISR,Western Asia
+AZE,JOR,Western Asia
+AZE,KWT,Western Asia
+AZE,LBN,Western Asia
+AZE,OMN,Western Asia
+AZE,QAT,Western Asia
+AZE,SAU,Western Asia
+AZE,SYR,Western Asia
+AZE,TUR,Western Asia
+AZE,YEM,Western Asia
+BHR,GEO,Western Asia
+BHR,IRQ,Western Asia
+BHR,ISR,Western Asia
+BHR,JOR,Western Asia
+BHR,KWT,Western Asia
+BHR,LBN,Western Asia
+BHR,OMN,Western Asia
+BHR,QAT,Western Asia
+BHR,SAU,Western Asia
+BHR,SYR,Western Asia
+BHR,TUR,Western Asia
+BHR,YEM,Western Asia
+GEO,IRQ,Western Asia
+GEO,ISR,Western Asia
+GEO,JOR,Western Asia
+GEO,KWT,Western Asia
+GEO,LBN,Western Asia
+GEO,OMN,Western Asia
+GEO,QAT,Western Asia
+GEO,SAU,Western Asia
+GEO,SYR,Western Asia
+GEO,TUR,Western Asia
+GEO,YEM,Western Asia
+IRQ,ISR,Western Asia
+IRQ,JOR,Western Asia
+IRQ,KWT,Western Asia
+IRQ,LBN,Western Asia
+IRQ,OMN,Western Asia
+IRQ,QAT,Western Asia
+IRQ,SAU,Western Asia
+IRQ,SYR,Western Asia
+IRQ,TUR,Western Asia
+IRQ,YEM,Western Asia
+ISR,JOR,Western Asia
+ISR,KWT,Western Asia
+ISR,LBN,Western Asia
+ISR,OMN,Western Asia
+ISR,QAT,Western Asia
+ISR,SAU,Western Asia
+ISR,SYR,Western Asia
+ISR,TUR,Western Asia
+ISR,YEM,Western Asia
+JOR,KWT,Western Asia
+JOR,LBN,Western Asia
+JOR,OMN,Western Asia
+JOR,QAT,Western Asia
+JOR,SAU,Western Asia
+JOR,SYR,Western Asia
+JOR,TUR,Western Asia
+JOR,YEM,Western Asia
+KWT,LBN,Western Asia
+KWT,OMN,Western Asia
+KWT,QAT,Western Asia
+KWT,SAU,Western Asia
+KWT,SYR,Western Asia
+KWT,TUR,Western Asia
+KWT,YEM,Western Asia
+LBN,OMN,Western Asia
+LBN,QAT,Western Asia
+LBN,SAU,Western Asia
+LBN,SYR,Western Asia
+LBN,TUR,Western Asia
+LBN,YEM,Western Asia
+OMN,QAT,Western Asia
+OMN,SAU,Western Asia
+OMN,SYR,Western Asia
+OMN,TUR,Western Asia
+OMN,YEM,Western Asia
+QAT,SAU,Western Asia
+QAT,SYR,Western Asia
+QAT,TUR,Western Asia
+QAT,YEM,Western Asia
+SAU,SYR,Western Asia
+SAU,TUR,Western Asia
+SAU,YEM,Western Asia
+SYR,TUR,Western Asia
+SYR,YEM,Western Asia
+TUR,YEM,Western Asia
+BEL,CHE,Western Europe
+BEL,DEU,Western Europe
+BEL,FRA,Western Europe
+BEL,LIE,Western Europe
+BEL,LUX,Western Europe
+BEL,MCO,Western Europe
+BEL,NLD,Western Europe
+CHE,DEU,Western Europe
+CHE,FRA,Western Europe
+CHE,LIE,Western Europe
+CHE,LUX,Western Europe
+CHE,MCO,Western Europe
+CHE,NLD,Western Europe
+DEU,FRA,Western Europe
+DEU,LIE,Western Europe
+DEU,LUX,Western Europe
+DEU,MCO,Western Europe
+DEU,NLD,Western Europe
+FRA,LIE,Western Europe
+FRA,LUX,Western Europe
+FRA,MCO,Western Europe
+FRA,NLD,Western Europe
+LIE,LUX,Western Europe
+LIE,MCO,Western Europe
+LIE,NLD,Western Europe
+LUX,MCO,Western Europe
+LUX,NLD,Western Europe
+MCO,NLD,Western Europe
