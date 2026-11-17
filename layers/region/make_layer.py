@@ -26,9 +26,11 @@ nodes = load_nodes()
 C = {x["cca3"]: x for x in json.load(open(ROOT / "data" / "raw" / "countries.json", encoding="utf-8"))}
 
 
-def build(name, groups):
-    groups.to_csv(HERE / f"layer_{name}_groups.csv", index=False)
-    edges = groups_to_edges(groups, nodes)
+def build(name, groups=None, edges=None):
+    """groups(나라-그룹 표)를 주면 투영해서 엣지를 만들고, 쌍으로 정의되는 계층은 edges를 바로 줌"""
+    if edges is None:
+        groups.to_csv(HERE / f"layer_{name}_groups.csv", index=False)
+        edges = groups_to_edges(groups, nodes)
     check_edges(edges, nodes)
     edges.to_csv(HERE / f"layer_{name}_edges.csv", index=False)
     print(f"[{name}]", structure(layer_graph(edges, nodes)))
@@ -52,5 +54,11 @@ subregion = pd.DataFrame({"iso3": nodes.index,
                           "group": [C[k].get("subregion") or C[k]["region"] for k in nodes.index]})
 build("subregion", subregion)
 
-# TODO(A): 국경 계층은 그룹이 아니라 쌍이라 groups_to_edges 대신 countries.json borders로 엣지 직접 만들기
+# 국경: 그룹이 아니라 쌍이라 countries.json borders로 엣지를 직접 만듦 (group = border)
+# nodes.csv에 없는 이웃(예: 영토)은 빼고, 양쪽 표기가 한쪽만 있어도 쌍 하나로 셈
+border = sorted({tuple(sorted((a, b))) for a in nodes.index for b in C[a].get("borders", [])
+                 if b in nodes.index and a != b})
+border = pd.DataFrame(border, columns=["src", "dst"]).assign(group="border")
+build("border", edges=border)
+
 # TODO(A): 지역기구 계층 = COW IGO v3 + 2015년 이후 가입 보충 (data/raw/README.md 참고)
