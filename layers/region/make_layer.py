@@ -61,4 +61,22 @@ border = sorted({tuple(sorted((a, b))) for a in nodes.index for b in C[a].get("b
 border = pd.DataFrame(border, columns=["src", "dst"]).assign(group="border")
 build("border", edges=border)
 
-# TODO(A): 지역기구 계층 = COW IGO v3 + 2015년 이후 가입 보충 (data/raw/README.md 참고)
+# 지역기구: 주요 지역통합기구 15개 (파일럿 임시 목록과 같은 기구). 전 세계 기구(UN・WHO 등)와
+# 대륙 전체 기구(AU・OAS)는 뺌. COW 기구 335개를 다 쓰면 나라 쌍 86%가 연결돼서 검정이 의미 없음
+# 회원 = 1990~2023년 중 한 번이라도 정회원(COW 값 1). 준회원(2)・옵서버(3)는 제외
+# 2014년까지는 COW IGO v3, 2015년 이후 가입과 COW 오류・누락은 data/raw/igo_supplement.csv (행마다 출처)
+IGO = ["EU", "ECOWAS", "SADC", "EAC", "COMESA", "ECCAS", "GCC", "ASEAN", "CARICOM", "SICA",
+       "Mercosur", "Andean", "PIF", "SAARC", "LOAS"]
+COW_BAD = ["EAC"]   # COW 코딩이 실제 회원과 달라서 보충 표로 대체
+cow_iso = pd.read_csv(HERE / "cow_iso3.csv").set_index("cow_name").iso3
+igo = pd.read_csv(ROOT / "data" / "raw" / "igo_year_formatv3.csv", sep="\t", encoding="latin-1")
+igo = igo[igo.ioname.isin(IGO) & ~igo.ioname.isin(COW_BAD) & (igo.year >= 1990)]
+igo = igo.melt(id_vars=["ioname", "year"], value_vars=list(cow_iso.index), var_name="cow_name", value_name="status")
+igo = igo[pd.to_numeric(igo.status, errors="coerce") == 1]
+igo = (igo.assign(iso3=igo.cow_name.map(cow_iso)).groupby(["iso3", "ioname"]).year.agg(["min", "max"])
+       .reset_index().set_axis(["iso3", "group", "first_year", "last_year"], axis=1).assign(source="COW IGO v3"))
+supp = pd.read_csv(ROOT / "data" / "raw" / "igo_supplement.csv")
+member = pd.concat([igo, supp[igo.columns]])
+member = member[member.iso3.isin(nodes.index)].sort_values(["group", "iso3"])
+member.to_csv(HERE / "layer_igo_membership.csv", index=False)   # 가입 연도 (V3 연도별 검사용)
+build("igo", member.groupby(["iso3", "group"]).size().reset_index()[["iso3", "group"]])

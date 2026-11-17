@@ -198,12 +198,13 @@ git checkout language && git merge main
 | `SSB-Tax-Database-Aug22.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2022년 8월판 | 2026-11 | A |
 | `countries.json` | 국가 코드, 대륙, 소지역, 국경 | github.com/mledoze/countries | 2026-11 | A |
 | `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 1) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
+| `igo_year_formatv3.csv` | 기구×연도 가입 여부 (1816~2014). 탭 구분, latin-1 인코딩 | Correlates of War IGO v3 (igounit) | 2026-11 | A |
+| `igo_supplement.csv` | COW 이후(2015~2023) 가입, COW 오류(EAC)・비국가 회원(PIF 영토) 보충 | 행마다 기구 공식 회원국 페이지 | 2026-11 | A |
 
 #### 추가 예정
 
 | 데이터 | 출처 | 담당 | 메모 |
 |---|---|---|---|
-| 지역기구 가입 | Correlates of War IGO v3 | A | 2014년까지라 2015년 이후 가입은 기구 공식 회원국 목록으로 보충. UN・WHO 같은 전 세계 기구는 제외 |
 | 공용어 | CIA World Factbook (Languages) | B | 공용어 표시된 것만. countries.json `languages`로 교차 확인 |
 | 식민 종주국 | ICOW Colonial History v1.1 | B | 매칭 어려우면 CEPII GeoDist `colony`, `comcol` |
 | 소득 등급 | World Bank Country and Lending Groups (historical) | C | 도입한 해의 등급 사용 |
