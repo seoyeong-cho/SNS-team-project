@@ -184,6 +184,41 @@ def follow_test(edges, nodes, lo=1, hi=3, r=R, seed=SEED, strata=None):
                 p=round(float((np.sum(f >= real) + 1) / (r + 1)), 4))
 
 
+# ---------- 1단계 보조: 도입 여부 검사 (미도입국까지 씀) ----------
+def adoption_test(edges, nodes, r=R, seed=SEED, strata=None):
+    """같은 그룹 나라끼리 '같이 하거나 같이 안 하나'를 가짜 세계와 비교
+
+    204개국 전부 사용. adopter(2023년까지 도입=1, 아니면 0)를 섞음 (도입국 수는 그대로)
+    통계: 같은 그룹 쌍 중 도입 여부가 같은 쌍의 비율
+    p = 가짜가 실제보다 크거나 같은 비율 → 작을수록 '도입 여부가 그룹끼리 묶임'
+    strata: 같은 성격끼리만 섞기. 단, 204개국 전부 값이 있는 열만 됨
+            (income_db・health_obj는 도입국만 있어서 안 됨 → C의 소득 등급이 나오면 그걸로)
+    주의: 미도입 = '2023년까지 안 함'이지 '앞으로도 안 함'이 아님
+    """
+    codes = list(nodes.index)
+    pos = {c: i for i, c in enumerate(codes)}
+    e = edges[["src", "dst"]].drop_duplicates()
+    i, j = e.src.map(pos).to_numpy(), e.dst.map(pos).to_numpy()
+    a = nodes["adopter"].to_numpy(int)
+
+    labels = None
+    if strata is not None:
+        s = nodes[strata]
+        if s.isna().any():
+            raise ValueError(f"'{strata}' 열에 값 없는 나라 {int(s.isna().sum())}개 → 도입 여부 검사에선 못 씀")
+        labels = s.astype(str).to_numpy()
+
+    def same(x):
+        return (x[i] == x[j]).mean()
+
+    real = same(a)
+    f = np.array([same(x) for x in _shuffles(a, r, seed, labels)])
+    both = (a[i] & a[j]).mean()
+    return dict(n_pairs=len(i), same_status_real=round(float(real), 3),
+                same_status_fake_avg=round(float(f.mean()), 3), both_adopted=round(float(both), 3),
+                p=round(float((np.sum(f >= real) + 1) / (r + 1)), 4))
+
+
 # ---------- 강건성: 다른 요인을 거른 가짜 세계로 다시 ----------
 def robustness(edges, nodes, strata_list=STRATA, r=R, seed=SEED):
     """계층 전체(ALL) 1단계를 기본 + 성격별로 섞은 가짜 세계로 반복

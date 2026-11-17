@@ -1,21 +1,22 @@
 group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg,p
-ALL,109,373,8.33,9.12,0.0699
-Caribbean,5,10,7.4,9.2,0.2987
-Central America,7,21,11.62,9.09,0.8052
-Central Europe,2,1,10.0,8.96,0.6404
-Eastern Africa,13,78,6.64,9.19,0.0859
-Melanesia,2,1,15.0,9.1,0.7792
-Micronesia,4,6,10.17,9.18,0.5904
-Middle Africa,7,21,4.38,9.28,0.0579
-North America,2,1,4.0,9.52,0.3556
-Northern Africa,3,3,2.0,9.14,0.0819
-Northern Europe,5,10,11.0,9.16,0.6953
-Polynesia,7,21,8.76,9.11,0.4356
-South America,8,28,12.96,9.02,0.95
-South-Eastern Asia,7,21,8.48,9.06,0.4076
-Southeast Europe,3,3,19.33,9.26,0.988
-Southern Asia,6,15,8.07,8.91,0.3686
-Southern Europe,2,1,4.0,9.03,0.3746
-Western Africa,15,105,8.46,9.08,0.3437
-Western Asia,7,21,5.43,9.15,0.1089
-Western Europe,4,6,10.5,8.94,0.6344
+ALL,112,381,8.28,9.19,0.042
+Caribbean,5,10,7.4,9.23,0.2897
+Central America,7,21,11.62,9.29,0.8042
+Central Europe,2,1,10.0,8.87,0.6424
+Eastern Africa,13,78,6.64,9.19,0.1049
+Melanesia,2,1,15.0,8.77,0.8002
+Micronesia,4,6,10.17,9.16,0.6014
+Middle Africa,7,21,4.38,9.07,0.0699
+North America,2,1,4.0,9.16,0.3616
+Northern Africa,3,3,2.0,9.08,0.0809
+Northern Europe,5,10,11.0,9.34,0.6813
+Polynesia,7,21,8.76,9.25,0.4136
+South America,8,28,12.96,9.21,0.9431
+South-Eastern Asia,7,21,8.48,9.06,0.3936
+Southeast Europe,3,3,19.33,9.18,0.992
+Southern Africa,2,1,3.0,9.26,0.2787
+Southern Asia,6,15,8.07,9.23,0.3447
+Southern Europe,2,1,4.0,9.26,0.3676
+Western Africa,15,105,8.46,9.21,0.3327
+Western Asia,8,28,5.64,9.13,0.0999
+Western Europe,4,6,10.5,9.19,0.6174

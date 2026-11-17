@@ -8,6 +8,7 @@
 | `SSB-Tax-Database-Feb23.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2023년 2월판 | 2026-11 | A |
 | `SSB-Tax-Database-Aug22.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2022년 8월판 | 2026-11 | A |
 | `countries.json` | 국가 코드, 대륙, 소지역, 국경 | github.com/mledoze/countries | 2026-11 | A |
+| `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 1) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
 
 ## 추가 예정
 

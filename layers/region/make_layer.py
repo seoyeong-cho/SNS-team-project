@@ -8,6 +8,7 @@
 3. 제출 전 체크
 4. 계층 구조 지표 + 1단계 → result_<이름>.csv
 5. 강건성 (다른 요인 거른 가짜 세계) → robustness_<이름>.csv
+6. 도입 여부 검사 (미도입국까지, 같이 하거나 같이 안 하나) → adoption_<이름>.csv
 """
 import json
 import sys
@@ -18,8 +19,8 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.append(str(ROOT / "src"))
-from common import (check_edges, groups_to_edges, layer_graph, load_nodes,  # noqa: E402
-                    robustness, stage1, structure)
+from common import (adoption_test, check_edges, groups_to_edges, layer_graph,  # noqa: E402
+                    load_nodes, robustness, stage1, structure)
 
 nodes = load_nodes()
 C = {x["cca3"]: x for x in json.load(open(ROOT / "data" / "raw" / "countries.json", encoding="utf-8"))}
@@ -36,7 +37,10 @@ def build(name, groups):
     print(res.to_string(index=False))
     rob = robustness(edges, nodes)
     rob.to_csv(HERE / f"robustness_{name}.csv", index=False)
-    print(rob.to_string(index=False), "\n")
+    print(rob.to_string(index=False))
+    adopt = pd.DataFrame([adoption_test(edges, nodes)])
+    adopt.to_csv(HERE / f"adoption_{name}.csv", index=False)
+    print(adopt.to_string(index=False), "\n")
 
 
 # 대륙 (예시, 완성)

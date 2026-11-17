@@ -1,5 +1,5 @@
 shuffle,mean_gap_real,mean_gap_fake_avg,p
-basic,8.33,9.12,0.0699
-income_db,8.33,8.71,0.1658
-budget_year,8.33,9.1,0.0569
-health_obj,8.33,9.29,0.026
+basic,8.28,9.19,0.042
+income_db,8.28,8.73,0.1299
+budget_year,8.28,9.1,0.0589
+health_obj,8.28,9.27,0.02
