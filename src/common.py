@@ -91,22 +91,46 @@ def _pair_index(edges, nodes):
     return ac, pos, e
 
 
-def _shuffles(y, r=R, seed=SEED):
-    """가짜 세계: 도입국끼리 연도만 섞음 (누가 도입했는지, 해마다 몇 개국인지는 그대로)"""
+STRATA = ["income_db", "budget_year", "health_obj"]   # 강건성 검사에 쓰는 나라 성격 (nodes.csv 열)
+
+
+def _strata_labels(nodes, ac, strata):
+    if strata is None:
+        return None
+    if strata not in nodes.columns:
+        raise ValueError(f"nodes.csv에 '{strata}' 열 없음. 쓸 수 있는 것: {STRATA}")
+    return nodes.loc[ac, strata].astype(str).to_numpy()   # 값 없는 나라는 'nan' 한 묶음
+
+
+def _shuffles(y, r=R, seed=SEED, labels=None):
+    """가짜 세계: 도입국끼리 연도만 섞음 (누가 도입했는지, 해마다 몇 개국인지는 그대로)
+
+    labels가 있으면 같은 성격(예: 같은 소득 등급)끼리만 섞음
+    → 그 성격 때문에 생긴 시기 차이는 가짜 세계에도 남아서 걸러짐
+    """
     rng = np.random.default_rng(seed)
+    groups = None if labels is None else [np.where(labels == v)[0] for v in np.unique(labels)]
     for _ in range(r):
-        yield rng.permutation(y)
+        if groups is None:
+            yield rng.permutation(y)
+        else:
+            ys = y.copy()
+            for g in groups:
+                ys[g] = y[rng.permutation(g)]
+            yield ys
 
 
-def stage1(edges, nodes, by_group=True, r=R, seed=SEED):
+def stage1(edges, nodes, by_group=True, r=R, seed=SEED, strata=None):
     """같은 그룹 도입국 쌍의 평균 연도 차이를 가짜 세계 r개와 비교
 
+    strata: None이면 기본(전체에서 섞음). 'income_db' 등 nodes.csv 열 이름이면 그 성격 안에서만 섞음
     반환 표 열: group, n_adopters, n_pairs, mean_gap_real, mean_gap_fake_avg, p
     첫 줄 group='ALL'은 계층 전체 (쌍 중복 제거)
     p = 가짜가 실제보다 작거나 같은 비율 → 작을수록 '같이 움직임'
     """
     ac, pos, e = _pair_index(edges, nodes)
     y = nodes.loc[ac, "year_imp"].to_numpy(float)
+    labels = _strata_labels(nodes, ac, strata)
 
     sets = {"ALL": e[["src", "dst"]].drop_duplicates()}
     if by_group:
@@ -119,7 +143,7 @@ def stage1(edges, nodes, by_group=True, r=R, seed=SEED):
 
     real = gaps(y)
     fake = {k: [] for k in idx}
-    for ys in _shuffles(y, r, seed):
+    for ys in _shuffles(y, r, seed, labels):
         for k, v in gaps(ys).items():
             fake[k].append(v)
 
@@ -136,13 +160,15 @@ def stage1(edges, nodes, by_group=True, r=R, seed=SEED):
 
 
 # ---------- 2-1단계: 따라 함 검사 ----------
-def follow_test(edges, nodes, lo=1, hi=3, r=R, seed=SEED):
+def follow_test(edges, nodes, lo=1, hi=3, r=R, seed=SEED, strata=None):
     """같은 그룹 나라가 도입한 뒤 lo~hi년 안에 도입한 나라 비율을 가짜 세계와 비교
 
+    strata: stage1과 같음
     p = 가짜가 실제보다 크거나 같은 비율 → 작을수록 '따라 함' 흔적
     """
     ac, pos, e = _pair_index(edges, nodes)
     y = nodes.loc[ac, "year_imp"].to_numpy(float)
+    labels = _strata_labels(nodes, ac, strata)
     n = len(ac)
     A = np.zeros((n, n), bool)
     i, j = e.src.map(pos).to_numpy(), e.dst.map(pos).to_numpy()
@@ -153,9 +179,24 @@ def follow_test(edges, nodes, lo=1, hi=3, r=R, seed=SEED):
         return (A & (d >= lo) & (d <= hi)).any(1).mean()
 
     real = share(y)
-    f = np.array([share(ys) for ys in _shuffles(y, r, seed)])
+    f = np.array([share(ys) for ys in _shuffles(y, r, seed, labels)])
     return dict(window=f"{lo}-{hi}y", share_real=round(float(real), 3), share_fake_avg=round(float(f.mean()), 3),
                 p=round(float((np.sum(f >= real) + 1) / (r + 1)), 4))
+
+
+# ---------- 강건성: 다른 요인을 거른 가짜 세계로 다시 ----------
+def robustness(edges, nodes, strata_list=STRATA, r=R, seed=SEED):
+    """계층 전체(ALL) 1단계를 기본 + 성격별로 섞은 가짜 세계로 반복
+
+    반환 표 열: shuffle, mean_gap_real, mean_gap_fake_avg, p
+    기본에서 작던 p가 어떤 성격 안에서 섞었을 때 커지면 → 그 효과 일부는 그 성격 때문
+    """
+    rows = []
+    for s in [None, *strata_list]:
+        a = stage1(edges, nodes, by_group=False, r=r, seed=seed, strata=s).iloc[0]
+        rows.append(dict(shuffle=s or "basic", mean_gap_real=a.mean_gap_real,
+                         mean_gap_fake_avg=a.mean_gap_fake_avg, p=a.p))
+    return pd.DataFrame(rows)
 
 
 # ---------- 3단계: 그룹별 확산 곡선 ----------
