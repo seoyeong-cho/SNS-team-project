@@ -19,7 +19,7 @@ python layers/region/make_layer.py    # 대륙・소지역 계층 + 1단계 결�
 
 ```
 data/
-  raw/          원본 그대로. 손대지 않음 (출처: data/raw/README.md)
+  raw/          원본 그대로. 손대지 않음 (출처: docs/PROJECT_README.md 3장)
   processed/    nodes.csv (A가 생성, 넷 다 이걸 씀. 강건성용 열 income_db, health_obj, budget_year 포함)
 src/
   common.py     공통 함수 (투영, 1단계, 강건성, 따라 함 검사, 그룹 곡선, 구조 지표)
