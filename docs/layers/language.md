@@ -1,0 +1,232 @@
+# 언어 + 식민 계층 (B)
+
+데이터 출처, 그룹 정의, 연결 생성 기준, 결과, 한계 정리 (2026-11-18). 코드와 결과는 `layers/language/`.
+
+```bash
+python layers/language/fetch_external.py   # 처음 한 번: ICOW, COW→ISO3 변환표 받기 (git에 안 올라감)
+python layers/language/make_layer.py       # 계층 + 1단계 + 강건성 + 도입 여부 + V2 + 겹침 (몇 초)
+```
+
+- **기본 분석**: `layers/language/`의 `language`, `colony` 두 계층. 2단계에 넘기는 것
+- **보조 분석**: `layers/language/supplementary/`. 선택(L1~C4)이 결과를 얼마나 바꾸는지 보는 용도. 2단계에 안 넘김
+- 모든 결과: 같은 그룹 도입국 쌍의 연도 차이를 가짜 세계 1,000개(seed 42)와 비교. `src/common.py` 함수 그대로 씀
+
+---
+
+## 1. 데이터 출처
+
+| 자료 | 버전・시점 | 라이선스 | 저장소에 올리는 것 |
+|---|---|---|---|
+| CIA World Factbook (공용어) | 아카이브 [`factbook/factbook.json`](https://github.com/factbook/factbook.json) 커밋 `144d697`. 마지막 데이터 자동 갱신 2026-01-22 (CIA 종료 2026-02 직전) | CC0 (퍼블릭 도메인) | `data/raw/factbook_languages.csv`: 언어 항목과 인터넷 도메인만 원문 그대로 |
+| `data/raw/countries.json` | 기존 저장소 자료 | – | Factbook에 공용어가 없는 나라 보충용 |
+| ICOW Colonial History v1.1 (Hensel 2018) | <https://www.paulhensel.org/Data/colhist.zip> (sha256 `ece7ccba…f437`) | 재배포 안 함 | 원본 안 올림. `fetch_external.py`가 `layers/language/_external/`(git 제외)에 받음 |
+| countrycode 변환표 (COW → ISO3) | `vincentarelbundock/countrycode` 커밋 `9546912` `dictionary/codelist_without_cldr.csv` | GPL-3 | 안 올림. 위와 같이 받음 |
+
+인용: Hensel, Paul R. (2018). "ICOW Colonial History Data Set, version 1.1." <https://www.paulhensel.org/icowcol.html>
+
+### 국가 매칭
+
+| 자료 | 매칭 방법 | 결과 |
+|---|---|---|
+| Factbook | 프로필의 인터넷 도메인(.kr 등) ↔ `countries.json` tld | 204 / 204, 중복 없음 |
+| ICOW | COW 국가 코드 → countrycode 변환표 | 193 / 204. SRB는 변환표에 COW 345(Serbia/Yugoslavia)가 없어서 수동 매칭. 나머지 10개는 아래 C3 |
+
+매칭 결과: `layers/language/colony_matching.csv`
+
+---
+
+## 2. 언어 계층 (`language`)
+
+### 그룹 정의
+
+- 공용어 1개 = 그룹 1개. 공용어가 여럿인 나라는 여러 그룹에 들어감
+- **204개국 중 2개국 이상이 공유하는 공용어는 모두 그룹** (32개). 1개국만 쓰는 언어는 연결이 안 생기므로 빠짐
+- '기타' 묶음 없음. 서로 다른 언어 나라를 한 그룹으로 잇지 않음
+- 같은 쌍이 언어 두 개를 공유해도(예: BEL-LUX 프랑스어・독일어) 계층 전체(`ALL`)에서는 한 쌍으로만 셈 (`stage1`, `adoption_test`가 쌍 중복 제거)
+
+### 공용어 판단 순서 (L1)
+
+| 순서 | 출처 | origin 값 | 나라・행 수 |
+|---|---|---|---|
+| 1 | Factbook 본문에 "(official)" 표시 | `factbook_text` | 대부분 (276행) |
+| 2 | Factbook note 항목 (GHA, PAK, PHL, TLS) / 규칙으로 못 읽는 본문 (GNQ, MUS, IND, KGZ, ZWE) | `factbook_note`, `factbook_text` | 원문 인용은 `make_layer.py`의 `FB_MANUAL` |
+| 3 | Factbook에 공용어 표시가 전혀 없는 18개국 → `countries.json` | `countries_json` | ARM ASM AUS AZE DNK GBR IMN ISL JAM JPN KOR MEX PRK SHN SMR TON VAT VCT |
+| 4 | 본문・note에 없지만 헌법상 공용어가 분명한 것 | `supplement_manual` | IND 힌디어(헌법 343조), PAK 우르두어(헌법 251조: 국어, 공적 사용 규정) |
+
+- `countries.json`에 있어도 공용어가 아닌 것은 뺌: AZE 러시아어, JAM 파토아 (`language_dropped.csv`)
+- MUS 프랑스어는 넣지 않음: 헌법상 국회 공용어는 영어이고 프랑스어는 발언만 허용 (Factbook의 "두 공용어 중 하나" 표현과 근거가 엇갈림)
+- GBR, AUS, JPN, MEX는 법으로 정한 공용어가 없음 → `countries.json`의 사실상 공용어로 들어감
+- 나라별 언어・출처・근거 전체: `layers/language/language_country_table.csv` (`origin_class` = factbook / supplement)
+- **보조 `language_factbook_only`**: 3・4번(보충)을 빼고 Factbook에서 확인된 것만
+
+### 지역 단위 공용어 제외 (L2)
+
+"official in ○○ province", "official regional working language", "official minority language", "only in municipalities…" 같이 지역・소수 단위인 것은 뺌. 예: 스페인 카탈루냐어・갈리시아어・바스크어, 오스트리아 크로아티아어, 중국 좡어・위구르어, 에티오피아 오로모어 등, 네덜란드 프리지아어, 슬로베니아 헝가리어・이탈리아어. 전체 목록 `language_dropped.csv`
+
+### 이름 통합 (L3)
+
+| 통합함 (이름만 다른 같은 언어) | 근거 |
+|---|---|
+| Moldovan / Moldavian → Romanian | 몰도바 헌법재판소(2013)・2023 법 개정으로 국어 명칭 = 루마니아어 |
+| Afghan Persian, Dari, Persian Farsi → Persian | 다리어는 아프가니스탄에서 쓰는 페르시아어 표준 변종 이름. 같은 문자・표준어 |
+| Bahasa Malaysia, Malay (Bahasa Melayu) → Malay | 말레이시아어 = 말레이어의 말레이시아 공식 명칭 |
+| Kiswahili, Swahili/Kiswahili → Swahili | 같은 언어의 스와힐리어 명칭 |
+| Castilian Spanish, Spanish (Castilian) → Spanish | 같은 언어 |
+| Standard Chinese, Mandarin → Chinese (Mandarin) | 같은 표준어 |
+| Bokmal / Nynorsk Norwegian → Norwegian | 같은 언어의 두 문어 |
+| isiZulu or Zulu 같은 "A or B" 표기 → 영어 이름 | 같은 언어 |
+
+| 따로 둠 (별개 표준어로 공식 지정) | 이유 |
+|---|---|
+| Indonesian ↔ Malay | 인도네시아어는 별도 표준어로 지정 |
+| Serbian, Croatian, Bosnian, Montenegrin | 각국이 별개 공용어로 지정 |
+| Hindi ↔ Urdu, Hindi ↔ Fiji Hindi | 별도 표준어・문자 |
+| Tajik ↔ Persian | 키릴 문자 별도 표준어 |
+| Ndebele (Southern, 남아공) ↔ Ndebele (Northern, 짐바브웨) | 이름은 같지만 다른 언어 |
+| Cook Islands Maori ↔ Maori (NZ), Tonga (짐바브웨) ↔ Tongan | 다른 언어 |
+
+### 기준 시점 한계
+
+- 공용어는 2026-01 Factbook 기준 한 시점. 설탕세 도입(1990~2023) 당시와 다를 수 있음. 예: 말리 2023년 헌법으로 프랑스어가 공용어에서 실무어로 바뀜, 미국 2025년 영어 공용어 지정
+- 그래서 이 계층은 "도입 당시 언어 환경"이 아니라 "현재 공용어 기준의 언어권"으로 해석
+
+---
+
+## 3. 식민 계층 (`colony`)
+
+### ICOW에서 쓰는 변수
+
+| 변수 | 뜻 (코드북) | 쓰임 |
+|---|---|---|
+| `ColRuler` | 주요 식민 지배국: 그 나라 형성에 가장 큰 영향을 준 식민・제국 권력. 여러 지배국이면 가장 넓은 영역 또는 가장 오래 지배한 나라 | **기본** |
+| `IndFrom` | 독립을 얻은 상대 (국가・제국・연방) | 보조 |
+| `IndType` | 1 형성, 2 탈식민, 3 분리 독립, 4 분할 | 해석 참고 |
+
+- ICOW v1.1에는 지배국 **전체 목록이 없음**. 한 나라에 `ColRuler` 하나, `IndFrom` 하나뿐 → "여러 종주국" 비교는 이 둘의 비교로 대신함
+- **기본 분석의 식민 관계 = 넓은 의미의 역사적 식민・종속 관계** (식민지, 보호령, 위임통치, 제국의 일부 모두 포함. ICOW 정의 그대로)
+- `ColRuler` 없음(-9) = 식민 지배 기록 없음 → 연결 없음 (29개국)
+
+### 연결 생성 기준
+
+| 관계 이름 | 뜻 | 만드는 경우 |
+|---|---|---|
+| `samecol_<지배국>` | 같은 지배국 아래 있던 나라끼리 | 모든 지배국 |
+| `colony_<ISO3>` | 옛 식민지 ↔ 지배국 직접 | 지배국이 **지금도 같은 국가로 이어지는 경우만**: GBR FRA ESP PRT NLD BEL ITA USA JPN AUS NZL |
+
+사라진 제국・전신 국가 (C4): 오스만(`OTTOMAN`), 러시아 제국/소련(`RUSSIA_USSR`), 오스트리아-헝가리(`AUSTRIA_HUNGARY`), 프로이센(`PRUSSIA_GERMANY`), 청(`QING_CHINA`)은 **같은 지배국 공유 연결만** 만들고, 터키・러시아・독일・중국과의 직접 연결은 기본 분석에서 안 만듦. 프로이센(POL)・청(MNG)은 식민지가 1개국이라 연결 없음
+
+### 보조 분석
+
+| 이름 | 바꾼 것 | 확인하려는 것 |
+|---|---|---|
+| `colony_indfrom` (C1) | `ColRuler` 대신 `IndFrom` | 지배국 정의에 따른 차이. **주의: 독립 상대 ≠ 마지막 식민 지배국**인 경우가 있음. 예: 중미 5개국은 중미연방, 베네수엘라・에콰도르는 그란콜롬비아, 세네갈은 말리연방, 방글라데시는 파키스탄에서 독립. 사라진 연방・국가와는 직접 연결 안 함 |
+| `colony_overseas` (C2) | 관계 유형이 '해외 식민'인 것만 | 제국 이름이 아니라 관계 유형으로 구분: 식민지가 지배국 본토와 육로(같은 지배국 아래 나라들을 거쳐, `countries.json` borders)로 이어지면 '육상 연속 지배', 아니면 '해외 식민'. 해외 125개국, 육상 40개국 (`supplementary/colony_relation_type.csv`). 육상: 구소련・발칸・중동 오스만 영역, 오스트리아-헝가리, IRL(영국과 육로), BEL・LUX(네덜란드와 육로) 등 |
+| `colony_with_dependencies` (C3) | 기본 + ICOW에 없는 현재 속령 관계 | 아래 표. 과거 식민 관계로 보지 않고 별도 관계 이름(`dep_*`)으로 추가. 속령 ↔ 현재 관계국, 같은 지위・같은 관계국 속령끼리 연결 |
+| `colony_successor` (C4) | 기본 + 사라진 제국 → 현대 국가 직접 연결 | 근거 있는 것만: 오스만→TUR(승계국, 로잔 조약), 소련→RUS(계속국가, 1991 알마아타 의정서・안보리 의석), 프로이센→DEU, 청→CHN(ICOW가 같은 COW 코드로 코딩). 오스트리아-헝가리는 단일 승계국 없음 → 안 함 |
+
+C3 속령 지위 (ICOW 대상 아님 = 독립국이 아님)
+
+| 나라 | 관계국 | 지위 | 관계 이름 |
+|---|---|---|---|
+| ASM | USA | 비편입 영토 | `dep_US_insular_area` |
+| MNP | USA | 자치령 (commonwealth) | `dep_US_insular_area` |
+| BMU, SHN | GBR | 영국 해외영토 | `dep_UK_overseas_territory` |
+| IMN | GBR | **왕실 직할령** (영국의 일부도, 해외영토도 아님) | `dep_UK_crown_dependency` (GBR과만 연결) |
+| NCL, PYF, WLF | FRA | 특별 공동체 / 해외 집합체 | `dep_FR_overseas` |
+| COK, NIU | NZL | **자유연합** (자치, 뉴질랜드 국적 공유) | `dep_NZ_free_association` |
+
+---
+
+## 4. 결과
+
+통계: 같은 그룹 도입국 쌍의 평균 연도 차이. **차이 = 가짜 평균 − 실제** (클수록 같은 그룹끼리 도입 연도가 가까움). p = 가짜가 실제보다 작거나 같은 비율
+
+### 계층 전체 (`summary_language_colony.csv`)
+
+| 계층 | 구분 | 연결(쌍) | 도입국 쌍 | 연결된 도입국 | 실제 | 가짜 | 차이(년) | p | 소득 | 예산법 | 목적 | 대륙 안(V2) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **language** | 기본 | 2,979 | 1,257 | 92 | 8.09 | 9.19 | 1.10 | **0.026** | 0.066 | 0.032 | 0.024 | 0.017 |
+| language_factbook_only | 보조 | 2,478 | 1,017 | 85 | 8.18 | 9.19 | 1.01 | 0.051 | 0.108 | 0.063 | 0.031 | – |
+| **colony** | 기본 | 2,649 | 892 | 90 | 7.43 | 9.18 | 1.75 | **0.003** | 0.006 | 0.002 | 0.005 | 0.012 |
+| colony_indfrom | 보조 | 2,228 | 726 | 89 | 6.57 | 9.15 | 2.58 | 0.001 | 0.004 | 0.002 | 0.001 | – |
+| colony_overseas | 보조 | 2,339 | 839 | 80 | 7.50 | 9.18 | 1.68 | 0.005 | 0.009 | 0.006 | 0.005 | – |
+| colony_with_dependencies | 보조 | 2,665 | 903 | 98 | 7.41 | 9.18 | 1.77 | 0.002 | 0.006 | 0.002 | 0.004 | – |
+| colony_successor | 보조 | 2,682 | 901 | 92 | 7.49 | 9.18 | 1.69 | 0.003 | 0.006 | 0.002 | 0.005 | – |
+
+(소득・예산법・목적 = `robustness`의 `income_db`, `budget_year`, `health_obj` 층화 p. 대륙 안 = V2)
+
+### 도입 여부 (204개국, `adoption_*.csv`)
+
+| 계층 | 같은 그룹 쌍 도입 여부 일치 (실제) | 가짜 | p |
+|---|---|---|---|
+| language | 56.5% | 51.5% | 0.012 |
+| language_factbook_only | 56.0% | 51.5% | 0.012 |
+| colony | 53.4% | 51.6% | 0.108 |
+| colony 보조 4개 | 51.9~53.5% | 51.6% | 0.097~0.33 |
+
+### 그룹별 (도입국 5개 이상만 해석, `v2_continent_*.csv`)
+
+| 그룹 | 도입국 | 쌍 | 실제 | 가짜 | p | 대륙 안 가짜 | 대륙 안 p |
+|---|---|---|---|---|---|---|---|
+| 아랍어 | 11 | 55 | 4.51 | 9.19 | 0.016 | 6.63 | 0.132 |
+| 포르투갈어 | 6 | 15 | 3.07 | 9.21 | 0.030 | 7.59 | 0.076 |
+| 프랑스어 | 23 | 253 | 7.38 | 9.17 | 0.087 | 8.25 | 0.217 |
+| 영어 | 41 | 820 | 7.95 | 9.19 | 0.090 | 9.05 | 0.084 |
+| 스페인어 | 16 | 120 | 12.88 | 9.26 | 0.996 | 11.28 | 0.957 |
+| colony_GBR (영국 ↔ 옛 식민지) | 34 | 33 | 4.45 | 9.19 | 0.003 | 10.00 | 0.005 |
+| samecol_GBR (영국 식민지끼리) | 33 | 528 | 6.12 | 9.16 | 0.006 | 8.61 | 0.009 |
+| colony_PRT / samecol_PRT | 6 / 5 | 5 / 10 | 3.00 | 9.2~9.3 | 0.050 / 0.054 | – | 0.083 / 0.158 |
+| colony_FRA / samecol_FRA | 18 / 17 | 17 / 136 | 6.12 / 8.37 | 9.3 / 9.2 | 0.150 / 0.289 | – | 0.366 / 0.917 |
+| colony_ESP / samecol_ESP | 17 / 16 | 16 / 120 | 13.4 / 12.6 | 9.4 / 9.2 | 0.883 / 0.989 | – | 0.779 / 0.935 |
+| samecol_OTTOMAN | 6 | 15 | 8.60 | 9.09 | 0.432 | 8.46 | 0.494 |
+
+도입국 2~4개 그룹(스와힐리어 4개 p 0.068, 네덜란드어, 말레이어 등)은 쌍이 1~6개뿐이라 해석 안 함
+
+### 언어-식민 겹침 (`overlap_language_colony.csv`)
+
+| 기준 | 언어 쌍 | 식민 쌍 | 둘 다 | 언어 쌍 중 식민 비율 | 식민 쌍 중 언어 비율 | Jaccard |
+|---|---|---|---|---|---|---|
+| 전체 204개국 쌍 | 2,979 | 2,649 | 1,515 | 50.9% | 57.2% | 0.368 |
+| 도입국 114개국 쌍 | 1,257 | 892 | 541 | 43.0% | 60.7% | 0.336 |
+
+언어권별 (도입국 쌍 기준): 스페인어 ↔ samecol_ESP Jaccard 0.78 (거의 같은 쌍), 영어 ↔ samecol_GBR 0.29, 프랑스어 ↔ samecol_FRA 0.17, 포르투갈어 ↔ samecol_PRT 0.32, 아랍어 ↔ samecol_OTTOMAN 0.05
+
+---
+
+## 5. 해석 (인과 아님)
+
+1. **식민 계층**: 같은 식민 지배국을 공유한 도입국 쌍은 가짜 세계보다 평균 1.75년 가깝게 도입함 (p 0.003). 소득・예산법 연도・도입 목적으로 층화해도(p 0.002~0.006), 대륙 안에서만 섞어도(p 0.012) 남음. 보조 4개 정의 모두 p ≤ 0.005 → **지배국 정의 선택에 결과가 거의 안 흔들림**
+2. 이 효과는 **대부분 영국 연결**에서 나옴 (colony_GBR 4.45년 vs 가짜 9.19년, samecol_GBR 6.12년 vs 9.16년). 프랑스・스페인・오스만 연결은 유의하지 않음. 스페인 식민지끼리는 오히려 가짜보다 멀게 도입 (12.6년 vs 9.2년)
+3. **언어 계층**: 같은 공용어 도입국 쌍이 가짜보다 1.10년 가까움 (p 0.026). 효과 크기는 식민보다 작고, 소득으로 층화하면 p 0.066으로 약해짐. 대륙 안에서 섞어도 p 0.017로 남음
+4. 그러나 **언어권별로 보면 아랍어(p 0.016 → 대륙 안 0.132)・포르투갈어(0.030 → 0.076)가 대륙 안에서 약해짐** → 이 두 언어권의 시기 묶임은 상당 부분 지역(중동・북아프리카 등) 시기 차이로 설명됨
+5. **L1 보충의 영향**: Factbook만 쓰면 언어 계층 p 0.026 → 0.051. 영국・멕시코 등 7개 도입국이 빠져서(92 → 85) 약해짐. 언어 결과는 보충 기준에 민감함 → 발표에서 "경계선 결과"로 다룰 것
+6. **도입 여부**: 같은 언어권은 도입 여부도 같이 감 (56.5% vs 51.5%, p 0.012). 식민 관계는 도입 여부와는 뚜렷한 관련이 없음 (p 0.108)
+7. 언어와 식민은 절반 정도 겹침 (Jaccard 0.34~0.37). 스페인어권은 식민과 거의 같은 쌍이고, 영어권에는 영국 식민지가 아니었던 영어 공용어 나라(르완다, 필리핀, 라이베리아, 미국 속령 등)가 섞여 있어 식민과 안 겹치는 쌍이 많음. 두 계층의 몫 나누기는 2단계(A)에서
+
+**표현 원칙**: "같은 지배국을 공유한 나라끼리 도입 시기가 우연보다 가까웠다"까지만. "서로 따라 했다"고 쓰지 않음. 같은 지배국 출신 나라는 법・행정 제도, 국제기구(영연방 등), 보건 정책 네트워크를 공유해서 같은 시기에 같은 권고에 반응했을 수 있음
+
+## 6. 한계
+
+- **공용어 시점**: 2026-01 기준 한 시점 (2장)
+- **공용어 ≠ 실제 사용 언어**: 영어가 공용어여도 인구 1~2%만 쓰는 나라 있음 (SLB, NAM 등). 정책 정보 흐름의 대리 지표로만 봄
+- **ICOW 지배국 하나**: 여러 지배국 이력(예: 필리핀 스페인 → 미국)을 다 반영 못 함. `IndFrom`은 마지막 식민 지배국과 다를 수 있음
+- **해외/육상 구분**은 현재 국경 기준이라 역사적 경계와 다를 수 있음
+- **C3 속령**은 ICOW 밖이라 기본 분석에 없음. 넣으면 연결된 도입국이 90 → 98개로 늘지만 결과는 거의 같음 (p 0.003 → 0.002)
+- **작은 그룹**: 도입국 5개 미만 그룹은 표본이 작아 해석하지 않음. 그룹별 p는 다중검정 보정 안 함 (검증 계획 V4에서 BH 보정 예정)
+- **`adoption_test` 강건성**: `income_db`・`health_obj`는 도입국에만 값이 있어 204개국 도입 여부 검사의 층화에 못 씀 → 도입 여부 결과는 소득 등 나라 성격을 거르지 않은 것. C의 204개국 소득 등급이 나오면 그 열로 다시 돌릴 것
+- **V2 (대륙 안 섞기)**: 도입국이 적은 대륙(오세아니아, 유럽)은 섞을 수 있는 경우가 적어 검정력이 낮음
+- 연결은 시간에 따라 안 바뀐다고 가정
+
+## 7. 파일
+
+| 파일 | 내용 |
+|---|---|
+| `layer_language_groups.csv`, `layer_language_edges.csv` | 언어 계층 (기본) |
+| `layer_colony_edges.csv` | 식민 계층 (기본). 쌍으로 정의되므로 groups 파일 없음 |
+| `result_*`, `robustness_*`, `adoption_*` | 협업 규칙 형식 그대로 |
+| `v2_continent_language.csv`, `v2_continent_colony.csv` | 그룹별 기본 vs 대륙 안 섞기, `interpret` = 도입국 5개 이상 |
+| `summary_language_colony.csv` | 기본・보조 7개 계층 비교표 |
+| `overlap_language_colony.csv` | 겹침 지표 3개 × 전체/도입국 쌍 |
+| `language_country_table.csv`, `language_dropped.csv` | 나라별 공용어・출처・근거 / 뺀 것과 이유 |
+| `colony_matching.csv` | 204개국 ICOW 매칭 여부 |
+| `supplementary/` | 보조 분석 5개 + `colony_relation_type.csv` |

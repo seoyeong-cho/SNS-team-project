@@ -1,0 +1,16 @@
+group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg_basic,p_basic,mean_gap_fake_avg_continent,p_continent,interpret
+ALL,90,892,7.43,9.18,0.003,8.75,0.012,True
+colony_BEL,4,3,7.33,9.24,0.4076,9.5,0.4935,False
+colony_ESP,17,16,13.38,9.35,0.8831,11.14,0.7792,True
+colony_FRA,18,17,6.12,9.31,0.1499,9.3,0.3656,True
+colony_GBR,34,33,4.45,9.19,0.003,10.0,0.005,True
+colony_NLD,3,2,15.5,9.05,0.8751,11.35,0.7812,False
+colony_PRT,6,5,3.0,9.23,0.05,9.59,0.0829,True
+samecol_BEL,3,3,4.67,9.35,0.2498,6.79,0.4426,False
+samecol_ESP,16,120,12.58,9.24,0.989,11.17,0.9351,True
+samecol_FRA,17,136,8.37,9.15,0.2887,6.61,0.9171,True
+samecol_GBR,33,528,6.12,9.16,0.006,8.61,0.009,True
+samecol_NLD,2,1,3.0,8.91,0.2997,11.14,0.2038,False
+samecol_OTTOMAN,6,15,8.6,9.09,0.4316,8.46,0.4935,True
+samecol_PRT,5,10,3.0,9.3,0.0539,6.68,0.1578,True
+samecol_RUSSIA_USSR,3,3,12.67,9.24,0.7612,8.61,0.8012,False

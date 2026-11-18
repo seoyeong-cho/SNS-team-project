@@ -1,0 +1,13 @@
+group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg,p
+ALL,80,839,7.5,9.18,0.005
+colony_BEL,4,3,7.33,9.24,0.4076
+colony_ESP,17,16,13.38,9.35,0.8831
+colony_FRA,18,17,6.12,9.31,0.1499
+colony_GBR,33,32,4.59,9.19,0.007
+colony_NLD,2,1,14.0,9.16,0.7542
+colony_PRT,6,5,3.0,9.23,0.05
+samecol_BEL,3,3,4.67,9.35,0.2498
+samecol_ESP,16,120,12.58,9.24,0.989
+samecol_FRA,17,136,8.37,9.15,0.2887
+samecol_GBR,32,496,6.22,9.15,0.01
+samecol_PRT,5,10,3.0,9.3,0.0539

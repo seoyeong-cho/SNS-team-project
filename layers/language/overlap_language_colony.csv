@@ -1,0 +1,15 @@
+universe,pairs_a,pairs_b,both,share_of_a,share_of_b,jaccard,a,b
+all_204,2979,2649,1515,0.509,0.572,0.368,language,colony
+adopters_114,1257,892,541,0.43,0.607,0.336,language,colony
+all_204,2016,1770,1035,0.513,0.585,0.376,English,samecol_GBR
+adopters_114,820,528,300,0.366,0.568,0.286,English,samecol_GBR
+all_204,465,276,120,0.258,0.435,0.193,French,samecol_FRA
+adopters_114,253,136,55,0.217,0.404,0.165,French,samecol_FRA
+all_204,190,190,171,0.9,0.9,0.818,Spanish,samecol_ESP
+adopters_114,120,120,105,0.875,0.875,0.778,Spanish,samecol_ESP
+all_204,36,28,21,0.583,0.75,0.488,Portuguese,samecol_PRT
+adopters_114,15,10,6,0.4,0.6,0.316,Portuguese,samecol_PRT
+all_204,253,171,28,0.111,0.164,0.071,Arabic,samecol_OTTOMAN
+adopters_114,55,15,3,0.055,0.2,0.045,Arabic,samecol_OTTOMAN
+all_204,3,66,1,0.333,0.015,0.015,Russian,samecol_RUSSIA_USSR
+adopters_114,0,3,0,,0.0,0.0,Russian,samecol_RUSSIA_USSR
