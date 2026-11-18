@@ -1,0 +1,3 @@
+layer,unique_pairs,adopter_pairs,adopters_linked,gap_real,gap_fake,gap_diff,p,p_income_db,p_budget_year,p_health_obj,gap_fake_continent,p_continent,adopt_same_real,adopt_same_fake,adopt_p
+colony (기본),2649,892,90,7.43,9.18,1.75,0.003,0.006,0.002,0.005,8.75,0.012,0.534,0.516,0.1079
+colony 영국 연결 제외,819,331,56,9.81,9.21,-0.6,0.7642,0.8521,0.7552,0.7153,8.84,0.9171,0.604,0.516,0.003
