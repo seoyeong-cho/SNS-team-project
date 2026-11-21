@@ -151,4 +151,4 @@ python layers/region/make_layer.py   # 4개 계층 전부: 엣지 → 1단계 �
 
 - [ ] 지역기구 가입 연도 반영 검사 (V3)
 - [x] C의 204개국 소득 등급으로 도입 여부 검사 소득 강건성 추가 → `docs/analysis/adoption_income.md` (11/22)
-- [ ] 2단계에서 대륙・지역기구・국경 겹침 분리
+- [x] 2단계에서 대륙・지역기구・국경 겹침 분리 → `docs/analysis/stage2.md` '지역 겹침 분리' (11/22)

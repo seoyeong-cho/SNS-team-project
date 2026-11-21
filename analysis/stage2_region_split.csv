@@ -1,0 +1,45 @@
+version,n_adopters,shuffle,kind,name,n_pairs,real,fake_avg,p
+all,114,basic,cell,c+i+b,90,7.278,9.191,0.013
+all,114,basic,cell,c+i,398,8.136,9.161,0.029
+all,114,basic,cell,c+b,13,10.0,9.197,0.6803
+all,114,basic,cell,c+only,955,7.945,9.157,0.004
+all,114,basic,cell,i(cross),20,1.95,9.12,0.003
+all,114,basic,cell,b(cross),3,4.0,9.165,0.1209
+all,114,basic,cell,i+b(cross),0,,,
+all,114,basic,cell,none,4962,9.54,9.16,1.0
+all,114,basic,diff,igo_in_continent,488 vs 968,0.005,0.009,0.4945
+all,114,basic,diff,border_in_continent,103 vs 1353,-0.379,0.034,0.2997
+all,114,basic,diff,continent_only,955 vs 4962,-1.596,-0.003,0.003
+all,114,continent,cell,c+i+b,90,7.278,7.808,0.2308
+all,114,continent,cell,c+i,398,8.136,8.241,0.3746
+all,114,continent,cell,c+b,13,10.0,9.686,0.5854
+all,114,continent,cell,c+only,955,7.945,7.855,0.7343
+all,114,continent,cell,i(cross),20,1.95,6.611,0.011
+all,114,continent,cell,b(cross),3,4.0,8.55,0.1598
+all,114,continent,cell,i+b(cross),0,,,
+all,114,continent,cell,none,4962,9.54,9.519,0.992
+all,114,continent,diff,igo_in_continent,488 vs 968,0.005,0.281,0.2567
+all,114,continent,diff,border_in_continent,103 vs 1353,-0.379,0.076,0.2687
+all,114,continent,diff,continent_only,955 vs 4962,-1.596,-1.664,0.6983
+unsure46,95,basic,cell,c+i+b,52,8.231,8.705,0.3566
+unsure46,95,basic,cell,c+i,248,7.859,8.773,0.0969
+unsure46,95,basic,cell,c+b,8,10.0,8.673,0.7123
+unsure46,95,basic,cell,c+only,627,7.683,8.72,0.011
+unsure46,95,basic,cell,i(cross),15,2.267,8.737,0.007
+unsure46,95,basic,cell,b(cross),3,4.0,8.704,0.1449
+unsure46,95,basic,cell,i+b(cross),0,,,
+unsure46,95,basic,cell,none,3512,9.014,8.729,0.996
+unsure46,95,basic,diff,igo_in_continent,300 vs 635,0.212,0.041,0.5684
+unsure46,95,basic,diff,border_in_continent,60 vs 875,0.734,-0.034,0.7702
+unsure46,95,basic,diff,continent_only,627 vs 3512,-1.332,-0.009,0.008
+unsure46,95,continent,cell,c+i+b,52,8.231,8.066,0.5724
+unsure46,95,continent,cell,c+i,248,7.859,8.127,0.2807
+unsure46,95,continent,cell,c+b,8,10.0,9.804,0.5624
+unsure46,95,continent,cell,c+only,627,7.683,7.593,0.7023
+unsure46,95,continent,cell,i(cross),15,2.267,6.095,0.049
+unsure46,95,continent,cell,b(cross),3,4.0,7.92,0.2138
+unsure46,95,continent,cell,i+b(cross),0,,,
+unsure46,95,continent,cell,none,3512,9.014,8.995,0.976
+unsure46,95,continent,diff,igo_in_continent,300 vs 635,0.212,0.495,0.2987
+unsure46,95,continent,diff,border_in_continent,60 vs 875,0.734,0.554,0.5664
+unsure46,95,continent,diff,continent_only,627 vs 3512,-1.332,-1.402,0.6643
