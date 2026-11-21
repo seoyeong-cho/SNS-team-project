@@ -49,6 +49,7 @@ sns_team_project/
 docs/
 ├─ DIRECTORY_SPEC.md    이 문서
 ├─ PROJECT_README.md    통합 README (폴더별 README를 모은 것)
+├─ ROLES.md             역할 분담・할 일・진행 상황 (누가 무엇을 하는지는 이 파일이 원본)
 ├─ data/
 │  └─ raw.md            원본 데이터 출처・설명
 ├─ layers/
