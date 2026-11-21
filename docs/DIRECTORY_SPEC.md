@@ -1,7 +1,7 @@
 # 📁 디렉토리 명세서
 
 저장소 폴더마다 무엇을 두는지, 문서(`.md`)는 어디에 두는지 정한 규칙 (2026-11-18).
-**앞으로 새로 만드는 `.md` 파일은 전부 `docs/` 안에 둠.** 코드 폴더(`layers/`, `analysis/`, `src/` 등)에는 `.md`를 만들지 않음.
+**앞으로 새로 만드는 `.md` 파일은 전부 `docs/` 안에 둠** (예외: 루트 `README.md`, `CONTRIBUTING.md`, `CLAUDE.md`). 코드 폴더(`layers/`, `analysis/`, `src/` 등)에는 `.md`를 만들지 않음.
 
 ## 1. 전체 구조
 
@@ -9,6 +9,7 @@
 sns_team_project/
 ├─ README.md            프로젝트 소개 (예외: 루트 유지)
 ├─ CONTRIBUTING.md      협업 규칙 (예외: 루트 유지)
+├─ CLAUDE.md            Claude Code가 세션마다 자동으로 읽는 규칙 (예외: 루트에 있어야 읽힘)
 ├─ requirements.txt
 ├─ data/
 │  ├─ raw/              원본 그대로. 손대지 않음
@@ -48,6 +49,7 @@ sns_team_project/
 docs/
 ├─ DIRECTORY_SPEC.md    이 문서
 ├─ PROJECT_README.md    통합 README (폴더별 README를 모은 것)
+├─ ROLES.md             역할 분담・할 일・진행 상황 (누가 무엇을 하는지는 이 파일이 원본)
 ├─ data/
 │  └─ raw.md            원본 데이터 출처・설명
 ├─ layers/
