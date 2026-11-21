@@ -3,6 +3,20 @@
 코드: `layers/trade/make_layer.py`
 실행: `python layers/trade/make_layer.py`
 
+## 파일 (`layers/trade/`)
+
+이름 끝 숫자 = 상위 몇 개국 기준(k). 숫자 없으면 기본 k = 5
+
+| 파일 | 내용 | 열 |
+|---|---|---|
+| `make_layer.py` | 전처리 → 엣지 → 1단계・강건성・도입 여부까지 전부 만드는 코드 | |
+| `layer_trade_pairs.csv` | 나라 쌍별 연평균 교역액 (2010~2020) | `src, dst, value_usd` |
+| `layer_trade_edges.csv` | 무역 계층 엣지, 서로 상위 5위 (기본) | `src, dst, group` |
+| `layer_trade3_edges.csv`, `layer_trade10_edges.csv` | 서로 상위 3위・10위 엣지 (민감도) | `src, dst, group` |
+| `result_trade*.csv` | 1단계: 연결된 도입국끼리 도입 연도 차 vs 가짜 세계 | `group, n_adopters, n_pairs, mean_gap_real, mean_gap_fake_avg, p` |
+| `robustness_trade*.csv` | 강건성: 소득・예산법 연도・도입 목적별로 섞은 가짜 세계로 1단계 다시 | `shuffle, mean_gap_real, mean_gap_fake_avg, p` |
+| `adoption_trade*.csv` | 도입 여부: 연결된 나라끼리 도입 여부가 같은 비율 vs 가짜 세계 (204개국) | `n_pairs, same_status_real, same_status_fake_avg, both_adopted, p` |
+
 ## 원본 데이터
 
 파일 이름만으로는 수입・수출 구분이 안 됨 → 아래 표로 확인
