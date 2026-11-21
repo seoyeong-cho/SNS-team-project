@@ -1,0 +1,3 @@
+group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg_basic,p_basic,mean_gap_fake_avg_continent,p_continent,interpret
+ALL,90,117,7.76,9.19,0.023,8.87,0.05,True
+top10_trade,90,117,7.76,9.19,0.023,8.87,0.05,True

@@ -1,0 +1,22 @@
+group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg_basic,p_basic,mean_gap_fake_avg_continent,p_continent,interpret
+ALL,112,381,8.28,9.19,0.042,7.81,0.9361,True
+Caribbean,5,10,7.4,9.23,0.2897,11.37,0.1059,True
+Central America,7,21,11.62,9.29,0.8042,11.39,0.5175,True
+Central Europe,2,1,10.0,8.87,0.6424,11.7,0.5145,False
+Eastern Africa,13,78,6.64,9.19,0.1049,6.55,0.5105,True
+Melanesia,2,1,15.0,8.77,0.8002,8.65,0.8631,False
+Micronesia,4,6,10.17,9.16,0.6014,8.68,0.7433,False
+Middle Africa,7,21,4.38,9.07,0.0699,6.57,0.2328,True
+North America,2,1,4.0,9.16,0.3616,11.23,0.2418,False
+Northern Africa,3,3,2.0,9.08,0.0809,6.56,0.1698,False
+Northern Europe,5,10,11.0,9.34,0.6813,11.68,0.4036,True
+Polynesia,7,21,8.76,9.25,0.4136,8.7,0.4935,True
+South America,8,28,12.96,9.21,0.9431,11.47,0.7712,True
+South-Eastern Asia,7,21,8.48,9.06,0.3936,6.95,0.7043,True
+Southeast Europe,3,3,19.33,9.18,0.992,11.72,0.952,False
+Southern Africa,2,1,3.0,9.26,0.2787,6.46,0.3876,False
+Southern Asia,6,15,8.07,9.23,0.3447,6.78,0.6484,True
+Southern Europe,2,1,4.0,9.26,0.3676,11.84,0.2388,False
+Western Africa,15,105,8.46,9.21,0.3327,6.59,0.8941,True
+Western Asia,8,28,5.64,9.13,0.0999,6.79,0.2787,True
+Western Europe,4,6,10.5,9.19,0.6174,11.42,0.3686,False
