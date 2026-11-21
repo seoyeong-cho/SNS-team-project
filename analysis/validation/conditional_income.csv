@@ -1,0 +1,6 @@
+group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg_basic,p_basic,mean_gap_fake_avg_continent,p_continent,interpret
+ALL,114,1584,9.22,9.15,0.6214,9.09,0.7812,True
+H,29,406,8.16,9.11,0.2098,10.26,0.01,True
+L,26,325,8.55,9.21,0.2817,6.63,0.988,True
+LM,33,528,10.49,9.14,0.9111,9.36,0.9031,True
+UM,26,325,9.15,9.17,0.4915,9.67,0.2857,True

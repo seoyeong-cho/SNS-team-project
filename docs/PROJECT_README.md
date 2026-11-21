@@ -49,10 +49,12 @@ python layers/income/merge_year_check.py        #    연도 검증 표 합치기
 python layers/income/exclude46.py               #    검증 대상 46・60개국 뺀 소득 1단계
 python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
 python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
+python analysis/stage2.py                       # 7. 2단계: 겹침 6×6, 각 분야 몫, 공유 분야 수 (2~5 다 끝난 뒤)
+python analysis/validation/conditional_continent.py  # 8. V2: 대륙 안에서만 섞기, 지역기구・국경・소지역・무역・소득 (2~5 다 끝난 뒤)
 ```
 
 - 3번: ICOW 식민 자료・countrycode 변환표는 재배포 금지라 git에 없음. 이 스크립트가 `layers/language/_external/`에 받아 옴 (git 제외). 빼먹으면 언어 `make_layer.py`가 `ICOW 없음`으로 멈춤
-- 1번이 바뀌면 2~6 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6번만 다시
+- 1번이 바뀌면 2~8 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6~8번만 다시
 - 가짜 세계는 seed 고정 → 다시 돌려도 CSV가 커밋된 것과 같아야 함 (그림 PNG는 matplotlib 버전 따라 바이트만 다를 수 있음). 달라지면 PR에 적기
 - 2-1단계・3단계(`analysis/`)는 브랜치 합쳐지면 여기 추가
 
@@ -332,7 +334,7 @@ git checkout language && git merge main
 
 ### 통합 분석
 
-- `stage2.py` (A): 계층 엣지 다 읽어서 `pairs.csv`(나라1, 나라2, 분야별 0/1, 연도 차이) → 겹침 표 5×5, 각 분야 몫(회귀 계수 + 가짜 세계 p), 공유 분야 수별 평균
+- `stage2.py` (A): 계층 엣지 다 읽어서 `stage2_pairs.csv`(나라1, 나라2, 분야별 0/1, 연도 차이) → 겹침 표 6×6(언어・식민 따로), 각 분야 몫(회귀 계수 + 가짜 세계 p), 공유 분야 수별 평균. 설명・결과: `docs/analysis/stage2.md`
 - `stage2_1.py` (B): 다른 대륙 쌍만 1단계 다시, `follow_test` 분야 × 창(1・2・3년). 기준 0.05 ÷ 검사 수
 - `stage3_*.py` (B・C): 확산 곡선, 경로 실제 vs 가짜, 지도
 
