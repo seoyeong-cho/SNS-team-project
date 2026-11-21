@@ -1,0 +1,307 @@
+iso3,language,origin,basis,origin_class
+AFG,Pashto,factbook_text,Pashto (official) 48%,factbook
+AFG,Persian,factbook_text,"Afghan Persian or Dari (official, lingua franca) 77%",factbook
+AGO,Portuguese,factbook_text,Portuguese 71.2% (official),factbook
+ALB,Albanian,factbook_text,Albanian 98.8% (official - derived from Tosk dialect),factbook
+AND,Catalan,factbook_text,Catalan (official) 44.1%,factbook
+ARE,Arabic,factbook_text,Arabic (official),factbook
+ARG,Spanish,factbook_text,Spanish (official),factbook
+ARM,Armenian,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+ASM,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+ASM,Samoan,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+ATG,English,factbook_text,English (official),factbook
+AUS,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+AUT,German,factbook_text,German (official nationwide) 88.6%,factbook
+AZE,Azerbaijani,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+BDI,English,factbook_text,"English (official, least spoken)",factbook
+BDI,French,factbook_text,French (official),factbook
+BDI,Kirundi,factbook_text,Kirundi (official),factbook
+BEL,Dutch,factbook_text,Dutch (official) 60%,factbook
+BEL,French,factbook_text,French (official) 40%,factbook
+BEL,German,factbook_text,German (official) less than 1%,factbook
+BEN,French,factbook_text,French (official),factbook
+BFA,French,factbook_text,French (official) 2.2%,factbook
+BGD,Bengali,factbook_text,"Bangla 98.8% (official, also known as Bengali)",factbook
+BGR,Bulgarian,factbook_text,Bulgarian (official) 77.3%,factbook
+BHR,Arabic,factbook_text,Arabic (official),factbook
+BHS,English,factbook_text,English (official),factbook
+BIH,Bosnian,factbook_text,Bosnian (official) 52.9%,factbook
+BIH,Croatian,factbook_text,Croatian (official) 14.6%,factbook
+BIH,Serbian,factbook_text,Serbian (official) 30.8%,factbook
+BLR,Belarusian,factbook_text,Belarusian (official) 26%,factbook
+BLR,Russian,factbook_text,Russian (official) 71.4%,factbook
+BLZ,English,factbook_text,English 62.9% (official),factbook
+BMU,English,factbook_text,English (official),factbook
+BOL,Aymara,factbook_text,Aymara (official) 10.5%,factbook
+BOL,Guarani,factbook_text,Guarani (official) 0.6%,factbook
+BOL,Quechua,factbook_text,Quechua (official) 17.2%,factbook
+BOL,Spanish,factbook_text,Spanish (official) 68.1%,factbook
+BRA,Portuguese,factbook_text,Portuguese (official and most widely spoken language),factbook
+BRB,English,factbook_text,English (official),factbook
+BRN,Malay,factbook_text,Malay (Bahasa Melayu) (official),factbook
+BTN,Dzongkha,factbook_text,Dzongkha (official) 24%,factbook
+BWA,English,factbook_text,English (official) 2.8%,factbook
+CAF,French,factbook_text,French (official),factbook
+CAN,English,factbook_text,English (official) 87.1%,factbook
+CAN,French,factbook_text,French (official) 29.1%,factbook
+CHE,French,factbook_text,French (official) 22.8%,factbook
+CHE,German,factbook_text,German (or Swiss German) (official) 62.1%,factbook
+CHE,Italian,factbook_text,Italian (official) 8%,factbook
+CHE,Romansh,factbook_text,Romansh (official) 0.5%,factbook
+CHL,Spanish,factbook_text,Spanish 99.5% (official),factbook
+CHN,Chinese (Mandarin),factbook_text,"Standard Chinese or Mandarin (official; Putonghua, based on the Beijing dialect)",factbook
+CIV,French,factbook_text,French (official),factbook
+CMR,English,factbook_text,English (official),factbook
+CMR,French,factbook_text,French (official),factbook
+COD,French,factbook_text,French (official),factbook
+COG,French,factbook_text,French (official),factbook
+COK,Cook Islands Maori,factbook_text,Cook Islands Maori (Rarotongan) (official) 76.2%,factbook
+COK,English,factbook_text,English (official) 86.4%,factbook
+COL,Spanish,factbook_text,Spanish (official) 98.9%,factbook
+COM,Arabic,factbook_text,Arabic (official),factbook
+COM,French,factbook_text,French (official),factbook
+COM,Shikomoro,factbook_text,Shikomoro (official; similar to Swahili),factbook
+CPV,Portuguese,factbook_text,Portuguese (official),factbook
+CRI,Spanish,factbook_text,Spanish (official),factbook
+CUB,Spanish,factbook_text,Spanish (official),factbook
+CYP,Greek,factbook_text,Greek (official) 80.9%,factbook
+CYP,Turkish,factbook_text,Turkish (official) 0.2%,factbook
+CZE,Czech,factbook_text,Czech (official) 88.4%,factbook
+DEU,German,factbook_text,German (official),factbook
+DJI,Arabic,factbook_text,Arabic (official),factbook
+DJI,French,factbook_text,French (official),factbook
+DMA,English,factbook_text,English (official),factbook
+DNK,Danish,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+DOM,Spanish,factbook_text,Spanish (official),factbook
+DZA,Arabic,factbook_text,Arabic (official),factbook
+DZA,Tamazight,factbook_text,"Tamazight (official) (dialects include Kabyle (Taqbaylit), Shawiya (Tacawit), Mzab, Tuareg (Tamahaq))",factbook
+ECU,Spanish,factbook_text,Spanish (Castilian; official) 98.6%,factbook
+EGY,Arabic,factbook_text,Arabic (official),factbook
+ERI,Arabic,factbook_text,Arabic (official),factbook
+ERI,English,factbook_text,English (official),factbook
+ERI,Tigrinya,factbook_text,Tigrinya (official),factbook
+ESP,Spanish,factbook_text,Castilian Spanish (official) 74%,factbook
+EST,Estonian,factbook_text,Estonian (official) 67.2%,factbook
+ETH,Amharic,factbook_text,Amharic (official national language) 29.3%,factbook
+FIN,Finnish,factbook_text,Finnish (official) 85.9%,factbook
+FIN,Swedish,factbook_text,Swedish (official) 5.2%,factbook
+FJI,English,factbook_text,English (official),factbook
+FJI,Fiji Hindi,factbook_text,Fiji Hindi (official),factbook
+FJI,iTaukei,factbook_text,iTaukei (official),factbook
+FRA,French,factbook_text,French (official) 100%,factbook
+FSM,English,factbook_text,English (official and common language),factbook
+GAB,French,factbook_text,French (official),factbook
+GBR,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+GEO,Georgian,factbook_text,Georgian (official) 87.6%,factbook
+GHA,English,factbook_note,note: English is the official language,factbook
+GIN,French,factbook_text,French (official),factbook
+GMB,English,factbook_text,English (official),factbook
+GNB,Portuguese,factbook_text,Portuguese (official; largely used as a second or third language),factbook
+GNQ,French,factbook_text,"other (includes ..., Portuguese (official), French (official) ...)",factbook
+GNQ,Portuguese,factbook_text,"other (includes ..., Portuguese (official), French (official) ...)",factbook
+GNQ,Spanish,factbook_text,Spanish (official) 67.6%,factbook
+GRC,Greek,factbook_text,Greek (official) 99%,factbook
+GRD,English,factbook_text,English (official),factbook
+GTM,Spanish,factbook_text,Spanish (official) 69.9%,factbook
+GUY,English,factbook_text,English (official),factbook
+HND,Spanish,factbook_text,Spanish (official),factbook
+HRV,Croatian,factbook_text,Croatian (official) 95.2%,factbook
+HTI,French,factbook_text,French (official),factbook
+HTI,Haitian Creole,factbook_text,Creole (official),factbook
+HUN,Hungarian,factbook_text,Hungarian (official) 98.8%,factbook
+IDN,Indonesian,factbook_text,"Bahasa Indonesia (official, modified form of Malay)",factbook
+IMN,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+IMN,Manx,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+IND,English,factbook_text,English is the subsidiary official language but is the most important one for national,factbook
+IND,Hindi,supplement_manual,인도 헌법 343조: 연방 공용어는 데바나가리 문자 힌디어 (Factbook 본문엔 비율만 있음),supplement
+IRL,English,factbook_text,"English (official, the language generally used)",factbook
+IRL,Irish,factbook_text,"Irish (Gaelic or Gaeilge) (official, spoken by approximately 37.7% of the population)",factbook
+IRN,Persian,factbook_text,Persian Farsi (official),factbook
+IRQ,Arabic,factbook_text,Arabic (official),factbook
+IRQ,Kurdish,factbook_text,Kurdish (official),factbook
+ISL,Icelandic,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+ISR,Hebrew,factbook_text,Hebrew (official),factbook
+ITA,Italian,factbook_text,Italian (official),factbook
+JAM,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+JOR,Arabic,factbook_text,Arabic (official),factbook
+JPN,Japanese,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+KAZ,Kazakh,factbook_text,"Kazakh (official, Qazaq) 80.1%",factbook
+KEN,English,factbook_text,English (official),factbook
+KEN,Swahili,factbook_text,Kiswahili (official),factbook
+KGZ,Kyrgyz,factbook_text,Kyrgyz (state language) → 국가어를 공용어로 봄,factbook
+KGZ,Russian,factbook_text,Russian (official language) 9%,factbook
+KHM,Khmer,factbook_text,Khmer (official) 95.8%,factbook
+KIR,English,factbook_text,English (official),factbook
+KNA,English,factbook_text,English (official),factbook
+KOR,Korean,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+KWT,Arabic,factbook_text,Arabic (official),factbook
+LAO,Lao,factbook_text,Lao (official),factbook
+LBN,Arabic,factbook_text,Arabic (official),factbook
+LBR,English,factbook_text,English 20% (official) and 27 indigenous languages,factbook
+LBY,Arabic,factbook_text,Arabic (official),factbook
+LCA,English,factbook_text,English (official),factbook
+LIE,German,factbook_text,"German 91.5% (official, Alemannic is the main dialect)",factbook
+LKA,Sinhala,factbook_text,Sinhala (official) 87%,factbook
+LKA,Tamil,factbook_text,Tamil (official) 28.5%,factbook
+LSO,English,factbook_text,English (official),factbook
+LSO,Sotho,factbook_text,Sesotho (official),factbook
+LTU,Lithuanian,factbook_text,Lithuanian (official) 85.3%,factbook
+LUX,French,factbook_text,"French (official administrative, judicial, and legislative language) 14.9%",factbook
+LUX,German,factbook_text,German (official administrative and judicial language) 2.9%,factbook
+LUX,Luxembourgish,factbook_text,"Luxembourgish (official administrative, judicial, and national language) 48.9%",factbook
+LVA,Latvian,factbook_text,Latvian (official) 56.3%,factbook
+MAR,Arabic,factbook_text,Arabic (official),factbook
+MAR,Tamazight,factbook_text,"Tamazight languages (Tamazight (official), Tachelhit, Tarifit)",factbook
+MCO,French,factbook_text,French (official),factbook
+MDA,Romanian,factbook_text,Moldovan/Romanian 80.2% (official) (56.7% Moldovan; 23.5% Romanian),factbook
+MDG,French,factbook_text,French (official) 23.6%,factbook
+MDG,Malagasy,factbook_text,Malagasy (official) 99.9%,factbook
+MDV,Dhivehi,factbook_text,"Dhivehi (official, closely related to Sinhala, script derived from Arabic)",factbook
+MEX,Spanish,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+MHL,Marshallese,factbook_text,Marshallese (official) 98.2%,factbook
+MKD,Albanian,factbook_text,Albanian (official) 24.3%,factbook
+MKD,Macedonian,factbook_text,Macedonian (official) 61.4%,factbook
+MLI,Bambara,factbook_text,Bambara (official),factbook
+MLT,English,factbook_text,English (official) 6%,factbook
+MLT,Maltese,factbook_text,Maltese (official) 90.1%,factbook
+MMR,Burmese,factbook_text,Burmese (official),factbook
+MNE,Montenegrin,factbook_text,Montenegrin (official) 37%,factbook
+MNG,Mongolian,factbook_text,"Mongolian 90% (official, Khalkha dialect is predominant)",factbook
+MNP,Chamorro,factbook_text,Chamorro (official) 24.1%,factbook
+MNP,English,factbook_text,English (official) 17%,factbook
+MOZ,Portuguese,factbook_text,Portuguese (official) 16.6%,factbook
+MRT,Arabic,factbook_text,Arabic (official and national),factbook
+MUS,English,factbook_text,"includes English, one of the two official languages of the National Assembly",factbook
+MWI,English,factbook_text,English (official),factbook
+MYS,Malay,factbook_text,Bahasa Malaysia (official),factbook
+NAM,English,factbook_text,English (official) 2.3%,factbook
+NCL,French,factbook_text,French (official),factbook
+NER,French,factbook_text,French (official),factbook
+NGA,English,factbook_text,English (official),factbook
+NIC,Spanish,factbook_text,Spanish (official) 99.5%,factbook
+NIU,English,factbook_text,English (official) 11%,factbook
+NIU,Niuean,factbook_text,"Niuean 46% (official, a Polynesian language closely related to Tongan and Samoan)",factbook
+NLD,Dutch,factbook_text,Dutch (official),factbook
+NOR,Norwegian,factbook_text,Bokmal Norwegian (official),factbook
+NPL,Nepali,factbook_text,Nepali (official) 44.9%,factbook
+NRU,Nauruan,factbook_text,"Nauruan 93% (official, a distinct Pacific Island language)",factbook
+NZL,English,factbook_text,English (de facto official) 95.4%,factbook
+NZL,Maori,factbook_text,Maori (de jure official) 4%,factbook
+NZL,New Zealand Sign Language,factbook_text,New Zealand Sign Language (de jure official) 0.5%,factbook
+OMN,Arabic,factbook_text,Arabic (official),factbook
+PAK,English,factbook_note,note: English (official; lingua franca ...),factbook
+PAK,Urdu,supplement_manual,파키스탄 헌법 251조: 국어는 우르두어 (Factbook note엔 영어만 공용어로 적힘),supplement
+PAN,Spanish,factbook_text,Spanish (official),factbook
+PER,Aymara,factbook_text,Aymara (official) 1.6%,factbook
+PER,Quechua,factbook_text,Quechua (official) 13.6%,factbook
+PER,Spanish,factbook_text,Spanish (official) 82.9%,factbook
+PHL,English,factbook_note,note: Filipino (based on Tagalog) and English are official languages,factbook
+PHL,Filipino,factbook_note,note: Filipino (based on Tagalog) and English are official languages,factbook
+PLW,English,factbook_text,English (official) 19.1%,factbook
+PLW,Palauan,factbook_text,Palauan (official on most islands) 65.2%,factbook
+PNG,English,factbook_text,English (official),factbook
+PNG,Hiri Motu,factbook_text,Hiri Motu (official),factbook
+PNG,Tok Pisin,factbook_text,Tok Pisin (official),factbook
+POL,Polish,factbook_text,Polish (official) 98.2%,factbook
+PRK,Korean,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+PRT,Portuguese,factbook_text,Portuguese (official),factbook
+PRY,Guarani,factbook_text,Guarani (official) 46.3%,factbook
+PRY,Spanish,factbook_text,Spanish (official),factbook
+PYF,French,factbook_text,French (official) 73.5%,factbook
+QAT,Arabic,factbook_text,Arabic (official),factbook
+ROU,Romanian,factbook_text,Romanian (official) 91.6%,factbook
+RUS,Russian,factbook_text,Russian (official) 85.7%,factbook
+RWA,English,factbook_text,English (official) <0.1%,factbook
+RWA,French,factbook_text,French (official) <0.1%,factbook
+RWA,Kinyarwanda,factbook_text,"Kinyarwanda (official, universal Bantu vernacular) 93.2%",factbook
+RWA,Swahili,factbook_text,"Swahili/Kiswahili (official, used in commercial centers) <0.1%",factbook
+SAU,Arabic,factbook_text,Arabic (official),factbook
+SDN,Arabic,factbook_text,Arabic (official),factbook
+SDN,English,factbook_text,English (official),factbook
+SEN,French,factbook_text,French (official),factbook
+SGP,Chinese (Mandarin),factbook_text,Mandarin (official) 29.9%,factbook
+SGP,English,factbook_text,English (official) 48.3%,factbook
+SGP,Malay,factbook_text,Malay (official) 9.2%,factbook
+SGP,Tamil,factbook_text,Tamil (official) 2.5%,factbook
+SHN,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+SLB,English,factbook_text,English (official but spoken by only 1%-2% of the population),factbook
+SLE,English,factbook_text,"English (official, regular use limited to literate minority)",factbook
+SLV,Spanish,factbook_text,Spanish (official),factbook
+SMR,Italian,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+SOM,Arabic,factbook_text,Arabic (official),factbook
+SOM,Somali,factbook_text,Somali (official),factbook
+SRB,Serbian,factbook_text,Serbian (official) 88.1%,factbook
+SSD,English,factbook_text,English (official),factbook
+STP,Portuguese,factbook_text,Portuguese 98.4% (official),factbook
+SUR,Dutch,factbook_text,Dutch (official),factbook
+SVK,Slovak,factbook_text,Slovak (official) 81.8%,factbook
+SVN,Slovene,factbook_text,Slovene (official) 87.7%,factbook
+SWE,Swedish,factbook_text,Swedish (official),factbook
+SWZ,English,factbook_text,"English (official, used for government business)",factbook
+SWZ,Swati,factbook_text,siSwati (official),factbook
+SYC,English,factbook_text,English (official) 5.1%,factbook
+SYC,French,factbook_text,French (official) 0.7%,factbook
+SYC,Seychellois Creole,factbook_text,Seychellois Creole (official) 89.1%,factbook
+SYR,Arabic,factbook_text,Arabic (official),factbook
+TCD,Arabic,factbook_text,Arabic (official),factbook
+TCD,French,factbook_text,French (official),factbook
+TGO,French,factbook_text,"French (official, language of commerce)",factbook
+THA,Thai,factbook_text,Thai (official) only 90.7%,factbook
+TJK,Tajik,factbook_text,Tajik (official) 84.4%,factbook
+TKM,Turkmen,factbook_text,Turkmen (official) 72%,factbook
+TLS,Portuguese,factbook_note,note: Tetun and Portuguese are official languages,factbook
+TLS,Tetum,factbook_note,note: Tetun and Portuguese are official languages,factbook
+TON,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+TON,Tongan,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+TTO,English,factbook_text,English (official),factbook
+TUN,Arabic,factbook_text,"Arabic (official, one of the languages of commerce)",factbook
+TUR,Turkish,factbook_text,Turkish (official),factbook
+TUV,English,factbook_text,English (official),factbook
+TUV,Tuvaluan,factbook_text,Tuvaluan (official),factbook
+TZA,English,factbook_text,"English (official, primary language of commerce, administration, and higher education)",factbook
+TZA,Swahili,factbook_text,Kiswahili or Swahili (official),factbook
+UGA,English,factbook_text,English (official),factbook
+UGA,Swahili,factbook_text,Swahili (official),factbook
+UKR,Ukrainian,factbook_text,Ukrainian (official) 67.5%,factbook
+URY,Spanish,factbook_text,"Spanish (official, Rioplatense is the most widely spoken dialect)",factbook
+USA,English,factbook_text,English only (official) 78.2%,factbook
+UZB,Uzbek,factbook_text,Uzbek (official) 74.3%,factbook
+VAT,Italian,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+VAT,Latin,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+VCT,English,countries_json,Factbook에 공용어 표시 없음 → countries.json languages,supplement
+VEN,Spanish,factbook_text,Spanish (official) 98.2%,factbook
+VNM,Vietnamese,factbook_text,Vietnamese (official),factbook
+VUT,Bislama,factbook_text,Bislama (official; creole) 14.5%,factbook
+VUT,English,factbook_text,English (official) 2.1%,factbook
+VUT,French,factbook_text,French (official) 0.8% (2020 est.),factbook
+WLF,French,factbook_text,French (official) 10.8%,factbook
+WSM,English,factbook_text,English (official) 0.5%,factbook
+WSM,Samoan,factbook_text,Samoan (Polynesian) (official) 91.1%,factbook
+YEM,Arabic,factbook_text,Arabic (official),factbook
+ZAF,Afrikaans,factbook_text,Afrikaans (official) 12.2%,factbook
+ZAF,English,factbook_text,English (official) 8.1%,factbook
+ZAF,Ndebele (Southern),factbook_text,isiNdebele or Ndebele (official) 1.6%,factbook
+ZAF,Pedi,factbook_text,Sepedi or Pedi (official) 10.1%,factbook
+ZAF,Sotho,factbook_text,Sesotho or Sotho (official) 7.9%,factbook
+ZAF,Swati,factbook_text,siSwati or Swati (official) 2.8%,factbook
+ZAF,Tsonga,factbook_text,Xitsonga or Tsonga (official) 3.6%,factbook
+ZAF,Tswana,factbook_text,Setswana or Tswana (official) 9.1%,factbook
+ZAF,Venda,factbook_text,Tshivenda or Venda (official) 2.5%,factbook
+ZAF,Xhosa,factbook_text,isiXhosa or Xhosa (official) 14.8%,factbook
+ZAF,Zulu,factbook_text,isiZulu or Zulu (official) 25.3%,factbook
+ZMB,English,factbook_text,English (official) 1.7%,factbook
+ZWE,Chewa,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Chibarwe,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,English,factbook_text,"English (official, traditionally used for official business) 0.3%",factbook
+ZWE,Kalanga,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Koisan,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Nambya,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Ndau,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Ndebele (Northern),factbook_text,"Ndebele (official, second most widely spoken) 11.5%",factbook
+ZWE,Shangani,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Shona,factbook_text,"Shona (official, most widely spoken) 80.9%",factbook
+ZWE,Sotho,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Tonga (Zambia/Zimbabwe),factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Tswana,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Venda,factbook_text,13 minority languages (official; includes ...),factbook
+ZWE,Xhosa,factbook_text,13 minority languages (official; includes ...),factbook

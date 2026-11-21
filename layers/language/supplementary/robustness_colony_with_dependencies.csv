@@ -1,0 +1,5 @@
+shuffle,mean_gap_real,mean_gap_fake_avg,p
+basic,7.41,9.18,0.002
+income_db,7.41,9.17,0.006
+budget_year,7.41,9.13,0.002
+health_obj,7.41,9.08,0.004
