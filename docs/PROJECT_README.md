@@ -10,7 +10,7 @@
 3. 원본 데이터 — `data/raw/README.md`
 4. 언어 + 식민 (B) — `layers/language/README.md`
 5. 소득 (C) — `layers/income/README.md`
-6. 무역 (D) — `layers/trade/README.md`
+6. 무역 (D) — `docs/layers/trade.md`
 7. 통합 분석 — `analysis/README.md`
 8. 추가 검증 계획 — `analysis/validation/README.md`
 9. 파일럿 코드 — `pilot/README.md`
@@ -28,16 +28,35 @@
 
 121개국 설탕세 도입(현행 DB 117 + 폐지・누락 보충 4)을 5개 분야 연결(지역, 언어・식민, 소득, 지역기구, 무역) 위에 놓고, 같은 그룹 나라끼리 도입 시기가 우연보다 더 묶이는지 가짜 세계 1,000개와 비교해 검증함. 나라끼리 따라 한 것(확산)인지, WHO 권고 같은 공통 원인에 다 같이 반응한 것인지 구분하는 게 목표.
 
-- 설계서・역할 분담・설명서: 노션 (팀 링크 참고)
+- 설계서・설명서: 노션 (팀 링크 참고)
+- **역할 분담 (누가 무엇을, 진행 상황): [docs/ROLES.md](ROLES.md)**
 - 일정: 슬라이드 11/30, 발표 12/7, 최종 제출 12/18
 
-#### 빠른 시작
+#### 처음부터 다시 돌리기 (재현 순서)
+
+위에서부터 차례로 실행. 저장소 루트에서 실행 (어느 폴더에서 해도 되지만 기준은 루트). 전체 1분 정도 (`exclude_checked.py`가 30초 남짓)
 
 ```bash
 pip install -r requirements.txt
-python src/make_nodes.py              # data/processed/nodes.csv 생성 (204개국, 1990~2023 도입 114개국)
-python layers/region/make_layer.py    # 대륙・소지역 계층 + 1단계 결과 (예시)
+python src/make_nodes.py                        # 1. data/processed/nodes.csv (204개국, 1990~2023 도입 114개국)
+python layers/region/make_layer.py              # 2. 지역: 대륙・소지역・국경・지역기구 (A)
+python layers/language/fetch_external.py        # 3. 외부 자료 받기 (B). 인터넷 필요, 꼭 언어 계층보다 먼저
+python layers/language/make_layer.py            #    언어・식민 계층 (B)
+python layers/language/supplementary_checks.py  #    언어・식민 보조 검증 (B)
+python layers/income/preprocess.py              # 4. 소득 등급 전처리 → income_nodes.csv (C)
+python layers/income/make_layer.py              #    소득 계층 (C)
+python layers/income/merge_year_check.py        #    연도 검증 표 합치기 → year_check.csv
+python layers/income/exclude46.py               #    검증 대상 46・60개국 뺀 소득 1단계
+python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
+python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
+python analysis/stage2.py                       # 7. 2단계: 겹침 6×6, 각 분야 몫, 공유 분야 수 (2~5 다 끝난 뒤)
+python analysis/validation/conditional_continent.py  # 8. V2: 대륙 안에서만 섞기, 지역기구・국경・소지역・무역・소득 (2~5 다 끝난 뒤)
 ```
+
+- 3번: ICOW 식민 자료・countrycode 변환표는 재배포 금지라 git에 없음. 이 스크립트가 `layers/language/_external/`에 받아 옴 (git 제외). 빼먹으면 언어 `make_layer.py`가 `ICOW 없음`으로 멈춤
+- 1번이 바뀌면 2~8 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6~8번만 다시
+- 가짜 세계는 seed 고정 → 다시 돌려도 CSV가 커밋된 것과 같아야 함 (그림 PNG는 matplotlib 버전 따라 바이트만 다를 수 있음). 달라지면 PR에 적기
+- 2-1단계・3단계(`analysis/`)는 브랜치 합쳐지면 여기 추가
 
 #### 폴더 구조
 
@@ -88,6 +107,12 @@ docs/           설계서 사본
 > 원래 위치: `CONTRIBUTING.md`
 
 ### 협업 규칙
+
+#### Claude Code로 작업할 때
+
+- 저장소 루트의 `CLAUDE.md`를 Claude Code가 세션마다 자동으로 읽음 → 시작하면 **먼저 누구인지 물어봄** (서영・서현・수정・승아). 답하면 `git pull`, 문서 읽기, 내 할 일 정리까지 알아서 함
+- 따로 시킬 필요 없음. 대신 Claude Code가 남의 폴더나 `main`을 건드리려 하면 멈추게 할 것
+- 끝나면 `docs/ROLES.md` 내 칸 상태를 갱신하고 PR 링크를 줌
 
 #### 브랜치
 
@@ -170,6 +195,35 @@ git checkout language && git merge main
 - 지금 4개국: 이스라엘(2022 도입, 2023 폐지), 보츠와나(2021, DB 누락), 덴마크(1930년대, 2014 폐지), 노르웨이(1924, 2021 폐지)
 - 더 찾으면 추가 (C 담당, 연도 검증 때 같이)
 
+### 도입 연도・설탕세 판단 기준 (팀 공통)
+
+연도 검증, 폐지・누락 보충, 새 나라 추가 등 **도입 연도를 다루는 모든 작업에 적용**함 (2026-11-17 정함)
+
+#### 설탕세로 치는 것
+
+- **넣음**: 가당・탄산・청량음료를 콕 집어 따로 매기는 세금・부과금. 소비세, 수입관세・부과금, 부담금, 음료만 올린 VAT 차등 세율 모두 포함. **목적(세수/건강)은 따지지 않음** → World Bank DB 정의와 같음
+- **뺌**: 모든 상품 또는 음료 전체에 같은 세율로 붙는 일반 소비세・부가세 (음료가 그 안에 섞여 있을 뿐인 것)
+- 건강 목적 여부는 `health_obj` 열로 따로 다룸 (강건성 검사). 법을 만든 이유를 못 찾으면 근거 칸에 "목적 미확인"으로 남김
+
+#### 도입 연도
+
+- **도입 연도 = 위 기준에 맞는 세금이 그 나라에 처음 생긴 해**. 나중의 세율 인상, 법 개정, 법 통합・대체(예: 옛 소비세법을 새 법으로 바꾼 해)는 도입 연도가 아님
+- **`year_checked` = 시행 연도** (본 분석에 씀). DB `year_imp`와 같은 기준이라 114개국이 통일됨
+- **`year_enacted` = 제정・공포 연도** (예산법이면 그 예산법이 의회를 통과・공포된 해). '아이디어가 그 나라에 건너온 시점'에 더 가까움 → 같이 기록하고 강건성 검사로 씀
+  - 예: 영국 2016 발표 → `year_enacted` 2017 (Finance Act 2017) → `year_checked` 2018 (시행)
+  - 예: 베냉 loi de finances 2011년 12월 공포, 2012 회계연도 → `year_enacted` 2011, `year_checked` 2012
+- **한 기준을 일부 나라에만 쓰지 않음**. 분석은 나라 쌍의 연도 차이를 보므로 시행・제정 연도가 섞이면 결과가 흔들림. 제정 연도로 본 분석을 하려면 전체를 다 모은 뒤 바꿈
+- 발의 연도는 나라마다 기록이 고르지 않아 쓰지 않음
+
+#### 검증 표 `status`
+
+| 값 | 뜻 |
+|---|---|
+| `맞음` | DB 연도가 실제 첫 시행 연도 |
+| `수정` | 다른 해 → `year_checked`에 그 해 |
+| `설탕세아님` | 위 '뺌'에 해당 |
+| `모름` | 근거 못 찾음 → DB 연도 그대로 씀 |
+
 #### 마감
 
 | 날짜 | 할 일 |
@@ -198,16 +252,18 @@ git checkout language && git merge main
 | `SSB-Tax-Database-Aug22.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2022년 8월판 | 2026-11 | A |
 | `countries.json` | 국가 코드, 대륙, 소지역, 국경 | github.com/mledoze/countries | 2026-11 | A |
 | `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 1) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
+| `igo_year_formatv3.csv` | 기구×연도 가입 여부 (1816~2014). 탭 구분, latin-1 인코딩 | Correlates of War IGO v3 (igounit) | 2026-11 | A |
+| `igo_supplement.csv` | COW 이후(2015~2023) 가입, COW 오류(EAC)・비국가 회원(PIF 영토) 보충 | 행마다 기구 공식 회원국 페이지 | 2026-11 | A |
+| `UNComtrade-trade-statistics-official-CAHS-20261118-0323.csv` | **수입(M)** 기록, HS 2202 (가당・향 첨가 음료), 2010~2020 연간 | UN Comtrade | 2026-11-18 | D |
+| `UNComtrade-trade-statistics-official-CAHS-20261121-0104.csv` | **수출(X)** 기록, 조건 같음 (파일 이름으로 수입・수출 구분 안 됨 → `docs/layers/trade.md`) | UN Comtrade | 2026-11-21 | D |
 
 #### 추가 예정
 
 | 데이터 | 출처 | 담당 | 메모 |
 |---|---|---|---|
-| 지역기구 가입 | Correlates of War IGO v3 | A | 2014년까지라 2015년 이후 가입은 기구 공식 회원국 목록으로 보충. UN・WHO 같은 전 세계 기구는 제외 |
 | 공용어 | CIA World Factbook (Languages) | B | 공용어 표시된 것만. countries.json `languages`로 교차 확인 |
 | 식민 종주국 | ICOW Colonial History v1.1 | B | 매칭 어려우면 CEPII GeoDist `colony`, `comcol` |
 | 소득 등급 | World Bank Country and Lending Groups (historical) | C | 도입한 해의 등급 사용 |
-| 음료 무역 | UN Comtrade HS 2202 | D | 안 되면 CEPII BACI, 그것도 안 되면 대륙 넘는 기구(OECD・APEC 등) 회원 목록 |
 | 비만・당뇨 (선택) | WHO Global Health Observatory | - | 2단계 통제변수로만 |
 
 ---
@@ -265,7 +321,7 @@ git checkout language && git merge main
 
 ### 통합 분석
 
-- `stage2.py` (A): 계층 엣지 다 읽어서 `pairs.csv`(나라1, 나라2, 분야별 0/1, 연도 차이) → 겹침 표 5×5, 각 분야 몫(회귀 계수 + 가짜 세계 p), 공유 분야 수별 평균
+- `stage2.py` (A): 계층 엣지 다 읽어서 `stage2_pairs.csv`(나라1, 나라2, 분야별 0/1, 연도 차이) → 겹침 표 6×6(언어・식민 따로), 각 분야 몫(회귀 계수 + 가짜 세계 p), 공유 분야 수별 평균. 설명・결과: `docs/analysis/stage2.md`
 - `stage2_1.py` (B): 다른 대륙 쌍만 1단계 다시, `follow_test` 분야 × 창(1・2・3년). 기준 0.05 ÷ 검사 수
 - `stage3_*.py` (B・C): 확산 곡선, 경로 실제 vs 가짜, 지도
 
@@ -399,7 +455,7 @@ d[a, b] = a 도입 연도 − b 도입 연도
 | 언어・식민 | B의 엣지 (시간 불변) | ✅ (B 결과 나오면) |
 | 지역기구 | 가입 연도가 있으면 연도별, 없으면 현재 회원 기준 | ⚠️ 현재 기준이면 한계로 적음 |
 | 소득 | `income_db`는 DB 작성 시점 등급, 도입국만 있음 → 사용 안 함. C의 연도별 등급이 나오면 사용 | ⚠️ |
-| 무역 | D의 데이터가 연도별인지 확인 후 결정 | ⚠️ |
+| 무역 | D의 엣지 (2010~2020 평균, 시간 불변). 2010년 이전 도입국에겐 도입 이후 교역 관계 | ⚠️ 한계로 적음 |
 | 대륙 | 층으로 이미 통제하므로 노출 계층으로는 안 씀 | ❌ |
 
 **한계**: 사건 수가 114개뿐이라 검정력이 낮음(V1 S1 결과로 수준 제시). 연결이 시간에 따라 안 바뀐다고 가정. 공통 충격이 대륙보다 작은 단위(소지역 단위 세무 개혁 권고 등)로 오면 걸러지지 않음 → 유의해도 "연결된 나라의 최근 도입과 **연관**"까지만 말함
@@ -480,9 +536,9 @@ analysis/validation/
 
 ### 문서
 
-설계서・역할 분담・프로젝트 설명서는 노션에 있음 (최신본은 항상 노션).
+설계서・프로젝트 설명서는 노션에 있음 (최신본은 항상 노션). **역할 분담은 [ROLES.md](ROLES.md)가 원본** (11/21 재분배부터, 노션 역할 분담 페이지는 옛날 것).
 
 - 설계서: 🍫 설탕세는 어떻게 퍼지는가
-- 하위 문서: 역할 분담, 프로젝트 설명서
+- 하위 문서: 프로젝트 설명서
 
 여기엔 발표 자료・보고서 최종본만 올림 (12/18 제출 전).
