@@ -20,11 +20,15 @@
    - 섞는 방식: basic + 강건성 3개(income_db, budget_year, health_obj 안에서만)
    - 모형 민감도: 대륙 → 소지역, 국경 추가, 무역 k = 3 / 10
    - 나라 빼기: excl46, unsure46 (analysis/exclude_checked.py와 같은 목록. 연결은 두고 연도 비교에서만 뺌)
+     basic + 강건성 3개 모두
 4. 공유 분야 수 → analysis/stage2_shared_count.csv
-   도입국 쌍을 공유 분야 수(0, 1, 2, 3, 4+)로 나눠 평균 연도 차이 vs 가짜 세계
+   도입국 쌍을 공유 분야 수(0, 1, 2, 3, 4+)로 나눠 평균 연도 차이 vs 가짜 세계. all / excl46 / unsure46
+5. 나라 빼기 비교 기준 → analysis/stage2_exclude_random.csv
+   excl46・unsure46과 같은 수의 도입국을 무작위로 200번 빼서 각 분야 몫 다시 (반복마다 가짜 세계 300개, seed 0)
+   rand_share_weaker = 무작위로 뺐을 때 계수가 실제 이상(효과 같거나 약함)인 비율. 작으면 뺀 나라들이 그 효과를 받치던 것
 
 해석: 유의해도 '연결된 쌍끼리 시기가 묶임'까지. 따라 했다(확산)는 2-1단계・추가 검증(V1~V3)과 같이 봄
-시간: 약 10초
+시간: 약 5초
 """
 import sys
 from itertools import combinations
@@ -132,6 +136,7 @@ lists = year_check_lists()
 runs = [("main", "all", s) for s in [None, *STRATA]]
 runs += [(m, "all", None) for m in MODELS if m != "main"]
 runs += [("main", v, None) for v in lists if v != "all"]
+runs += [("main", v, s) for v in lists if v != "all" for s in STRATA]   # 나라 빼고 + 강건성
 for model, ver, strata in runs:
     nd = nodes.copy()
     nd.loc[lists[ver], "in_analysis"] = 0
@@ -152,24 +157,61 @@ print(wide.pivot(index="run", columns="layer", values="cell").reindex(columns=MA
       .dropna(axis=1, how="all").fillna("").loc[wide.run.unique()].to_string())
 
 # ---------- 4. 공유 분야 수 ----------
-ad = list(analysis_countries(nodes))
-pos = {c: i for i, c in enumerate(ad)}
-sub = pairs[pairs.both_adopters == 1]
-i, j = sub.src.map(pos).to_numpy(), sub.dst.map(pos).to_numpy()
-bins = sub.n_shared.clip(upper=4).to_numpy()
-yy = nodes.loc[ad, "year_imp"].to_numpy(float)
+def shared_count(nd):
+    ad = list(analysis_countries(nd))
+    pos = {c: i for i, c in enumerate(ad)}
+    sub = pairs[pairs.src.isin(pos) & pairs.dst.isin(pos)]
+    i, j = sub.src.map(pos).to_numpy(), sub.dst.map(pos).to_numpy()
+    bins = sub.n_shared.clip(upper=4).to_numpy()
+    yy = nd.loc[ad, "year_imp"].to_numpy(float)
+
+    def means(ys):
+        g = np.abs(ys[i] - ys[j])
+        return np.array([g[bins == b].mean() for b in range(5)])
+
+    real = means(yy)
+    fake = np.array([means(ys) for ys in _shuffles(yy)])
+    return pd.DataFrame(dict(n_shared=["0", "1", "2", "3", "4+"], n_pairs=[int((bins == b).sum()) for b in range(5)],
+                             mean_gap_real=real.round(2), mean_gap_fake_avg=fake.mean(0).round(2),
+                             p=((np.sum(fake <= real, axis=0) + 1) / (R + 1)).round(4)))
 
 
-def means(ys):
-    g = np.abs(ys[i] - ys[j])
-    return np.array([g[bins == b].mean() for b in range(5)])
-
-
-real = means(yy)
-fake = np.array([means(ys) for ys in _shuffles(yy)])
-cnt = pd.DataFrame(dict(n_shared=["0", "1", "2", "3", "4+"], n_pairs=[int((bins == b).sum()) for b in range(5)],
-                        mean_gap_real=real.round(2), mean_gap_fake_avg=fake.mean(0).round(2),
-                        p=((np.sum(fake <= real, axis=0) + 1) / (R + 1)).round(4)))
+cnts = []
+for ver, drop in lists.items():
+    nd = nodes.copy()
+    nd.loc[drop, "in_analysis"] = 0
+    cnts.append(shared_count(nd).assign(version=ver))
+cnt = pd.concat(cnts, ignore_index=True)
+cnt = cnt[["version"] + [c for c in cnt.columns if c != "version"]]
 cnt.to_csv(OUT / "stage2_shared_count.csv", index=False)
 print("\n[공유 분야 수별 평균 연도 차이]")
 print(cnt.to_string(index=False))
+
+# ---------- 5. 나라 빼기 비교 기준: 같은 수를 무작위로 뺐을 때 ----------
+# exclude_checked.py와 같은 방식. 도입국이 줄어 검정력이 떨어지는 효과 vs 그 나라들이 효과를 만들던 효과
+# 무작위 쪽은 반복마다 가짜 세계 RAND_R개라 p 눈금이 약 1/300 → rand_share_p05는 대략으로만 읽기
+RAND, RAND_R, RAND_SEED = 200, 300, 0
+real_share = share[(share.model == "main") & (share.shuffle == "basic")].set_index(["version", "layer"])
+ac_all = list(analysis_countries(nodes))
+rng = np.random.default_rng(RAND_SEED)
+rand_rows = []
+print("\n[나라 빼기 vs 같은 수 무작위로 빼기 (main, basic)]")
+for ver, drop in lists.items():
+    if not drop:
+        continue
+    sims = []
+    for _ in range(RAND):
+        nd = nodes.copy()
+        nd.loc[list(rng.choice(ac_all, len(drop), replace=False)), "in_analysis"] = 0
+        sims.append(share_fit(MAIN, nd, r=RAND_R)[0].set_index("layer"))
+    for k in MAIN:
+        c = np.array([s.loc[k, "coef"] for s in sims])
+        p = np.array([s.loc[k, "p"] for s in sims])
+        rr = real_share.loc[(ver, k)]
+        rand_rows.append(dict(version=ver, layer=k, n_drop=len(drop), coef=rr.coef, p=rr.p,
+                              rand_coef_median=round(float(np.median(c)), 3),
+                              rand_share_p05=round(float(np.mean(p < 0.05)), 2),
+                              rand_share_weaker=round(float(np.mean(c >= rr.coef)), 2)))
+rand_df = pd.DataFrame(rand_rows)
+rand_df.to_csv(OUT / "stage2_exclude_random.csv", index=False)
+print(rand_df.to_string(index=False))
