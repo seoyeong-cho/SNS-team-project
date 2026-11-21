@@ -84,17 +84,17 @@ def pick(code, year):
 #       쿡 제도·몬트세랫·니우에·세인트헬레나·월리스 푸투나가 고소득 바로 앞인 상위중소득(UMIC) 끝에 묶여 있음.
 #       → 도입 연도(COK 2014, SHN 2014, WLF 2017)가 이 기간 안이라 UM으로 둠. (WB 확인값이 아닌 추정)
 # 니우에(도입 1969)는 도입 연도가 이 기간 밖이라 보충하지 않음. 바티칸(미도입)도 근거가 없어 비워 둠.
-# 값과 이유·출처는 manual_fixes.csv (CONTRIBUTING 규칙)
+# 값과 이유·출처는 manual_fixes.csv (CONTRIBUTING 규칙). flag에는 csv의 '이유'를 그대로 씀
 _mf = pd.read_csv(HERE / "manual_fixes.csv", encoding="utf-8")
-MANUAL = {r.iso3: (r.group, "WB 등급 없음 → OECD DAC 2013~18 UMIC 묶음 근거로 UM 보충(추정)")
-          for r in _mf.itertuples()}
+MANUAL = {r.iso3: (r.group, r.이유, r.year) for r in _mf.itertuples()}
 
 rows = []
 for c, r in nodes.iterrows():
     t = int(r.year_imp) - LAG if r.adopter == 1 and pd.notna(r.year_imp) else REF_YEAR
     y, g, flag = pick(c, t)
     if c in MANUAL and pd.isna(g):
-        g, flag = MANUAL[c]
+        g, flag, y_fix = MANUAL[c]
+        assert y_fix == t, f"manual_fixes.csv {c} year {y_fix} ≠ 기준 연도 {t}"
         y = t
     rows.append(dict(iso3=c, adopter=int(r.adopter), in_analysis=int(r.in_analysis),
                      year_target=t, year_used=y, group=g, flag=flag))

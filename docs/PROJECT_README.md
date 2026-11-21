@@ -31,13 +31,29 @@
 - 설계서・역할 분담・설명서: 노션 (팀 링크 참고)
 - 일정: 슬라이드 11/30, 발표 12/7, 최종 제출 12/18
 
-#### 빠른 시작
+#### 처음부터 다시 돌리기 (재현 순서)
+
+위에서부터 차례로 실행. 저장소 루트에서 실행 (어느 폴더에서 해도 되지만 기준은 루트). 전체 1분 정도 (`exclude_checked.py`가 30초 남짓)
 
 ```bash
 pip install -r requirements.txt
-python src/make_nodes.py              # data/processed/nodes.csv 생성 (204개국, 1990~2023 도입 114개국)
-python layers/region/make_layer.py    # 대륙・소지역 계층 + 1단계 결과 (예시)
+python src/make_nodes.py                        # 1. data/processed/nodes.csv (204개국, 1990~2023 도입 114개국)
+python layers/region/make_layer.py              # 2. 지역: 대륙・소지역・국경・지역기구 (A)
+python layers/language/fetch_external.py        # 3. 외부 자료 받기 (B). 인터넷 필요, 꼭 언어 계층보다 먼저
+python layers/language/make_layer.py            #    언어・식민 계층 (B)
+python layers/language/supplementary_checks.py  #    언어・식민 보조 검증 (B)
+python layers/income/preprocess.py              # 4. 소득 등급 전처리 → income_nodes.csv (C)
+python layers/income/make_layer.py              #    소득 계층 (C)
+python layers/income/merge_year_check.py        #    연도 검증 표 합치기 → year_check.csv
+python layers/income/exclude46.py               #    검증 대상 46・60개국 뺀 소득 1단계
+python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
+python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
 ```
+
+- 3번: ICOW 식민 자료・countrycode 변환표는 재배포 금지라 git에 없음. 이 스크립트가 `layers/language/_external/`에 받아 옴 (git 제외). 빼먹으면 언어 `make_layer.py`가 `ICOW 없음`으로 멈춤
+- 1번이 바뀌면 2~6 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6번만 다시
+- 가짜 세계는 seed 고정 → 다시 돌려도 CSV가 커밋된 것과 같아야 함 (그림 PNG는 matplotlib 버전 따라 바이트만 다를 수 있음). 달라지면 PR에 적기
+- 2-1단계・3단계(`analysis/`)는 브랜치 합쳐지면 여기 추가
 
 #### 폴더 구조
 

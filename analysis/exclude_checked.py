@@ -5,14 +5,17 @@
 - 본 분석은 World Bank DB 연도 그대로. 연도 검증 표는 nodes.csv에 반영하지 않음 (docs/layers/income.md)
 - 대신 검증 대상 나라를 연도 비교에서 빼고(in_analysis = 0, 연결은 유지) 결론이 유지되는지 봄
   - all   : 빼지 않음 (각 계층 result_*.csv의 ALL과 같음)
-  - excl46: layers/income/year_check.csv 46개국
+  - excl46: layers/income/year_check.csv 46개국 (A + C 합친 표. 먼저 merge_year_check.py)
   - excl60: 위 + layers/income/year_check_14.csv 14개국
-  - unsure46, unsure60: 위 표에서 status가 '맞음'이 아닌 나라만 (수정・모름). 검증으로 맞다고 확인된 나라는 남김
+  - unsure46, unsure60: 위 표에서 status가 '맞음'이 아닌 나라만 (수정・모름・설탕세아님). 검증으로 맞다고 확인된 나라는 남김
   - 46개국은 '연도가 틀린 나라'가 아니라 예산법 연도 의심(budget_year = 1) 50개국 중 검증한 46개국 (27개국은 맞음)
 - 비교 기준: 같은 수의 도입국을 무작위로 뺐을 때 (RAND번). 도입국이 줄어 검정력이 떨어지는 효과와,
   그 나라들이 효과를 만들던 효과를 구분하려고 → analysis/exclude_checked_random.csv
+  - 무작위 쪽은 반복마다 가짜 세계 RAND_R(300)개라 p 눈금이 약 1/300. 실제 p(1000개)와 같은 잣대가 아님
+    → rand_share_p05는 '무작위로 빼도 p < 0.05가 나오는 비율' 정도로만 읽기
 - 도입 여부 검사는 연도를 안 쓰므로 여기서 다시 돌리지 않음
 - 결과: analysis/exclude_checked.csv (계층 × 버전 × 섞는 방식 한 줄씩)
+- 시간: 약 40초 (대부분 무작위 비교: 4버전 × 10계층 × 200회 × 가짜 세계 300)
 """
 import sys
 from pathlib import Path
@@ -41,7 +44,7 @@ LAYERS = {
 RAND, RAND_R, RAND_SEED = 200, 300, 0   # 무작위 제외 반복 수, 그 안의 가짜 세계 수, seed
 
 base = load_nodes()
-t46 = pd.concat([pd.read_csv(L / "income" / f"year_check_{k}.csv") for k in "AC"])
+t46 = pd.read_csv(L / "income" / "year_check.csv")
 t14 = pd.read_csv(L / "income" / "year_check_14.csv")
 c46, c14 = list(t46.iso3), list(t14.iso3)
 u46 = list(t46[t46.status != "맞음"].iso3)

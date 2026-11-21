@@ -40,7 +40,7 @@ def national(path):
 
 def main():
     ssb = national(RAW / "SSB-Tax-Database-Aug23.csv")
-    first = ssb.sort_values("year_imp").groupby("country_code").first()   # 나라별 첫 세금 행
+    first = ssb.sort_values("year_imp", kind="stable").groupby("country_code").first()   # 나라별 첫 세금 행
 
     budget_pat = re.compile(r"financ|budget|loi de finances|tax code|code g[ée]n[ée]ral|amend|modif", re.I)
     first["budget_year"] = [int(bool(budget_pat.search(str(r.legislation))) and str(int(r.year_imp)) in str(r.legislation))

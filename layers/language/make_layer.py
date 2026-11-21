@@ -131,10 +131,14 @@ def parse_factbook(text):
 
 def build_language_table():
     fb = pd.read_csv(ROOT / "data" / "raw" / "factbook_languages.csv")
-    rows, audit = [], []
+    rows, audit, profile = [], [], {}
     for _, r in fb.iterrows():
-        isos = {i for t in str(r.tld).split() for k, x in C.items() if t in (x.get("tld") or []) for i in [k]}
+        # 인터넷 도메인(tld)으로 Factbook 프로필 ↔ ISO3. 한 도메인을 여러 영토가 같이 쓰면(France .fr ↔ GLP 등)
+        # 분석 대상 밖 영토는 & nodes로 걸러짐. 한 나라에 프로필 2개가 붙으면 언어가 섞이므로 멈춤
+        isos = {k for t in str(r.tld).split() for k, x in C.items() if t in (x.get("tld") or [])}
         for iso in isos & set(nodes.index):
+            assert iso not in profile, f"{iso}에 Factbook 프로필 2개: {profile[iso]}, {r['name']}"
+            profile[iso] = r["name"]
             nat, drop = parse_factbook(r.languages_text)
             for lang, raw in nat:
                 rows.append((iso, lang, "factbook_text", raw))
