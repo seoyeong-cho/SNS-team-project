@@ -10,7 +10,7 @@
 3. 원본 데이터 — `data/raw/README.md`
 4. 언어 + 식민 (B) — `layers/language/README.md`
 5. 소득 (C) — `layers/income/README.md`
-6. 무역 (D) — `layers/trade/README.md`
+6. 무역 (D) — `docs/layers/trade.md`
 7. 통합 분석 — `analysis/README.md`
 8. 추가 검증 계획 — `analysis/validation/README.md`
 9. 파일럿 코드 — `pilot/README.md`
@@ -227,6 +227,8 @@ git checkout language && git merge main
 | `SSB-Tax-Database-Aug22.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2022년 8월판 | 2026-11 | A |
 | `countries.json` | 국가 코드, 대륙, 소지역, 국경 | github.com/mledoze/countries | 2026-11 | A |
 | `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 1) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
+| `UNComtrade-trade-statistics-official-CAHS-20261118-0323.csv` | **수입(M)** 기록, HS 2202 (가당・향 첨가 음료), 2010~2020 연간 | UN Comtrade | 2026-11-18 | D |
+| `UNComtrade-trade-statistics-official-CAHS-20261121-0104.csv` | **수출(X)** 기록, 조건 같음 (파일 이름으로 수입・수출 구분 안 됨 → `docs/layers/trade.md`) | UN Comtrade | 2026-11-21 | D |
 
 #### 추가 예정
 
@@ -236,7 +238,6 @@ git checkout language && git merge main
 | 공용어 | CIA World Factbook (Languages) | B | 공용어 표시된 것만. countries.json `languages`로 교차 확인 |
 | 식민 종주국 | ICOW Colonial History v1.1 | B | 매칭 어려우면 CEPII GeoDist `colony`, `comcol` |
 | 소득 등급 | World Bank Country and Lending Groups (historical) | C | 도입한 해의 등급 사용 |
-| 음료 무역 | UN Comtrade HS 2202 | D | 안 되면 CEPII BACI, 그것도 안 되면 대륙 넘는 기구(OECD・APEC 등) 회원 목록 |
 | 비만・당뇨 (선택) | WHO Global Health Observatory | - | 2단계 통제변수로만 |
 
 ---
@@ -428,7 +429,7 @@ d[a, b] = a 도입 연도 − b 도입 연도
 | 언어・식민 | B의 엣지 (시간 불변) | ✅ (B 결과 나오면) |
 | 지역기구 | 가입 연도가 있으면 연도별, 없으면 현재 회원 기준 | ⚠️ 현재 기준이면 한계로 적음 |
 | 소득 | `income_db`는 DB 작성 시점 등급, 도입국만 있음 → 사용 안 함. C의 연도별 등급이 나오면 사용 | ⚠️ |
-| 무역 | D의 데이터가 연도별인지 확인 후 결정 | ⚠️ |
+| 무역 | D의 엣지 (2010~2020 평균, 시간 불변). 2010년 이전 도입국에겐 도입 이후 교역 관계 | ⚠️ 한계로 적음 |
 | 대륙 | 층으로 이미 통제하므로 노출 계층으로는 안 씀 | ❌ |
 
 **한계**: 사건 수가 114개뿐이라 검정력이 낮음(V1 S1 결과로 수준 제시). 연결이 시간에 따라 안 바뀐다고 가정. 공통 충격이 대륙보다 작은 단위(소지역 단위 세무 개혁 권고 등)로 오면 걸러지지 않음 → 유의해도 "연결된 나라의 최근 도입과 **연관**"까지만 말함

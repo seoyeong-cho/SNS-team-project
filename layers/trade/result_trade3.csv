@@ -1,0 +1,3 @@
+group,n_adopters,n_pairs,mean_gap_real,mean_gap_fake_avg,p
+ALL,46,32,8.75,9.15,0.4026
+top3_trade,46,32,8.75,9.15,0.4026
