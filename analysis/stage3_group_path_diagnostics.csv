@@ -1,0 +1,15 @@
+layer,group,group_adopters,group_pairs,group_possible_structures,group_paths_1_3,group_rate_1_3,layer_paths_1_3,layer_paths_without_group_1_3,leave_group_out_drop
+language/language,Arabic,11,55,990,54,0.05454545454545454,1302,1243,59
+language/language,English,41,820,63960,883,0.01380550343964978,1302,318,984
+language/language,French,23,253,10626,187,0.017598343685300208,1302,972,330
+language/language,Portuguese,6,15,120,12,0.1,1302,1265,37
+language/language,Spanish,16,120,3360,18,0.005357142857142857,1302,1269,33
+language/colony,colony_ESP,17,16,240,0,0.0,1044,1035,9
+language/colony,colony_FRA,18,17,272,4,0.014705882352941176,1044,1030,14
+language/colony,colony_GBR,34,33,1056,40,0.03787878787878788,1044,946,98
+language/colony,colony_PRT,6,5,20,0,0.0,1044,1042,2
+language/colony,samecol_ESP,16,120,3360,26,0.007738095238095238,1044,1009,35
+language/colony,samecol_FRA,17,136,4080,54,0.013235294117647059,1044,980,64
+language/colony,samecol_GBR,33,528,32736,835,0.025507086999022485,1044,151,893
+language/colony,samecol_OTTOMAN,6,15,120,1,0.008333333333333333,1044,1043,1
+language/colony,samecol_PRT,5,10,60,4,0.06666666666666667,1044,1038,6
