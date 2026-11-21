@@ -34,7 +34,8 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.append(str(ROOT / "src"))
-from common import check_edges, layer_graph, load_nodes, structure  # noqa: E402
+from common import (adoption_test, check_edges, layer_graph, load_nodes,  # noqa: E402
+                    robustness, stage1, structure)
 
 RAW = ROOT / "data" / "raw"
 IMP = RAW / "UNComtrade-trade-statistics-official-CAHS-20261118-0323.csv"   # 수입(M)
@@ -130,4 +131,15 @@ if __name__ == "__main__":
         edges.to_csv(HERE / f"layer_{name}_edges.csv", index=False)
         print(f"[{name}] top{k}", structure(layer_graph(edges, nodes)))
 
-    # TODO: 1단계 (stage1) → result_trade.csv, 강건성 → robustness_trade.csv, 도입 여부 → adoption_trade.csv
+        # 1단계 → result_<이름>.csv
+        res = stage1(edges, nodes)
+        res.to_csv(HERE / f"result_{name}.csv", index=False)
+        print(res.to_string(index=False))
+        # 강건성 → robustness_<이름>.csv
+        rob = robustness(edges, nodes)
+        rob.to_csv(HERE / f"robustness_{name}.csv", index=False)
+        print(rob.to_string(index=False))
+        # 도입 여부 → adoption_<이름>.csv
+        adopt = pd.DataFrame([adoption_test(edges, nodes)])
+        adopt.to_csv(HERE / f"adoption_{name}.csv", index=False)
+        print(adopt.to_string(index=False), "\n")
