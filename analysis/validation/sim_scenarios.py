@@ -25,7 +25,7 @@ V1: 정답 아는 가상 데이터로 순열검정 성능 확인 (B, 서현)
 결과: analysis/validation/sim_rejection_rates.csv  시나리오 × 검정 유의 비율(α = 0.05) + 95% CI (Wilson)
       analysis/validation/sim_effect_sizes.csv     가상 데이터마다 효과 크기・p (실제 데이터 줄 포함, scenario = real)
       figures/v1_가상데이터_검출비율.png
-시간: 전체 약 20~40분 (코어 수에 따라)
+시간: 전체 1분 안팎 (8코어 노트북 45초, 코어 수에 따라)
 """
 import argparse
 import json
