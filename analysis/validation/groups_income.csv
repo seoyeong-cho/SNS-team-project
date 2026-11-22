@@ -1,0 +1,5 @@
+layer,group,n_adopters,n_pairs,interpret,gap_real,gap_fake_avg,gap_diff,z,fake_lo95,fake_hi95,p,all_without_gap_diff,all_without_p,loo_n,loo_skipped,loo_gap_diff_min,loo_gap_diff_max,loo_p_min,loo_p_max,loo_crosses_05,q_bh_all_groups,q_bh_interpret_only
+income,H,29,406,True,8.163,9.112,0.95,0.84,6.857,11.154,0.2098,-0.417,0.8402,29,,0.74,2.054,0.042,0.2747,True,0.5634,0.5634
+income,L,26,325,True,8.548,9.212,0.664,0.55,6.846,11.477,0.2817,-0.255,0.7343,26,,0.484,1.347,0.1538,0.3447,False,0.5634,0.5634
+income,LM,33,528,True,10.492,9.143,-1.349,-1.32,7.034,10.902,0.9111,0.575,0.1039,33,,-1.524,-0.772,0.7582,0.9371,False,0.9111,0.9111
+income,UM,26,325,True,9.151,9.168,0.017,0.01,6.578,11.38,0.4915,-0.088,0.5544,26,,-0.236,1.131,0.1798,0.5814,False,0.6553,0.6553
