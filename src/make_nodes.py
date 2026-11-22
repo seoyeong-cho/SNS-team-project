@@ -41,7 +41,8 @@ def national(path):
 def main():
     ssb = national(RAW / "SSB-Tax-Database-Aug23.csv")
     # 같은 나라・같은 첫 해에 행이 여럿이고 값이 다르면 어느 행을 쓸지 여기서 정함 (파일 순서에 기대지 않음, #10)
-    # NCL 2017: health_obj 0 (관세법 + 일반소비세) vs 1 (일반소비세 법령만) → 0 (11/22 지금까지 결과 기준, 팀 확인 #10)
+    # NCL 2017: health_obj 0 (관세법 + 일반소비세) vs 1 (일반소비세 법령만) → 0 (11/22 팀 결정, #10)
+    #   health_obj 1 쪽 TGC는 술・담배・컴퓨터・자동차까지 22% 붙는 일반 소비세 → 11/17 기준상 설탕세 아님. 남는 음료세가 건강 목적 0
     TIE_PICK = {"NCL": ("health_obj", 0)}
     first_year = ssb.groupby("country_code").year_imp.transform("min")
     for code, (col, val) in TIE_PICK.items():
