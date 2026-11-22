@@ -3,7 +3,7 @@
 실행: python layers/region/adoption_maps.py   (make_layer.py 다음. 처음 실행 때 인터넷 필요)
 설명 문서: docs/layers/region.md '도입 지도'
 
-- 나라 면을 도입 시기 색으로 칠함 (연한 파랑 #E8F0FB → #8FB3E8, 이른 시기 연함). 미도입 = 그 해까지 안 함 (빈칸)
+- 나라 면을 도입 시기 색으로 칠함 (연한 파랑 #DCE8F8 → #5E8FD8, 이른 시기 연함). 미도입 = 그 해까지 안 함 (빈칸)
 - 둘 다 도입한 육상 국경 쌍은 두 나라 대표점(countries.json latlng)을 잇는 선 + 끝에 점 (시간 네트워크).
   면은 연한 파랑만, 선은 반대색 주황(#C2410C) → 선이 먼저 보임. 미도입은 바탕색 + 회색 테두리.
   경도 차 40도가 넘는 긴 국경선(러시아 등)은 더 가늘고 흐린 점선 → 큰 나라 하나가 '연결 중심'처럼 보이지 않게
@@ -41,13 +41,13 @@ from common import load_nodes  # noqa: E402
 
 FIG = ROOT / "figures"
 have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")
+plt.rcParams["font.family"] = next((f for f in ["Pretendard", "Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")   # Pretendard 없으면 다음 것
 plt.rcParams["axes.unicode_minus"] = False
 
 INK, INK2, MUTED, SURF = "#0b0b0b", "#52514e", "#898781", "#fcfcfb"
 NONE_FILL, EDGE, NONE_EDGE = "#fcfcfb", "#ffffff", "#c9c8c2"   # 미도입 = 바탕색 + 회색 테두리 (빈칸으로 읽힘)
 LINE = "#C2410C"   # 국경 선: 파랑의 반대색(주황), 얇게, 살짝 투명
-_ramp = matplotlib.colors.LinearSegmentedColormap.from_list("light_blue", ["#E8F0FB", "#8FB3E8"])
+_ramp = matplotlib.colors.LinearSegmentedColormap.from_list("light_blue", ["#DCE8F8", "#5E8FD8"])
 PERIODS = [   # (이름, 시작, 끝, 색: 연한 파랑만, 이른 시기 연함 → 늦은 시기 조금 진함. 선이 주인공이라 면은 배경)
     (name, lo, hi, matplotlib.colors.to_hex(_ramp(k / 4)))
     for k, (name, lo, hi) in enumerate([("1990년 전", -np.inf, 1989), ("1990~2013", 1990, 2013),
@@ -94,7 +94,7 @@ Y_HI = ROB.transform_point(0, 84, PC)[1]
 for t in SNAPS:
     done = yr <= t
     fig = plt.figure(figsize=(13, 7.2), facecolor=SURF)
-    ax = fig.add_axes([0.01, 0.13, 0.98, 0.73], projection=ROB)
+    ax = fig.add_axes([0.01, 0.135, 0.98, 0.745], projection=ROB)
     ax.set_facecolor(SURF)
     ax.spines["geo"].set_visible(False)
     ax.set_global()
@@ -125,22 +125,23 @@ for t in SNAPS:
     # 작은 나라 점 (면이 안 보이는 섬나라 등)
     small = [c for c in nodes.index if done[c] and (c not in area or area[c] < SMALL)]
     for c in small:
-        ax.scatter(lon[c], lat[c], s=18, color=period_color(yr[c]), edgecolor="#8FB3E8", lw=0.6, transform=PC, zorder=4)
+        ax.scatter(lon[c], lat[c], s=18, color=period_color(yr[c]), edgecolor="#5E8FD8", lw=0.6, transform=PC, zorder=4)
 
     n_ana = int((ana.year_imp <= t).sum())
     fig.text(0.015, 0.955, f"{t}년까지 설탕세를 도입한 나라: 1990년 이후 {n_ana}개국 (+1990년 전 {n_before}개국)",
-             fontsize=15, fontweight="bold", color=INK, va="top")
-    fig.text(0.015, 0.905, f"색 = 도입 시기 (진할수록 늦게 도입)  ·  선 = 둘 다 도입한 육상 국경 쌍 {n_both}개",
+             fontsize=15, fontweight="semibold", color=INK, va="top")
+    fig.text(0.015, 0.905, f"색이 진할수록 늦게 도입  ·  주황 선 = 둘 다 도입한 육상 국경 쌍 {n_both}개",
              fontsize=11, color=INK2, va="top")
 
+    # 범례: 지도 아래 한 줄 (도입 시기 + 안 함 + 국경 선). 지도 안에 두면 섬나라 점을 가림
     handles = [Patch(facecolor=col, edgecolor="none", label=name) for name, lo, _, col in PERIODS if lo <= t]
-    handles += [Patch(facecolor=NONE_FILL, edgecolor=NONE_EDGE, label=f"{t}년까지 안 함"),
-                Line2D([], [], color=LINE, lw=1.2, alpha=0.7, marker="o", ms=3.5, markeredgewidth=0, label="국경, 둘 다 도입"),
-                Line2D([], [], color=LINE, lw=0.9, alpha=0.35, ls=(0, (3, 3)), label=f"긴 국경선 (경도 차 {LONG}도 넘음)")]
-    fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.055), ncol=len(handles),
-               frameon=False, fontsize=9.5, handlelength=1.6, columnspacing=1.4)
+    handles += [Patch(facecolor=NONE_FILL, edgecolor=NONE_EDGE, label="안 함"),
+                Line2D([], [], color=LINE, lw=1.2, alpha=0.7, marker="o", ms=3.5, markeredgewidth=0, label="국경 (둘 다 도입)")]
+    fig.text(0.015, 0.104, "도입 시기", fontsize=10, color=INK, va="center", fontweight="semibold")
+    fig.legend(handles=handles, loc="center left", bbox_to_anchor=(0.07, 0.104), ncol=len(handles),
+               frameon=False, fontsize=9.5, handlelength=1.4, columnspacing=1.3, borderaxespad=0)
     fig.text(0.015, 0.012,
-             "폐지한 나라도 도입 색 그대로 칠함 (덴마크 2014, 노르웨이 2021, 이스라엘 2023 폐지).  "
+             f"점선 = 경도 차 {LONG}도 넘는 긴 국경선.  폐지한 나라도 도입 색 그대로 칠함 (덴마크 2014, 노르웨이 2021, 이스라엘 2023 폐지).  "
              "'국경 쌍' = 두 나라 다 도입한 육상 국경 쌍 수 (도입국 수와 다른 숫자).  선은 '연결'이지 '영향'이 아님\n"
              "자료: World Bank Global SSB Tax Database (2023년 8월판) + 폐지·누락 보충 (data/raw/manual_adoptions.csv).  "
              "국경·대표점: countries.json.  지도: Natural Earth 1:50m",
