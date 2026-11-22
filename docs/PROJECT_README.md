@@ -55,6 +55,7 @@ python analysis/stage2.py                       # 7. 2단계: 겹침 6×6, 각 �
 python analysis/stage2_region_split.py          #    2단계 보충: 대륙・지역기구・국경 겹침 분리 (A, stage2.py 다음)
 python analysis/stage2_continent_check.py       #    2단계 보충: 대륙 효과 점검 (대륙별・나라 가중・정의 점검 + 그림, A, stage2.py 다음)
 python analysis/validation/conditional_continent.py  # 8. V2: 대륙 안에서만 섞기, 지역기구・국경・소지역・무역・소득 (2~5 다 끝난 뒤)
+python analysis/validation/conditional_figure.py   #     V2 그림 → figures/v2_대륙안섞기.png (A, 몇 초)
 python analysis/stage2_1.py                     # 9. 2-1단계: 다른 대륙 쌍만 1단계 + 따라 함 1~3년 (B, 2~5 다 끝난 뒤)
 python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실제 vs 가짜, 언어・식민 (B)
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
