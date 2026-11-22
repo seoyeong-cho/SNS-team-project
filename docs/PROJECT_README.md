@@ -1,20 +1,24 @@
 # 🍫 설탕세 프로젝트 통합 README
 
-저장소 안의 README・규칙 문서 10개를 한 파일로 모은 것 (2026-11-17). 폴더별 README는 이 파일로 옮기고 삭제함. 각 장 첫 줄에 원래 위치를 적음.
+저장소 안의 README・규칙 문서 10개를 한 파일로 모은 것 (2026-11-17). 폴더별 README는 이 파일로 옮기고 삭제함. 각 장 첫 줄에 합치기 전 위치를 적음 (지금은 없는 파일).
 내용은 그대로 옮김 (제목 단계만 한 칸씩 내림). 루트 `README.md`, `CONTRIBUTING.md`는 아직 남아 있으니 **그 둘을 고치면 이 파일 1・2장도 같이 고칠 것.** 나머지는 이제 이 파일이 원본.
 
 ## 목차
 
-1. 프로젝트 개요 — `README.md`
-2. 협업 규칙 — `CONTRIBUTING.md`
-3. 원본 데이터 — `data/raw/README.md`
-4. 언어 + 식민 (B) — `layers/language/README.md`
-5. 소득 (C) — `layers/income/README.md`
-6. 무역 (D) — `docs/layers/trade.md`
-7. 통합 분석 — `analysis/README.md`
-8. 추가 검증 계획 — `analysis/validation/README.md`
-9. 파일럿 코드 — `pilot/README.md`
-10. 문서 폴더 안내 — `docs/README.md`
+| 장 | 원본 | 자세한 문서 |
+|---|---|---|
+| [1. 프로젝트 개요](#1-프로젝트-개요) | 루트 `README.md` (같이 고침) | |
+| [2. 협업 규칙](#2-협업-규칙) | 루트 `CONTRIBUTING.md` (같이 고침) | |
+| [3. 원본 데이터](#3-원본-데이터) | 이 파일 | |
+| [4. 언어 + 식민 (B)](#4-언어--식민-b) | 이 파일 | `docs/layers/language.md` |
+| [5. 소득 (C)](#5-소득-c) | 이 파일 | `docs/layers/income.md` |
+| [6. 무역 (D)](#6-무역-d) | 이 파일 | `docs/layers/trade.md` |
+| [7. 통합 분석](#7-통합-분석) | 이 파일 | `docs/analysis/*.md` |
+| [8. 추가 검증 계획](#8-추가-검증-계획) | 이 파일 | `docs/analysis/validation.md` |
+| [9. 파일럿 코드](#9-파일럿-코드) | 이 파일 | |
+| [10. 문서 폴더 안내](#10-문서-폴더-안내) | 이 파일 | `docs/DIRECTORY_SPEC.md` |
+
+각 장 첫 줄의 '원래 위치'는 11/17 합치기 전 경로. 1・2장 말고는 그 파일들 이제 없음
 
 ---
 
@@ -70,7 +74,6 @@ python analysis/validation/sensitivity.py       # 12. V4: 동일 가중, 그룹 
 - 1번이 바뀌면 2~8 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6~8번만 다시
 - 가짜 세계는 seed 고정 → 다시 돌려도 CSV가 커밋된 것과 같아야 함 (그림 PNG는 matplotlib 버전 따라 바이트만 다를 수 있음). 달라지면 PR에 적기
 - 검증한 버전 (11/22, 커밋된 CSV가 이 환경에서 나옴): Python 3.14, pandas 3.0.3, numpy 2.4.6, networkx 3.6.1, openpyxl 3.1.5, scipy 1.18.0, matplotlib 3.11.0. `requirements.txt`는 최소 버전(>=)만 둠 → 결과가 다르면 먼저 버전부터 맞춰 봄
-- 2-1단계・3단계(`analysis/`)는 브랜치 합쳐지면 여기 추가
 
 #### 폴더 구조
 
