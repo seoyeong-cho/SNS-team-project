@@ -197,13 +197,14 @@ c_all = main[(main.model == "main") & (main.version == "all") & (main.shuffle ==
 share = pd.read_csv(ROOT / "analysis" / "stage2_continent_share.csv").set_index(["version", "layer"])
 c_14 = share.loc[("since2014", "colony")]
 
+OTHER_COL = "#1e3a8a"   # 다른 종주국 선: 영국 그룹 주황과 대비되는 짙은 남색 (11/22)
 fig, ax = plt.subplots(figsize=(10.5, 8.2), facecolor="white")
 ax.set_facecolor("white")
 for a, b in H.edges:
     g = tuple(sorted((a, b))) in gbr_pairs
     (x1, y1), (x2, y2) = hpos[a], hpos[b]
-    ax.plot([x1, x2], [y1, y2], color="#c2410c" if g else "#b5b3ad", alpha=0.18 if g else 0.35,
-            lw=0.6, zorder=2 if g else 1, solid_capstyle="round")
+    ax.plot([x1, x2], [y1, y2], color="#c2410c" if g else OTHER_COL, alpha=0.18 if g else 0.5,
+            lw=0.6 if g else 0.8, zorder=2 if g else 1, solid_capstyle="round")
 for ct in CONT:
     ns = [n for n in H if cont[n] == ct]
     xs, ys = zip(*[hpos[n] for n in ns])
@@ -222,7 +223,7 @@ ax.axis("off")
 ax.set_xlim(-5.8, 5.8)
 ax.set_ylim(-5.6, 5.6)
 handles = [Line2D([], [], color="#c2410c", lw=1.4, alpha=0.6, label="영국 그룹 (영국과 옛 식민지, 옛 식민지끼리)"),
-            Line2D([], [], color="#c9c8c2", lw=1.4, label="다른 종주국 그룹")]
+            Line2D([], [], color=OTHER_COL, lw=1.4, alpha=0.7, label="다른 종주국 그룹")]
 fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.1), ncol=2, frameon=False, fontsize=9.5,
            columnspacing=1.4, handletextpad=0.4)
 fig.text(0.015, 0.965, f"식민 계층: 도입국 {H.number_of_nodes()}개국, 쌍 {H.number_of_edges()}개 중 영국 그룹 {len(gbr_pairs)}개",
