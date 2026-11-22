@@ -13,8 +13,8 @@
 
 | 선택지 | 역할 | 내 폴더 |
 |---|---|---|
-| 서영 (A) | 지역 + 지역기구, 2단계, 통합・슬라이드 합치기 | `layers/region/`, `src/`, `data/processed/`, `analysis/stage2*` |
-| 서현 (B) | 언어 + 식민, 2-1단계, 확산 경로, V1 | `layers/language/`, `analysis/stage2_1*`, `analysis/stage3_paths*` |
+| 서영 (A) | 지역 + 지역기구, 2단계, 통합・슬라이드 합치기, 발표(앞부분) | `layers/region/`, `src/`, `data/processed/`, `analysis/stage2*` |
+| 서현 (B) | 언어 + 식민, 2-1단계, 확산 경로, V1, 발표(뒷부분) | `layers/language/`, `analysis/stage2_1*`, `analysis/stage3_paths*` |
 | 수정 (C) | 소득, 연도 검증, 확산 곡선・지도 스냅샷, V4 | `layers/income/` |
 | 승아 (D) | 무역, 계층 비교표, 예시 그림, 분야별 지도 겹치기, V3 | `layers/trade/` |
 
@@ -75,6 +75,8 @@
 - 미도입 = "2023년까지 안 함"
 - p < 0.01 "뚜렷함", 0.01~0.05 "약함". 검사를 많이 했으니 0.03 근처 하나에 큰 의미 두지 않음
 - 국경・무역 효과는 연도 불확실한 19개국에 기댐 (`docs/analysis/exclude_checked.md`) → 이 한계와 같이 말함
+- 따라 함(`follow_test`) 결과는 "따라 함 없음"이라고 쓰지 않음 → **"강한 따라 함은 없음, 약한 따라 함은 배제 못 함"** (V1: 이웃 도입 후 확률 2배 정도면 34%만 잡음, `docs/analysis/validation.md` 2장)
+- 1단계・따라 함 결과는 **전체 섞기(basic)와 대륙 안 섞기를 나란히** 보여 줌. 둘 다 보정 후 0.05 미만이면 "남음", 하나만이면 "약한 힌트" (11/22 팀 결정. V1: 대륙별 시기 차이만 있어도 basic 따라 함은 18%가 잘못 나옴 → 대륙 안은 3%)
 
 ## 3. 끝낼 때
 
