@@ -27,7 +27,6 @@ python layers/income/exclude46.py         # 검증 대상 나라를 뺀 1단계 
 | `result_income_excl{46,60}.csv`, `robustness_income_excl{46,60}.csv` | 연도 검증 대상 나라를 연도 비교에서 뺀 1단계・강건성 | 다른 계층과 같음 |
 | `year_check_A.csv`, `year_check_C.csv` → `year_check.csv` | 46개국 도입 연도 검증 (A 22개국 + C 24개국) | 아래 '연도 검증' |
 | `year_check_14.csv` | 추가로 의심된 14개국 검증 | 위와 같음 |
-| `fonts/` | 그림 글꼴 Pretendard Regular・Bold + `LICENSE.txt` (SIL OFL 1.1, v1.3.9). `curves_maps.py`・`analysis/validation/sensitivity.py`가 설치 없이 이 파일로 그림 | |
 | `curves_maps.py` | 3단계 발표용 그림 2종 → `figures/stage3_전체_확산곡선.png`, `stage3_그룹별_확산곡선.png` | 아래 '3단계 그림' |
 | `colombia_check.py` → `colombia_check.csv` | 콜롬비아(2023년 11월)를 넣었을 때 1단계 민감도 (메모리에서만) | `layer, version, n_adopters, n_pairs, mean_gap_real, mean_gap_fake_avg, p` |
 

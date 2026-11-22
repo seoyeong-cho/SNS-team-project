@@ -25,6 +25,20 @@ R = 1000           # 가짜 세계 개수
 Y_MIN, Y_MAX = 1990, 2023   # 연도 비교 대상: 이 기간 도입국 (112개국)
 
 
+# ---------- 그림 글꼴 ----------
+FONT_DIR = ROOT / "src" / "fonts"   # Pretendard Regular・Bold (SIL OFL 1.1, LICENSE.txt). 설치 안 해도 됨
+
+
+def use_font():
+    """그림 글꼴을 저장소의 Pretendard로. 모든 그림 스크립트가 plt 쓰기 전에 한 번 부름 → 누구 컴퓨터에서나 같은 글꼴"""
+    import matplotlib.pyplot as plt
+    from matplotlib import font_manager
+    for f in FONT_DIR.glob("Pretendard-*.otf"):
+        font_manager.fontManager.addfont(str(f))
+    plt.rcParams["font.family"] = "Pretendard"
+    plt.rcParams["axes.unicode_minus"] = False
+
+
 # ---------- 노드 ----------
 def load_nodes(path=NODES_PATH):
     """204개국 표. 열: iso3, name, un_member, adopter, year_imp, in_analysis"""

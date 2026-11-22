@@ -23,7 +23,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
-from matplotlib import font_manager  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -32,10 +31,10 @@ ROOT = Path(__file__).resolve().parents[2]
 FIG = ROOT / "figures"
 INK, MUTED, GRID, BAND, ACCENT = "#1d1d1f", "#6e6e73", "#e8e8ed", "#ececf1", "#2a6fdb"
 
-# 글꼴: Pretendard (OFL, layers/income/fonts/). 설치 안 해도 저장소 파일로 똑같이 그려짐
-for _f in (ROOT / "layers" / "income" / "fonts").glob("Pretendard-*.otf"):
-    font_manager.fontManager.addfont(str(_f))
-plt.rcParams["font.family"] = "Pretendard"
+sys.path.append(str(ROOT / "src"))
+from common import use_font  # noqa: E402
+
+use_font()   # 저장소 src/fonts/ Pretendard (공용, 11/22)
 plt.rcParams.update({"axes.unicode_minus": False, "axes.spines.top": False, "axes.spines.right": False,
                      "axes.edgecolor": "#86868b", "xtick.color": MUTED, "ytick.color": MUTED, "font.size": 10})
 

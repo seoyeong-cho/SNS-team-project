@@ -30,7 +30,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(ROOT / "src"))
-from common import R, SEED, _pair_index, _shuffles, load_nodes  # noqa: E402
+from common import R, SEED, _pair_index, _shuffles, load_nodes, use_font  # noqa: E402
 
 L = ROOT / "layers"
 OUT = ROOT / "analysis" / "validation"
@@ -179,12 +179,8 @@ print(f"저장: analysis/validation/sensitivity_summary.csv ({len(out)}행), gro
 import matplotlib  # noqa: E402
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib import font_manager  # noqa: E402
 
-# 글꼴: Pretendard (OFL, layers/income/fonts/). 설치 안 해도 저장소 파일로 똑같이 그려짐
-for _f in (ROOT / "layers" / "income" / "fonts").glob("Pretendard-*.otf"):
-    font_manager.fontManager.addfont(str(_f))
-plt.rcParams["font.family"] = "Pretendard"
+use_font()   # 저장소 src/fonts/ Pretendard (공용, 11/22)
 plt.rcParams["axes.unicode_minus"] = False
 KO = dict(continent="대륙", subregion="소지역", border="국경", igo="지역기구", language="언어", colony="식민",
           income="소득", trade3="무역 k=3", trade5="무역 k=5", trade10="무역 k=10")
