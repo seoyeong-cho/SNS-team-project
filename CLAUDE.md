@@ -13,8 +13,8 @@
 
 | 선택지 | 역할 | 내 폴더 |
 |---|---|---|
-| 서영 (A) | 지역 + 지역기구, 2단계, 통합・슬라이드 합치기 | `layers/region/`, `src/`, `data/processed/`, `analysis/stage2*` |
-| 서현 (B) | 언어 + 식민, 2-1단계, 확산 경로, V1 | `layers/language/`, `analysis/stage2_1*`, `analysis/stage3_paths*` |
+| 서영 (A) | 지역 + 지역기구, 2단계, 통합・슬라이드 합치기, 발표(앞부분) | `layers/region/`, `src/`, `data/processed/`, `analysis/stage2*` |
+| 서현 (B) | 언어 + 식민, 2-1단계, 확산 경로, V1, 발표(뒷부분) | `layers/language/`, `analysis/stage2_1*`, `analysis/stage3_paths*` |
 | 수정 (C) | 소득, 연도 검증, 확산 곡선・지도 스냅샷, V4 | `layers/income/` |
 | 승아 (D) | 무역, 계층 비교표, 예시 그림, 분야별 지도 겹치기, V3 | `layers/trade/` |
 
