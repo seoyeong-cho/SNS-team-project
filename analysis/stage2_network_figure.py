@@ -3,17 +3,19 @@
 실행: python analysis/stage2_network_figure.py   (stage2.py・stage2_continent_check.py・stage2_1.py 다음, 몇 초)
 설명: docs/analysis/stage2.md '네트워크 그림'
 
-그림 1  figures/stage2_가중치네트워크_실제vs가짜.png
+그림 1  figures/stage2_가중치네트워크.png
   - analysis/stage2_pairs.csv 도입국 쌍(both_adopters = 1) 중 n_shared >= K (6개 분야 중 같은 그룹인 수)
-  - 왼쪽 = 실제 도입 연도 색, 오른쪽 = 같은 배치에 가짜 세계 하나의 연도 색 (도입국끼리 연도 섞기, common.SEED)
-  - 배치: 대륙마다 원 위 한 자리에 모으고 그 안에서 spring (seed 42)
-  - 아래 설명 숫자: analysis/stage2_shared_count.csv (all) 그대로 읽음
+  - 왼쪽 = 실제 네트워크 (구조). 노드 색 2010~2023 + '2010 전' 한 칸. 배치: 대륙마다 원 위 한 자리 + 그 안에서 spring (seed 42)
+  - 오른쪽 = 이 쌍들의 평균 도입 연도 차이 순열분포 (결과). common.stage1 + 같은 가짜 세계(SEED, R) 분포
+    → analysis/stage2_network_figure.csv (world 0 = 실제, 1~1000 = 가짜), 그림은 이 CSV에서 읽음
+  - 확인: 실제 평균 = stage2_shared_count.csv 3개・4개 이상 쌍 수 가중평균 (K = 3일 때, 다르면 멈춤)
+  - 아래 한 줄: stage2_shared_count.csv 2개 줄
 그림 2  figures/stage2_식민네트워크.png
   - layers/language/layer_colony_edges.csv, 도입국끼리만. 노드 색 = 대륙, 영국 그룹(colony_GBR・samecol_GBR) 선만 진하게
   - 아래 설명 숫자: analysis/stage2_share.csv (main・all・basic, 2단계 본 결과), analysis/stage2_1_results.csv (다른 대륙 쌍만, 영국 빼기),
     analysis/stage2_continent_share.csv (2014년 이후만)
 
-- 검정 새로 안 함. 기존 CSV만 읽음 → 결과 CSV 변화 없음
+- 기존 결과 CSV는 안 바꿈. 새 CSV는 analysis/stage2_network_figure.csv 하나
 - 선은 '같은 그룹'이지 '영향'이 아님
 """
 import json
@@ -33,7 +35,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT / "src"))
-from common import SEED, _shuffles, analysis_countries, load_nodes, use_font  # noqa: E402
+from common import R, SEED, _pair_index, _shuffles, analysis_countries, load_nodes, stage1, use_font  # noqa: E402
 
 use_font()
 FIG = ROOT / "figures"
@@ -89,81 +91,134 @@ def p_txt(p):
     return f"p {p:.3f}" if p >= 0.001 else "p < 0.001"
 
 
-# ---------- 그림 1. 가중치 네트워크: 실제 vs 가짜 ----------
+# ---------- 그림 1. 가중치 네트워크 (왼쪽 구조) + 순열분포 (오른쪽 결과) ----------
 pairs = pd.read_csv(ROOT / "analysis" / "stage2_pairs.csv")
 E = pairs[(pairs.both_adopters == 1) & (pairs.n_shared >= K)]
 G = nx.Graph()
 G.add_weighted_edges_from(E[["src", "dst", "n_shared"]].itertuples(index=False))
 pos = continent_layout(G)
+real = dict(zip(ac, year.loc[ac].to_numpy()))
 
-y_real = year.loc[ac].to_numpy()
-y_fake = next(_shuffles(y_real, r=1, seed=SEED))          # 가짜 세계 하나 (1단계와 같은 섞기, 첫 번째)
-fake = dict(zip(ac, y_fake))
-real = dict(zip(ac, y_real))
-gap_real = float(np.mean([abs(real[a] - real[b]) for a, b in G.edges]))
-gap_fake = float(np.mean([abs(fake[a] - fake[b]) for a, b in G.edges]))
-
+# 숫자: common.stage1 (쌍 전체 한 묶음) + 같은 가짜 세계(SEED, R, 도입국끼리 연도 섞기)의 분포 → CSV
+edges = E[["src", "dst"]].assign(group=f"n_shared>={K}")
+s1 = stage1(edges, nodes, by_group=False).iloc[0]
+ac_i, pidx, e_i = _pair_index(edges, nodes)
+i, j = e_i.src.map(pidx).to_numpy(), e_i.dst.map(pidx).to_numpy()
+y = nodes.loc[ac_i, "year_imp"].to_numpy(float)
+gap_real = float(np.abs(y[i] - y[j]).mean())
+dist = np.array([np.abs(ys[i] - ys[j]).mean() for ys in _shuffles(y, R, SEED)])
+p_dist = (np.sum(dist <= gap_real) + 1) / (R + 1)
+assert round(gap_real, 2) == s1.mean_gap_real and round(dist.mean(), 2) == s1.mean_gap_fake_avg and round(p_dist, 4) == s1.p, \
+    "순열분포가 stage1과 다름"
 sc = pd.read_csv(ROOT / "analysis" / "stage2_shared_count.csv")
 sc = sc[sc.version == "all"].set_index("n_shared")
+if K == 3:   # 확인: 3개(387쌍)・4개 이상(232쌍) 줄의 쌍 수 가중평균과 같아야 함
+    w = sc.loc[["3", "4+"]]
+    chk = float((w.n_pairs * w.mean_gap_real).sum() / w.n_pairs.sum())
+    assert int(w.n_pairs.sum()) == len(i) and abs(chk - gap_real) < 0.01, f"실제 평균 {gap_real:.3f} ≠ 가중평균 {chk:.3f}"
+out_csv = ROOT / "analysis" / "stage2_network_figure.csv"
+pd.concat([
+    pd.DataFrame(dict(world=[0], kind="real", n_pairs=len(i), n_countries=G.number_of_nodes(), mean_gap=[round(gap_real, 4)],
+                      mean_gap_fake_avg=[round(dist.mean(), 4)], p=[round(p_dist, 4)])),
+    pd.DataFrame(dict(world=np.arange(1, R + 1), kind="fake", n_pairs=len(i), n_countries=G.number_of_nodes(),
+                      mean_gap=np.round(dist, 4))),
+]).to_csv(out_csv, index=False)
 
-fig, axes = plt.subplots(1, 2, figsize=(13, 6.9), facecolor="white")
-norm = matplotlib.colors.Normalize(Y0, Y1)
-for ax, yrs, title in [(axes[0], real, f"실제 도입 연도  ·  선으로 이은 쌍 평균 차이 {gap_real:.1f}년"),
-                       (axes[1], fake, f"가짜 세계 하나 (연도만 섞음)  ·  평균 차이 {gap_fake:.1f}년")]:
-    ax.set_facecolor("white")
-    for a, b, d in G.edges(data=True):
-        (x1, y1), (x2, y2) = pos[a], pos[b]
-        ax.plot([x1, x2], [y1, y2], color=EDGE, alpha=0.4, lw=0.5 + 0.45 * (d["weight"] - K), zorder=1,
-                solid_capstyle="round")
-    xs, ys = zip(*[pos[n] for n in G])
-    ax.scatter(xs, ys, s=34, c=[yrs[n] for n in G], cmap=YCMAP, norm=norm, lw=0, zorder=3)
-    for c in LABEL:          # 이름은 덩어리 바깥 옆(그림 바깥쪽)으로 빼고 가는 지시선 → 점과 안 겹치게
-        if c in pos:
-            xs_c = [pos[n][0] for n in G if cont[n] == cont[c]]
-            cx = np.mean(xs_c)
-            side = np.sign(cx) if abs(cx) > 0.5 else np.sign(pos[c][0] - cx)
-            tx = (max(xs_c) if side > 0 else min(xs_c)) + 0.35 * side
-            ty = pos[c][1]
-            if c in NUDGE:                                     # 두 덩어리 경계에 붙은 나라는 직접 위치
-                tx, ty = pos[c][0] + NUDGE[c][0], pos[c][1] + NUDGE[c][1]
-                side = np.sign(NUDGE[c][0])
-            ax.annotate(ko[c], pos[c], xytext=(tx, ty), textcoords="data", fontsize=9.5, color=INK, zorder=4,
-                        ha="left" if side > 0 else "right", va="center",
-                        arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6, shrinkA=0, shrinkB=2))
-    for k, ct in enumerate(CONT):
-        ang = np.pi / 2 - 2 * np.pi * k / len(CONT)
-        ax.text(5.7 * np.cos(ang), 5.5 * np.sin(ang), CONT_KO[ct], ha="center", va="center", fontsize=10, color=MUTED)
-    ax.set_title(title, loc="left", fontsize=11, color=INK, pad=2)
-    ax.set_aspect("equal")
-    ax.axis("off")
-    ax.set_xlim(-6.4, 6.4)
-    ax.set_ylim(-5.6, 6.0)
+# 그림은 CSV에서 읽음
+fc = pd.read_csv(out_csv)
+rr = fc[fc.kind == "real"].iloc[0]
+fk = fc.loc[fc.kind == "fake", "mean_gap"].to_numpy()
 
-cax = fig.add_axes([0.38, 0.135, 0.24, 0.018])
-cb = fig.colorbar(matplotlib.cm.ScalarMappable(norm=norm, cmap=YCMAP), cax=cax, orientation="horizontal")
+# 노드 색: 2010 전 한 칸 + 2010~2023 해마다 (도입국 절반이 2015~2018에 몰려서 범위를 좁힘)
+YRS = list(range(2010, 2024))
+cols = ["#e4e2dc"] + [matplotlib.colors.to_hex(c) for c in
+                      matplotlib.colors.LinearSegmentedColormap.from_list("y", ["#b9cff0", "#4f86d6", "#0b2e5e"])(np.linspace(0, 1, len(YRS)))]
+YC = matplotlib.colors.ListedColormap(cols)
+YN = matplotlib.colors.BoundaryNorm([2006.5] + [v - 0.5 for v in YRS] + [2023.5], YC.N)   # '2010 전' 칸은 3년 폭으로 넓게
+ycol = {n: 2008 if real[n] < 2010 else min(real[n], 2023) for n in G}
+
+fig = plt.figure(figsize=(14, 7.4), facecolor="white")
+gs = fig.add_gridspec(1, 2, width_ratios=[1.45, 1], left=0.01, right=0.985, top=0.83, bottom=0.16, wspace=0.06)
+ax = fig.add_subplot(gs[0])
+ax.set_facecolor("white")
+for a_, b_, d in G.edges(data=True):
+    (x1, y1), (x2, y2) = pos[a_], pos[b_]
+    ax.plot([x1, x2], [y1, y2], color=EDGE, alpha=0.4, lw=0.5 + 0.45 * (d["weight"] - K), zorder=1, solid_capstyle="round")
+xs, ys_ = zip(*[pos[n] for n in G])
+ax.scatter(xs, ys_, s=46, c=[ycol[n] for n in G], cmap=YC, norm=YN, lw=0.4, edgecolors="white", zorder=3)
+for c in LABEL:          # 이름은 덩어리 바깥 옆으로 빼고 가는 지시선
+    if c in pos:
+        xs_c = [pos[n][0] for n in G if cont[n] == cont[c]]
+        cx = np.mean(xs_c)
+        side = np.sign(cx) if abs(cx) > 0.5 else np.sign(pos[c][0] - cx)
+        tx = (max(xs_c) if side > 0 else min(xs_c)) + 0.35 * side
+        ty = pos[c][1]
+        if c in NUDGE:
+            tx, ty = pos[c][0] + NUDGE[c][0], pos[c][1] + NUDGE[c][1]
+            side = np.sign(NUDGE[c][0])
+        ax.annotate(ko[c], pos[c], xytext=(tx, ty), textcoords="data", fontsize=10, color=INK, zorder=4,
+                    ha="left" if side > 0 else "right", va="center",
+                    arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6, shrinkA=0, shrinkB=2))
+allxy = np.array([pos[n] for n in G])
+mid = allxy.mean(axis=0)
+lab_xy = []
+for ct in CONT:          # 대륙 글자: 그 대륙 노드 무게중심에서 전체 중심 반대쪽(바깥)으로, 덩어리 끝 + 여백
+    xy = np.array([pos[n] for n in G if cont[n] == ct])
+    if not len(xy):
+        continue
+    cen = xy.mean(axis=0)
+    u = (cen - mid) / max(np.linalg.norm(cen - mid), 1e-9)
+    reach = max(float(((xy - cen) @ u).max()), 0.3)
+    lx, ly = cen + u * (reach + 0.75)
+    ax.text(lx, ly, CONT_KO[ct], ha="center", va="center", fontsize=11, color=MUTED, fontweight="bold")
+    lab_xy.append((lx, ly))
+bb = np.vstack([allxy, lab_xy])
+ax.set_aspect("equal")
+ax.axis("off")
+ax.set_xlim(bb[:, 0].min() - 0.9, bb[:, 0].max() + 0.9)
+ax.set_ylim(bb[:, 1].min() - 0.4, bb[:, 1].max() + 0.4)
+ax.set_title(f"실제 네트워크: 도입국 {G.number_of_nodes()}개국, 쌍 {G.number_of_edges()}개 (선 굵기 = 같은 그룹인 분야 수)",
+             loc="left", fontsize=11, color=INK, pad=10)
+cax = fig.add_axes([0.16, 0.085, 0.27, 0.018])
+cb = fig.colorbar(matplotlib.cm.ScalarMappable(norm=YN, cmap=YC), cax=cax, orientation="horizontal", spacing="proportional")
 cb.outline.set_visible(False)
-cb.set_ticks([1990, 2000, 2010, 2020])
+cb.set_ticks([2008, 2010, 2015, 2020, 2023])
+cb.set_ticklabels(["2010 전", "2010", "2015", "2020", "2023"])
 cb.ax.tick_params(labelsize=8.5, colors=INK2, length=0)
 cax.set_title("도입 연도 (진할수록 늦게)", fontsize=9, color=INK2, pad=4)
 
-shared_line = "  ·  ".join(
-    f"{str(k).rstrip('+')}개{' 이상' if '+' in str(k) else ''} {sc.loc[k, 'mean_gap_real']:.2f}년 vs 가짜 {sc.loc[k, 'mean_gap_fake_avg']:.2f}년 ({p_txt(sc.loc[k, 'p'])})"
-    for k in sc.index if str(k) != "0")
-n_ana = len(ac)
-fig.text(0.015, 0.965, f"6개 분야에서 {K}개 이상 같은 그룹인 도입국 쌍 {G.number_of_edges()}개 ({G.number_of_nodes()}개국)",
-         fontsize=14, fontweight="bold", color=INK, va="top")
-fig.text(0.015, 0.92, "선으로 이어진 나라끼리 도입 시기가 비슷한지 봄. 색만으로는 양쪽 차이가 잘 안 보임 → 제목의 평균 차이(실제 vs 가짜)와 아래 숫자로 읽을 것",
-         fontsize=10, color=INK2, va="top")
-fig.text(0.015, 0.012,
-         f"같은 그룹인 분야 수별 평균 도입 연도 차이 (가짜 세계 1,000개 평균, analysis/stage2_shared_count.csv):  {shared_line}\n"
-         f"6개 분야 = 대륙・지역기구・언어・식민・소득・무역(k = 5). 1990~2023년 도입 {n_ana}개국 중 {K}개 이상 겹친 상대가 없는 {n_ana - G.number_of_nodes()}개국은 안 그림. "
-         "선 굵기 = 같은 그룹인 분야 수. 같은 그룹끼리 도입 시기가 비슷했다는 뜻이지 따라 했다는 뜻이 아님",
-         fontsize=8, color=MUTED, va="bottom", linespacing=1.6)
-fig.subplots_adjust(left=0.01, right=0.99, top=0.84, bottom=0.17, wspace=0.03)
-out1 = FIG / "stage2_가중치네트워크_실제vs가짜.png"
+# 오른쪽: 순열분포 (stage2_대륙별_순열분포.png와 같은 색・선)
+FILL, LINE = "#d5d3cc", "#e34948"
+bx = fig.add_subplot(gs[1])
+bx.set_facecolor("white")
+lo, hi = min(fk.min(), rr.mean_gap), max(fk.max(), rr.mean_gap)
+bins = np.linspace(np.floor(lo * 2) / 2, np.ceil(hi * 2) / 2, 41)
+h, _, _ = bx.hist(fk, bins=bins, color=FILL, edgecolor="white", linewidth=1)
+bx.vlines(rr.mean_gap, 0, h.max() * 1.1, color=LINE, lw=2.2)
+bx.set_ylim(0, h.max() * 1.55)
+bx.text(rr.mean_gap, h.max() * 1.13, f"실제 {rr.mean_gap:.2f}년", color=LINE, fontsize=11, fontweight="bold", ha="center", va="bottom")
+bx.text(0.98, 0.97, f"가짜 세계 1,000개 평균 {rr.mean_gap_fake_avg:.2f}년\n{p_txt(rr.p)} → 우연보다 가까움" if rr.p < 0.05 else
+        f"가짜 세계 1,000개 평균 {rr.mean_gap_fake_avg:.2f}년\n{p_txt(rr.p)}",
+        transform=bx.transAxes, ha="right", va="top", fontsize=10, color=INK2, linespacing=1.5)
+bx.set_title(f"이 {int(rr.n_pairs)}쌍의 평균 도입 연도 차이: 실제 vs 가짜", loc="left", fontsize=11, color=INK, pad=6)
+bx.set_xlabel("평균 도입 연도 차이 (년)  ·  회색 = 연도만 섞은 가짜 세계 1,000개, 빨간 선 = 실제", fontsize=9, color=INK2, labelpad=8)
+bx.set_yticks([])
+for sp in ["top", "right", "left"]:
+    bx.spines[sp].set_visible(False)
+bx.spines["bottom"].set_color(MUTED)
+bx.tick_params(colors=MUTED, labelsize=9)
+
+r2 = sc.loc["2"]
+fig.text(0.015, 0.965, "여러 분야에서 같은 그룹인 나라끼리는 도입 시기가 우연보다 가까웠음", fontsize=14, fontweight="bold", color=INK, va="top")
+fig.text(0.015, 0.92, f"왼쪽: 선 = 6개 분야 중 {K}개 이상 같은 그룹  /  오른쪽: 이 쌍들의 도입 연도 차이, 실제 vs 가짜 세계 1,000개",
+         fontsize=10.5, color=INK2, va="top")
+fig.text(0.015, 0.018, f"같은 그룹 분야가 2개 이상이면 우연보다 도입 시기가 가까움 (2개 {r2.mean_gap_real:.2f}년 vs {r2.mean_gap_fake_avg:.2f}년, {p_txt(r2.p)})",
+         fontsize=9.5, color=MUTED, va="bottom")
+out1 = FIG / "stage2_가중치네트워크.png"
 fig.savefig(out1, dpi=200, facecolor="white")
 plt.close(fig)
-print(f"그림 1: n_shared >= {K}, {G.number_of_edges()}쌍 {G.number_of_nodes()}개국, 선 평균 차이 실제 {gap_real:.2f} vs 가짜 하나 {gap_fake:.2f} → {out1.relative_to(ROOT)}")
+print(f"그림 1: n_shared >= {K}, {len(i)}쌍 {G.number_of_nodes()}개국, 실제 {gap_real:.3f} vs 가짜 평균 {dist.mean():.3f}, p {p_dist:.4f}"
+      f" → {out1.relative_to(ROOT)}, {out_csv.relative_to(ROOT)}")
 
 # ---------- 그림 2. 식민 계층 ----------
 col = pd.read_csv(ROOT / "layers" / "language" / "layer_colony_edges.csv")
