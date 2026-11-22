@@ -180,6 +180,7 @@ for c in LABEL:          # 이름은 덩어리 바깥 옆으로 빼고 가는 �
             side = np.sign(NUDGE[c][0])
         ax.annotate(ko[c], pos[c], xytext=(tx, ty), textcoords="data", fontsize=10, color=INK, zorder=4,
                     ha="left" if side > 0 else "right", va="center",
+                    bbox=dict(boxstyle="square,pad=0.15", fc="white", ec="none", alpha=0.9),   # 뒤 선이 글자에 겹쳐 '사우니'로 보임 → 흰 바탕
                     arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6, shrinkA=0, shrinkB=2))
 allxy = np.array([pos[n] for n in G])
 mid = allxy.mean(axis=0)
