@@ -39,6 +39,7 @@ python analysis/validation/sim_scenarios.py     # 11. V1: 가상 데이터 S0・
 - 3번: ICOW 식민 자료・countrycode 변환표는 재배포 금지라 git에 없음. 이 스크립트가 `layers/language/_external/`에 받아 옴 (git 제외). 빼먹으면 언어 `make_layer.py`가 `ICOW 없음`으로 멈춤
 - 1번이 바뀌면 2~8 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6~8번만 다시
 - 가짜 세계는 seed 고정 → 다시 돌려도 CSV가 커밋된 것과 같아야 함 (그림 PNG는 matplotlib 버전 따라 바이트만 다를 수 있음). 달라지면 PR에 적기
+- 검증한 버전 (11/22, 커밋된 CSV가 이 환경에서 나옴): Python 3.14, pandas 3.0.3, numpy 2.4.6, networkx 3.6.1, openpyxl 3.1.5, scipy 1.18.0, matplotlib 3.11.0. `requirements.txt`는 최소 버전(>=)만 둠 → 결과가 다르면 먼저 버전부터 맞춰 봄
 - 2-1단계・3단계(`analysis/`)는 브랜치 합쳐지면 여기 추가
 
 ## 폴더 구조
