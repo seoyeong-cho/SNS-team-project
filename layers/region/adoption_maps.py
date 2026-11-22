@@ -3,10 +3,10 @@
 실행: python layers/region/adoption_maps.py   (make_layer.py 다음. 처음 실행 때 인터넷 필요)
 설명 문서: docs/layers/region.md '도입 지도'
 
-- 나라 면을 도입 시기 색으로 칠함 (한 색 계열, 이른 시기 연함 → 늦은 시기 진함). 미도입 = 그 해까지 안 함 (연회색)
+- 나라 면을 도입 시기 색으로 칠함 (연한 파랑 #E8F0FB → #8FB3E8, 이른 시기 연함). 미도입 = 그 해까지 안 함 (빈칸)
 - 둘 다 도입한 육상 국경 쌍은 두 나라 대표점(countries.json latlng)을 잇는 선 + 끝에 점 (시간 네트워크).
-  거의 검정 + 흰 테두리라 진한 파랑 위에서도 보임.
-  경도 차 40도가 넘는 긴 국경선(러시아 등)은 테두리 없는 가는 회색 점선 → 큰 나라 하나가 '연결 중심'처럼 보이지 않게
+  면은 연한 파랑만, 선은 반대색 주황(#C2410C) → 선이 먼저 보임. 미도입은 바탕색 + 회색 테두리.
+  경도 차 40도가 넘는 긴 국경선(러시아 등)은 더 가늘고 흐린 점선 → 큰 나라 하나가 '연결 중심'처럼 보이지 않게
 - 면이 작은 섬나라(지도에서 안 보임)는 대표점에 같은 색 점을 더 찍음
 - 지도: Natural Earth 1:50m 나라 경계 (퍼블릭 도메인). cartopy가 처음 실행 때 받아서 캐시에 둠 (저장소에 안 넣음)
   나라 코드는 ADM0_A3 (ISO_A3는 프랑스・노르웨이가 -99). 남수단만 SDS → SSD
@@ -28,7 +28,6 @@ import pandas as pd
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
-from matplotlib import patheffects as pe  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
@@ -46,15 +45,14 @@ plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", 
 plt.rcParams["axes.unicode_minus"] = False
 
 INK, INK2, MUTED, SURF = "#0b0b0b", "#52514e", "#898781", "#fcfcfb"
-NONE_FILL, EDGE = "#e6e5e0", "#fcfcfb"
-LINE, LINE_LONG = "#1a1a19", "#9a9893"   # 국경 선: 거의 검정 + 흰 테두리 → 진한 파랑 위에서도 보임
-HALO = [pe.withStroke(linewidth=3.2, foreground="#fcfcfb")]
-PERIODS = [   # (이름, 시작, 끝, 색: 파랑 한 계열, 이른 시기 연함 → 늦은 시기 진함)
-    ("1990년 전", -np.inf, 1989, "#b7d3f6"),
-    ("1990~2013", 1990, 2013, "#6da7ec"),
-    ("2014~2016", 2014, 2016, "#2a78d6"),
-    ("2017~2019", 2017, 2019, "#1c5cab"),
-    ("2020~2023", 2020, 2023, "#0d366b"),
+NONE_FILL, EDGE, NONE_EDGE = "#fcfcfb", "#ffffff", "#c9c8c2"   # 미도입 = 바탕색 + 회색 테두리 (빈칸으로 읽힘)
+LINE = "#C2410C"   # 국경 선: 파랑의 반대색(주황), 얇게, 살짝 투명
+_ramp = matplotlib.colors.LinearSegmentedColormap.from_list("light_blue", ["#E8F0FB", "#8FB3E8"])
+PERIODS = [   # (이름, 시작, 끝, 색: 연한 파랑만, 이른 시기 연함 → 늦은 시기 조금 진함. 선이 주인공이라 면은 배경)
+    (name, lo, hi, matplotlib.colors.to_hex(_ramp(k / 4)))
+    for k, (name, lo, hi) in enumerate([("1990년 전", -np.inf, 1989), ("1990~2013", 1990, 2013),
+                                         ("2014~2016", 2014, 2016), ("2017~2019", 2017, 2019),
+                                         ("2020~2023", 2020, 2023)])
 ]
 SNAPS = [2014, 2017, 2019, 2023]
 LONG = 40          # 이 경도 차보다 긴 국경선은 점선
@@ -104,8 +102,9 @@ for t in SNAPS:
 
     # 나라 면
     for code, gs in shapes.items():
-        col = period_color(yr[code]) if code in nodes.index and done[code] else NONE_FILL
-        ax.add_geometries(gs, crs=PC, facecolor=col, edgecolor=EDGE, linewidth=0.3, zorder=1)
+        on = code in nodes.index and done[code]
+        ax.add_geometries(gs, crs=PC, facecolor=period_color(yr[code]) if on else NONE_FILL,
+                          edgecolor=EDGE if on else NONE_EDGE, linewidth=0.3, zorder=1 if not on else 2)
 
     # 둘 다 도입한 국경 쌍
     n_both = 0
@@ -117,17 +116,16 @@ for t in SNAPS:
         ends |= {a, b}
         long_line = abs(lon[a] - lon[b]) > LONG
         ax.plot([lon[a], lon[b]], [lat[a], lat[b]], transform=ccrs.Geodetic(), zorder=3,
-                color=LINE if not long_line else LINE_LONG, lw=1.3 if not long_line else 0.7,
-                ls="-" if not long_line else (0, (3, 3)), solid_capstyle="round",
-                path_effects=HALO if not long_line else None)   # 긴 선은 테두리 없이 가늘게 → 튀지 않게
+                color=LINE, lw=1.2 if not long_line else 0.7, alpha=0.7 if not long_line else 0.35,
+                ls="-" if not long_line else (0, (3, 3)), solid_capstyle="round")   # 긴 선은 더 가늘고 흐린 점선
     # 선 끝 = 나라 대표점 (네트워크의 노드)
     for c in ends:
-        ax.scatter(lon[c], lat[c], s=13, color=LINE, edgecolor=SURF, lw=0.8, transform=PC, zorder=5)
+        ax.scatter(lon[c], lat[c], s=10, color=LINE, lw=0, transform=PC, zorder=5)
 
     # 작은 나라 점 (면이 안 보이는 섬나라 등)
     small = [c for c in nodes.index if done[c] and (c not in area or area[c] < SMALL)]
     for c in small:
-        ax.scatter(lon[c], lat[c], s=16, color=period_color(yr[c]), edgecolor=SURF, lw=0.5, transform=PC, zorder=4)
+        ax.scatter(lon[c], lat[c], s=18, color=period_color(yr[c]), edgecolor="#8FB3E8", lw=0.6, transform=PC, zorder=4)
 
     n_ana = int((ana.year_imp <= t).sum())
     fig.text(0.015, 0.955, f"{t}년까지 설탕세를 도입한 나라: 1990년 이후 {n_ana}개국 (+1990년 전 {n_before}개국)",
@@ -136,9 +134,9 @@ for t in SNAPS:
              fontsize=11, color=INK2, va="top")
 
     handles = [Patch(facecolor=col, edgecolor="none", label=name) for name, lo, _, col in PERIODS if lo <= t]
-    handles += [Patch(facecolor=NONE_FILL, edgecolor="none", label=f"{t}년까지 안 함"),
-                Line2D([], [], color=LINE, lw=1.3, marker="o", ms=4, markeredgecolor=SURF, label="국경, 둘 다 도입"),
-                Line2D([], [], color=LINE_LONG, lw=0.9, ls=(0, (3, 3)), label=f"긴 국경선 (경도 차 {LONG}도 넘음)")]
+    handles += [Patch(facecolor=NONE_FILL, edgecolor=NONE_EDGE, label=f"{t}년까지 안 함"),
+                Line2D([], [], color=LINE, lw=1.2, alpha=0.7, marker="o", ms=3.5, markeredgewidth=0, label="국경, 둘 다 도입"),
+                Line2D([], [], color=LINE, lw=0.9, alpha=0.35, ls=(0, (3, 3)), label=f"긴 국경선 (경도 차 {LONG}도 넘음)")]
     fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.055), ncol=len(handles),
                frameon=False, fontsize=9.5, handlelength=1.6, columnspacing=1.4)
     fig.text(0.015, 0.012,
