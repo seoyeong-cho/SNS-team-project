@@ -40,7 +40,21 @@ def national(path):
 
 def main():
     ssb = national(RAW / "SSB-Tax-Database-Aug23.csv")
-    first = ssb.sort_values("year_imp", kind="stable").groupby("country_code").first()   # 나라별 첫 세금 행
+    # 같은 나라・같은 첫 해에 행이 여럿이고 값이 다르면 어느 행을 쓸지 여기서 정함 (파일 순서에 기대지 않음, #10)
+    # NCL 2017: health_obj 0 (관세법 + 일반소비세) vs 1 (일반소비세 법령만) → 0 (11/22 지금까지 결과 기준, 팀 확인 #10)
+    TIE_PICK = {"NCL": ("health_obj", 0)}
+    first_year = ssb.groupby("country_code").year_imp.transform("min")
+    for code, (col, val) in TIE_PICK.items():
+        ssb = ssb[~((ssb.country_code == code) & (ssb.year_imp == first_year) & (ssb[col] != val))]
+        first_year = ssb.groupby("country_code").year_imp.transform("min")
+    tied = ssb[ssb.year_imp == first_year]
+    tied = tied[tied.duplicated("country_code", keep=False)]
+    cols_used = ["year_imp", "income_group", "health_obj", "legislation"]
+    unclear = [c for c, g in tied.groupby("country_code") if (g[cols_used].nunique(dropna=False) > 1).any()]
+    if unclear:
+        raise ValueError(f"첫 해 행이 여럿이고 값이 다른 나라: {unclear} → TIE_PICK에 정하기")
+    # 나라별 첫 세금 행 (행 통째로. groupby().first()는 열마다 첫 비결측값을 골라 행이 섞일 수 있음)
+    first = ssb.sort_values("year_imp", kind="stable").drop_duplicates("country_code").set_index("country_code")
 
     budget_pat = re.compile(r"financ|budget|loi de finances|tax code|code g[ée]n[ée]ral|amend|modif", re.I)
     first["budget_year"] = [int(bool(budget_pat.search(str(r.legislation))) and str(int(r.year_imp)) in str(r.legislation))
