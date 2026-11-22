@@ -43,7 +43,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(ROOT / "src"))
-from common import SEED, Y_MAX, Y_MIN, follow_test, load_nodes, stage1  # noqa: E402
+from common import SEED, Y_MAX, Y_MIN, follow_test, load_nodes, stage1, use_font  # noqa: E402
 
 OUT = ROOT / "analysis" / "validation"
 FIG = ROOT / "figures" / "v1_가상데이터_검출비율.png"
@@ -173,11 +173,7 @@ def plot(rates):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from matplotlib import font_manager
-    have = {f.name for f in font_manager.fontManager.ttflist}
-    plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have),
-                                       "DejaVu Sans")
-    plt.rcParams["axes.unicode_minus"] = False
+    use_font()
     label = {"cont_stage1": "대륙 1단계", "lang_stage1": "언어 1단계", "lang_stage1_cont": "언어 1단계 (대륙 안)",
              "lang_follow": "언어 따라 함 1~3년", "lang_follow_cont": "언어 따라 함 1~3년 (대륙 안)"}
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.6), gridspec_kw={"width_ratios": [1.4, 1]})

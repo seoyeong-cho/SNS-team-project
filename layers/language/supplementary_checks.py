@@ -20,7 +20,7 @@ ROOT = HERE.parents[1]
 SUP = HERE / "supplementary"
 sys.path.append(str(ROOT / "src"))
 from common import (Y_MAX, Y_MIN, adoption_test, follow_test, group_curve,  # noqa: E402
-                    load_nodes, robustness, stage1)
+                    load_nodes, robustness, stage1, use_font)
 
 nodes = load_nodes()
 C = {x["cca3"]: x for x in json.load(open(ROOT / "data" / "raw" / "countries.json", encoding="utf-8"))}
@@ -132,11 +132,7 @@ def plot_curves(cur, inf):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from matplotlib import font_manager as fm
-    for name in ["Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans CJK KR", "NanumGothic"]:
-        if any(name in f.name for f in fm.fontManager.ttflist):
-            plt.rcParams["font.family"] = name
-            break
+    use_font()
     plt.rcParams.update({"axes.spines.top": False, "axes.spines.right": False, "axes.edgecolor": "#86868b",
                          "axes.labelcolor": "#424245", "xtick.color": "#6e6e73", "ytick.color": "#6e6e73",
                          "font.size": 10, "axes.unicode_minus": False})
