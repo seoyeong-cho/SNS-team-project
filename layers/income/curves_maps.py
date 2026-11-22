@@ -57,7 +57,7 @@ ax.step(yrs, cum, where="post", color=INK, lw=2)
 ax.axvline(mex, color=ACCENT, lw=1, ls="--")
 ax.text(mex - 0.3, 98, f"멕시코 {mex}년", ha="right", va="top", color=ACCENT, fontsize=9)
 ax.axvline(2016.75, color=ACCENT, lw=1, ls="--")
-ax.text(2016.95, 118, "WHO 권고 2016년 10월", ha="left", va="top", color=ACCENT, fontsize=9)
+ax.text(2016.95, 118, "WHO 권고\n2016년 10월", ha="left", va="top", color=ACCENT, fontsize=9)
 ax.text(2019.7, 30, f"← 2017~2019년\n    3년 동안 {n1719}개국", ha="left", color=INK, fontsize=9.5)
 ax.annotate(f"{cum[-1]}개국", (2023, cum[-1]), xytext=(5, -4), textcoords="offset points", ha="left", va="center", color=INK, fontsize=9.5)
 ax.set_title(f"설탕세 확산 곡선: 2017~2019년 3년 동안 {n1719}개국이 도입", loc="left", fontsize=12.5, fontweight="bold", color=INK)
@@ -82,12 +82,12 @@ STYLE = {"Arabic": ACCENT, "Spanish": "#8e8e93"}
 for g, col in STYLE.items():
     s, c = summ.loc[g], cur[cur.group == g]
     ax.step(c.year, c.cum_pct, where="post", color=col, lw=2.2,
-            label=f"{s.label}: {s.members}개국 중 {s.adopters_by_2023}개국 도입 (가운데 50% {s.iqr_years:g}년 안)")
+            label=f"{s.label}: {s.members}개국 중 {s.adopters_by_2023}개국 도입 (가운데 50%가 도입하는 데 {s.iqr_years:g}년)")
 a, s = summ.loc["Arabic"], summ.loc["Spanish"]
-ax.annotate(f"{a.label}: 중앙 {a.median_year:.0f}년\n가운데 50%가 {a.iqr_years:g}년 안에 도입 (급격)",
+ax.annotate(f"{a.label}: 중앙 {a.median_year:.0f}년\n가운데 50%가 도입하는 데 {a.iqr_years:g}년 (급격)",
             (2016.6, 11), xytext=(2003, 14), color=INK, fontsize=9, va="center",
             arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.8))
-ax.annotate(f"{s.label}: {s.first_year}년부터\n가운데 50%가 {s.iqr_years:g}년에 걸쳐 도입 (점진)",
+ax.annotate(f"{s.label}: {s.first_year}년부터\n가운데 50%가 도입하는 데 {s.iqr_years:g}년 (점진)",
             (1997, 21), xytext=(1991.5, 58), color=INK, fontsize=9, va="center",
             arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.8))
 ax.set_title("같은 언어권이라도 퍼진 모양이 다르다", loc="left", fontsize=12.5, fontweight="bold", color=INK)
