@@ -47,6 +47,7 @@ python layers/income/preprocess.py              # 4. 소득 등급 전처리 →
 python layers/income/make_layer.py              #    소득 계층 (C)
 python layers/income/merge_year_check.py        #    연도 검증 표 합치기 → year_check.csv
 python layers/income/exclude46.py               #    검증 대상 46・60개국 뺀 소득 1단계
+python layers/income/colombia_check.py          #    콜롬비아(2023년 11월)를 넣었을 때 1단계 민감도 (C, 2~5 다 끝난 뒤)
 python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
 python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
 python analysis/adoption_income.py              #    도입 여부 검사 소득 강건성, 전 계층 (A, 2~5 다 끝난 뒤)
@@ -202,7 +203,7 @@ git checkout language && git merge main
 
 - `data/raw/manual_adoptions.csv`에 출처와 함께 추가 → `python src/make_nodes.py` 다시 실행
 - 지금 4개국: 이스라엘(2022 도입, 2023 폐지), 보츠와나(2021, DB 누락), 덴마크(1930년대, 2014 폐지), 노르웨이(1924, 2021 폐지)
-- 더 찾으면 추가 (C 담당, 연도 검증 때 같이)
+- 11/22 C가 DB 세 버전・UNC 세금 지도(2026년 3월)와 대조해 더 찾음 → 더 넣은 나라 없음. 콜롬비아(2023년 11월)는 DB 시점(2023년 8월) 뒤 시행이라 안 넣고 민감도로만 (`layers/income/colombia_check.py`, 11/22 서영 결정). 키르기스스탄(2022)・아이티(2020)는 법령 근거를 못 찾아 뺌 → `docs/layers/income.md` '폐지・누락 국가 찾기'
 
 ### 도입 연도・설탕세 판단 기준 (팀 공통)
 

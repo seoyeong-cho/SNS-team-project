@@ -23,6 +23,7 @@ python layers/income/preprocess.py              # 4. 소득 등급 전처리 →
 python layers/income/make_layer.py              #    소득 계층 (C)
 python layers/income/merge_year_check.py        #    연도 검증 표 합치기 → year_check.csv
 python layers/income/exclude46.py               #    검증 대상 46・60개국 뺀 소득 1단계
+python layers/income/colombia_check.py          #    콜롬비아(2023년 11월)를 넣었을 때 1단계 민감도 (C, 2~5 다 끝난 뒤)
 python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
 python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
 python analysis/adoption_income.py              #    도입 여부 검사 소득 강건성, 전 계층 (A, 2~5 다 끝난 뒤)
