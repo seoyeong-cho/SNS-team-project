@@ -129,7 +129,7 @@ A와 B는 각각 여러 주장을 한꺼번에 담고 있음 → 주장 하나�
 | V2 대륙 안 섞기 | `analysis/validation/conditional_summary.csv` |
 | 2단계 각 분야 몫, 공유 분야 수 | `analysis/stage2_share.csv`, `analysis/stage2_shared_count.csv` |
 | V4 대륙별 | `analysis/validation/groups_continent.csv` (#24) |
-| 대륙 효과 점검 (대륙별・나라 가중・정의 점검) | `analysis/stage2_continent_check.csv`, `analysis/stage2_continent_share.csv` (`continent-check`) |
+| 대륙 효과 점검 (대륙별・나라 가중・정의 점검) | `analysis/stage2_continent_check.csv`, `analysis/stage2_continent_share.csv`, 그림 `figures/stage2_대륙별_순열분포.png` (#25) |
 | 지역 겹침 분리 (대륙・지역기구・국경) | `analysis/stage2_region_split.csv`, `docs/analysis/stage2.md` |
 | 도입 여부 소득 강건성 | `analysis/adoption_income.csv`, `docs/analysis/adoption_income.md` |
 | 2-1단계 | `analysis/stage2_1_results.csv`, `docs/analysis/stage2_1.md` |
