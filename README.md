@@ -33,6 +33,7 @@ python analysis/stage2_continent_check.py       #    2단계 보충: 대륙 효�
 python analysis/validation/conditional_continent.py  # 8. V2: 대륙 안에서만 섞기, 지역기구・국경・소지역・무역・소득 (2~5 다 끝난 뒤)
 python analysis/validation/conditional_figure.py   #     V2 그림 → figures/v2_대륙안섞기.png (A, 몇 초)
 python analysis/stage2_1.py                     # 9. 2-1단계: 다른 대륙 쌍만 1단계 + 따라 함 1~3년 (B, 2~5 다 끝난 뒤)
+python analysis/stage2_network_figure.py      #    2단계 네트워크 그림 2장 (가중치 네트워크 + 순열분포, 식민) → figures/stage2_*네트워크.png, analysis/stage2_network_figure.csv (A, stage2_1.py 다음)
 python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실제 vs 가짜, 언어・식민 (B)
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
 python layers/income/curves_maps.py             #     확산 곡선 2장 → figures/stage3_전체・그룹별_확산곡선.png (C)
@@ -45,7 +46,6 @@ python analysis/validation/sensitivity.py       # 12. V4: 동일 가중, 그룹 
 - 1번이 바뀌면 2~8 전부 다시. 계층 하나만 고쳤으면 그 계층 줄 + 6~8번만 다시
 - 가짜 세계는 seed 고정 → 다시 돌려도 CSV가 커밋된 것과 같아야 함 (그림 PNG는 matplotlib 버전 따라 바이트만 다를 수 있음). 달라지면 PR에 적기
 - 검증한 버전 (11/22, 커밋된 CSV가 이 환경에서 나옴): Python 3.14, pandas 3.0.3, numpy 2.4.6, networkx 3.6.1, openpyxl 3.1.5, scipy 1.18.0, matplotlib 3.11.0. `requirements.txt`는 최소 버전(>=)만 둠 → 결과가 다르면 먼저 버전부터 맞춰 봄
-- 2-1단계・3단계(`analysis/`)는 브랜치 합쳐지면 여기 추가
 
 ## 폴더 구조
 
