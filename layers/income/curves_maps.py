@@ -1,5 +1,5 @@
 """
-3단계 발표용 그림 3종: 전체 확산 곡선, 그룹별 확산 곡선, 연도별 도입 지도 스냅샷 4장 (C, 11/22)
+3단계 발표용 그림 2종: 전체 확산 곡선, 그룹별 확산 곡선 (C, 11/22)
 실행: python layers/income/curves_maps.py   (2~5 다 끝난 뒤, 몇 초)
 설명: docs/layers/income.md '3단계 그림'
 
@@ -9,15 +9,11 @@
 그림 2  figures/stage3_그룹별_확산곡선.png
   서현의 layers/language/supplementary/curve_arabic_spanish.csv・_summary.csv 그대로 (새로 계산 안 함)
   분모 = 그룹 전체 나라 수 (미도입 포함, common.group_curve)
-그림 3  figures/stage3_도입지도_스냅샷.png
-  2014・2017・2019・2023년까지 도입한 나라. 점 = 나라 (countries.json 위도・경도), 선 = 육상 국경 (countries.json borders)
-  둘 다 도입한 국경 쌍은 진한 선 → '연결된 나라가 같이 도입했나'를 보는 시간 네트워크
-  지도 라이브러리(geopandas 등)를 안 쓰려고 점 지도로 그림 (requirements.txt 안 바꿈)
+(도입 지도 스냅샷은 서영 layers/region/adoption_maps.py로 대체, 11/22 #28)
 
 - 미도입 = '그 해까지 안 함'. 지도의 화살표・선은 '영향'이 아님
-- 1990년 전 도입 7개국(BRA, DNK, FJI, MHL, NIU, NOR, STP)은 곡선에서 빠지고(분석 대상 밖) 지도에선 따로 표시
+- 1990년 전 도입 7개국(BRA, DNK, FJI, MHL, NIU, NOR, STP)은 곡선에서 빠짐(분석 대상 밖)
 """
-import json
 import sys
 from pathlib import Path
 
@@ -28,7 +24,6 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
-from matplotlib.lines import Line2D  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -106,64 +101,4 @@ fig.savefig(FIG / "stage3_그룹별_확산곡선.png", dpi=200)
 plt.close(fig)
 print(f"그림 2: 아랍어권 {a.adopters_by_2023}/{a.members} (IQR {a.iqr_years}), 스페인어권 {s.adopters_by_2023}/{s.members} (IQR {s.iqr_years})")
 
-# ---------- 그림 3. 도입 지도 스냅샷 4장 ----------
-C = {x["cca3"]: x for x in json.load(open(ROOT / "data" / "raw" / "countries.json", encoding="utf-8"))}
-codes = list(nodes.index)
-lat = pd.Series({c: C[c]["latlng"][0] for c in codes})
-lon = pd.Series({c: C[c]["latlng"][1] for c in codes})
-border = sorted({tuple(sorted((a, b))) for a in codes for b in C[a].get("borders", []) if b in nodes.index})
-yr = nodes.year_imp
-PERIODS = [   # (이름, 시작, 끝, 색)
-    ("1990년 전", -np.inf, 1989, "#3a3a3c"),
-    ("1990~2013", 1990, 2013, "#7fa7e6"),
-    ("2014~2016", 2014, 2016, "#2a6fdb"),
-    ("2017~2019", 2017, 2019, "#e0752d"),
-    ("2020~2023", 2020, 2023, "#b8336a"),
-]
-
-
-def color_of(y):
-    for _, lo, hi, col in PERIODS:
-        if lo <= y <= hi:
-            return col
-    return None
-
-
-SNAPS = [2014, 2017, 2019, 2023]
-fig, axes = plt.subplots(2, 2, figsize=(15, 6.6))
-for ax, t in zip(axes.flat, SNAPS):
-    done = yr <= t
-    for a, b in border:
-        both = done[a] and done[b]
-        ax.plot([lon[a], lon[b]], [lat[a], lat[b]], color="#4a4a4a" if both else "#d8d8dc",
-                lw=0.9 if both else 0.5, zorder=1 if not both else 2)
-    no = ~done
-    ax.scatter(lon[no], lat[no], s=14, facecolor="white", edgecolor="#b0b0b5", lw=0.7, zorder=3)
-    for name, lo, hi, col in PERIODS:
-        m = done & yr.between(lo, hi)
-        ax.scatter(lon[m], lat[m], s=26, color=col, edgecolor="white", lw=0.4, zorder=4)
-    n_ana = int((ana.year_imp <= t).sum())
-    n_both = sum(done[a] and done[b] for a, b in border)
-    ax.set_title(f"{t}년까지: 1990년 이후 도입 {n_ana}개국 (+1990년 전 7개국)  ·  둘 다 도입한 국경 쌍 {n_both}개",
-                 loc="left", fontsize=11, color=INK)
-    ax.set_xlim(-180, 180)
-    ax.set_ylim(-50, 72)
-    ax.set_aspect("equal")
-    ax.set_xticks([])
-    ax.set_yticks([])
-    for sp in ax.spines.values():
-        sp.set_visible(False)
-handles = [Line2D([], [], ls="", marker="o", ms=7, color=col, label=f"{name} 도입") for name, _, _, col in PERIODS]
-handles += [Line2D([], [], ls="", marker="o", ms=6, markerfacecolor="white", markeredgecolor="#b0b0b5", label="그 해까지 미도입"),
-            Line2D([], [], color="#4a4a4a", lw=1, label="국경, 둘 다 도입"),
-            Line2D([], [], color="#d8d8dc", lw=1, label="국경, 하나 이상 미도입")]
-fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.035), ncol=8, frameon=False, fontsize=9)
-fig.suptitle("연도별 설탕세 도입 지도: 점 = 나라 (위도·경도), 선 = 육상 국경", x=0.01, ha="left",
-             fontsize=13.5, fontweight="bold", color=INK)
-fig.text(0.01, 0.005, f"{SRC}. 국경·위치: countries.json. 선은 '연결'이지 '영향'이 아님. 미도입 = 그 해까지 안 함",
-         fontsize=8, color=MUTED)
-fig.tight_layout(rect=(0, 0.08, 1, 0.94), h_pad=0.5)
-fig.savefig(FIG / "stage3_도입지도_스냅샷.png", dpi=180)
-plt.close(fig)
-print("그림 3: " + ", ".join(f"{t}년 {int((ana.year_imp <= t).sum())}개국" for t in SNAPS))
-print("저장: figures/stage3_전체_확산곡선.png, stage3_그룹별_확산곡선.png, stage3_도입지도_스냅샷.png")
+print("저장: figures/stage3_전체_확산곡선.png, stage3_그룹별_확산곡선.png")

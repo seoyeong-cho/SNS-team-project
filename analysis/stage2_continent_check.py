@@ -190,7 +190,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 
 have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")
+plt.rcParams["font.family"] = next((f for f in ["Pretendard", "Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")   # Pretendard 없으면 다음 것
 plt.rcParams["axes.unicode_minus"] = False
 INK, INK2, MUTED, FILL, LINE, SURF = "#0b0b0b", "#52514e", "#898781", "#d5d3cc", "#e34948", "#fcfcfb"
 KO = {"Africa": "아프리카", "Asia": "아시아", "Oceania": "오세아니아", "Americas": "아메리카", "Europe": "유럽"}

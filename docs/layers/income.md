@@ -28,7 +28,7 @@ python layers/income/exclude46.py         # 검증 대상 나라를 뺀 1단계 
 | `year_check_A.csv`, `year_check_C.csv` → `year_check.csv` | 46개국 도입 연도 검증 (A 22개국 + C 24개국) | 아래 '연도 검증' |
 | `year_check_14.csv` | 추가로 의심된 14개국 검증 | 위와 같음 |
 | `fonts/` | 그림 글꼴 Pretendard Regular・Bold + `LICENSE.txt` (SIL OFL 1.1, v1.3.9). `curves_maps.py`・`analysis/validation/sensitivity.py`가 설치 없이 이 파일로 그림 | |
-| `curves_maps.py` | 3단계 발표용 그림 3종 → `figures/stage3_전체_확산곡선.png`, `stage3_그룹별_확산곡선.png`, `stage3_도입지도_스냅샷.png` | 아래 '3단계 그림' |
+| `curves_maps.py` | 3단계 발표용 그림 2종 → `figures/stage3_전체_확산곡선.png`, `stage3_그룹별_확산곡선.png` | 아래 '3단계 그림' |
 | `colombia_check.py` → `colombia_check.csv` | 콜롬비아(2023년 11월)를 넣었을 때 1단계 민감도 (메모리에서만) | `layer, version, n_adopters, n_pairs, mean_gap_real, mean_gap_fake_avg, p` |
 
 ## 원본 데이터
@@ -184,15 +184,14 @@ python layers/income/exclude46.py         # 검증 대상 나라를 뺀 1단계 
 
 ## 3단계 그림 (C, 11/22)
 
-`python layers/income/curves_maps.py` → `figures/` 3장. `nodes.csv`와 서현의 `curve_arabic_spanish*.csv`만 읽음 (새로 계산하는 검정 없음)
+`python layers/income/curves_maps.py` → `figures/` 2장. `nodes.csv`와 서현의 `curve_arabic_spanish*.csv`만 읽음 (새로 계산하는 검정 없음)
 
 | 그림 | 내용 | 숫자 |
 |---|---|---|
 | `stage3_전체_확산곡선.png` | 1990~2023년 도입 114개국 누적 수. 멕시코 2014년, WHO 권고 2016년 10월 표시, 2017~2019년 띠 | 2014년까지 56개국, 2017~2019년 3년 동안 37개국, 2023년 114개국 (1990년 전 도입 7개국 제외) |
 | `stage3_그룹별_확산곡선.png` | 아랍어권 vs 스페인어권 그룹 안 누적 도입 비율 (분모 = 그룹 전체, 미도입 포함) | 아랍어권 23개국 중 11개국, 가운데 50%가 도입하는 데 2.5년 (급격) / 스페인어권 20개국 중 16개국, 가운데 50%가 도입하는 데 18.5년 (점진) |
-| `stage3_도입지도_스냅샷.png` | 2014・2017・2019・2023년까지 도입한 나라 지도 4장. 점 = 나라(위도・경도), 선 = 육상 국경, 둘 다 도입한 국경 쌍은 진한 선 (시간 네트워크) | 1990년 이후 도입 56 → 75 → 101 → 114개국 (+1990년 전 7개국) |
 
-- 지도는 지도 라이브러리 없이 `countries.json` 위도・경도・국경으로 점 지도로 그림 (`requirements.txt` 안 바꿈)
+- 도입 지도 스냅샷은 처음에 여기서 점 지도로 그렸다가, 서영의 실제 지도 버전(`layers/region/adoption_maps.py` → `figures/stage3_도입지도_<연도>.png`, `region.md` '도입 지도', #28)으로 대체함 (11/22)
 - 그림 속 선・순서는 '연결'과 '시기'이지 '영향'이 아님. 미도입 = 그 해까지 안 함
 
 ## 한계
