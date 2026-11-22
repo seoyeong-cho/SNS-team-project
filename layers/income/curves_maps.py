@@ -37,8 +37,10 @@ ROOT = Path(__file__).resolve().parents[2]
 FIG = ROOT / "figures"
 INK, MUTED, GRID, BAND, ACCENT = "#1d1d1f", "#6e6e73", "#e8e8ed", "#ececf1", "#2a6fdb"
 
-have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "DejaVu Sans")
+# 글꼴: Pretendard (OFL, layers/income/fonts/). 설치 안 해도 저장소 파일로 똑같이 그려짐
+for _f in (ROOT / "layers" / "income" / "fonts").glob("Pretendard-*.otf"):
+    font_manager.fontManager.addfont(str(_f))
+plt.rcParams["font.family"] = "Pretendard"
 plt.rcParams.update({"axes.unicode_minus": False, "axes.spines.top": False, "axes.spines.right": False,
                      "axes.edgecolor": "#86868b", "xtick.color": MUTED, "ytick.color": MUTED, "font.size": 10})
 

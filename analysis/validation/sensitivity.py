@@ -181,8 +181,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 
-have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")
+# 글꼴: Pretendard (OFL, layers/income/fonts/). 설치 안 해도 저장소 파일로 똑같이 그려짐
+for _f in (ROOT / "layers" / "income" / "fonts").glob("Pretendard-*.otf"):
+    font_manager.fontManager.addfont(str(_f))
+plt.rcParams["font.family"] = "Pretendard"
 plt.rcParams["axes.unicode_minus"] = False
 KO = dict(continent="대륙", subregion="소지역", border="국경", igo="지역기구", language="언어", colony="식민",
           income="소득", trade3="무역 k=3", trade5="무역 k=5", trade10="무역 k=10")
