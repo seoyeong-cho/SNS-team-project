@@ -15,8 +15,8 @@
 |---|---|---|
 | 서영 (A) | 지역 + 지역기구, 2단계, 통합・슬라이드 합치기, 발표(앞부분) | `layers/region/`, `src/`, `data/processed/`, `analysis/stage2*` |
 | 서현 (B) | **팀장**, 언어 + 식민, 2-1단계, 확산 경로, V1, 발표(뒷부분) | `layers/language/`, `analysis/stage2_1*`, `analysis/stage3_paths*` |
-| 수정 (C) | 소득, 연도 검증, 확산 곡선, V4, 분야별 지도 겹치기, data description 합치기 | `layers/income/` |
-| 승아 (D) | 무역, 계층 비교표, 투영・멀티플렉스 예시 그림, 용어 정리, V3(선택) | `layers/trade/` |
+| 수정 (C) | 소득, 연도 검증, 확산 곡선, V4, 용어 정리 | `layers/income/` |
+| 승아 (D) | 무역, 계층 비교표, 투영・멀티플렉스 예시 그림, 분야별 지도 겹치기, data description, V3(선택) | `layers/trade/` |
 
 - 힌트로 `git config user.name`(또는 GitHub 계정 `gh api user -q .login`)을 확인해서 맞을 것 같은 사람을 첫 번째 선택지로 둬도 됨 (`seoyeong-cho`・`Seoyeong` → 서영, `seohynun` → 서현, `sujeong`・`sujeong411` → 수정, `승아`・`Lseunga` → 승아). **그래도 반드시 물어보고 답을 받은 뒤 진행.** 계정만 보고 정하지 않음
 - 사용자가 첫 메시지에서 이미 이름을 말했으면(예: "나 수정인데") 다시 묻지 않고 그 사람으로 진행
