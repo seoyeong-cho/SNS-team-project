@@ -176,6 +176,8 @@
 
 `python analysis/stage2_continent_check.py` → `analysis/stage2_continent_check.csv` (1단계 여러 방식), `analysis/stage2_continent_share.csv` (2단계 대륙 몫 대륙별)
 
+그림 `figures/stage2_대륙별_순열분포.png`: 대륙 5개 × (전체 / 건강 목적 세금만), 가짜 세계 분포 vs 실제, x축 모두 같음. 발표에서 대륙 결과를 말할 때 V4 그림(`v4_순열분포.png`) 대륙 칸 대신 씀 (대륙 칸 하나로는 아프리카 의존이 안 보임)
+
 V4(`validation.md` 3장)에서 대륙 1단계 p 0.001이 아프리카를 빼면 0.781, 대륙마다 한 표면 0.328 → 이슈 #22. 이유를 세 가지로 나눠 봄
 
 **① 아프리카를 빼면 사라지는 건 아메리카・유럽이 반대로 흩어져서임** (`nodes.csv`)

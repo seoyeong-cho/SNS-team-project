@@ -26,6 +26,8 @@
    나머지 5개 분야(igo, language, colony, income, trade)는 그대로. version은 1번과 같음, shuffle basic
    p = 가짜 세계에서 계수가 실제 이하인 비율 (한쪽, 작을수록 '묶임')
 
+3. 그림 → figures/stage2_대륙별_순열분포.png: 대륙 5개 × (전체 / 건강 목적 세금만), 1번과 같은 가짜 세계, x축 모두 같음
+
 - 가짜 세계 seed 42, 1,000개 (common.SEED, common.R). 나라를 빼면 남은 도입국끼리만 섞음
 - version・stat을 결과를 보고 늘렸으므로 검사 수가 많음 → 한 칸 p에 큰 의미 두지 않고 방향만 봄
 - 해석: '같은 대륙 쌍끼리 시기가 우연보다 가까움'까지. 따라 했다는 뜻 아님
@@ -125,9 +127,11 @@ def check(ver, strata=None):
                          mean_gap_real=round(real[k], 3) if ok else np.nan,
                          mean_gap_fake_avg=round(np.nanmean(f), 3) if ok else np.nan,
                          p=round((np.sum(f <= real[k]) + 1) / (R + 1), 4) if ok else np.nan))
+        DISTS[(ver, strata or "basic", k)] = (real[k], f)
     return rows
 
 
+DISTS = {}   # (version, shuffle, stat) → (실제, 가짜 1,000개). 그림용
 rows = []
 for ver in VERSIONS:
     for s in [None, *STRATA] if ver == "all" else [None]:
@@ -178,3 +182,53 @@ cell = sh.coef.map("{:+.2f}".format) + " (" + sh.p.map("{:.3f}".format) + ")"
 print(sh.assign(cell=cell).pivot(index="layer", columns="version", values="cell")
       .loc[[f"continent_{c}" for c in CONTS] + OTHERS, list(VERSIONS)].to_string())
 print("\n저장: analysis/stage2_continent_check.csv, analysis/stage2_continent_share.csv")
+
+# ---------- 3. 그림: 대륙별 순열분포 (전체 / 건강 목적 세금만) ----------
+import matplotlib  # noqa: E402
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
+
+have = {f.name for f in font_manager.fontManager.ttflist}
+plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")
+plt.rcParams["axes.unicode_minus"] = False
+INK, INK2, MUTED, FILL, LINE, SURF = "#0b0b0b", "#52514e", "#898781", "#d5d3cc", "#e34948", "#fcfcfb"
+KO = {"Africa": "아프리카", "Asia": "아시아", "Oceania": "오세아니아", "Americas": "아메리카", "Europe": "유럽"}
+ORDER = ["Africa", "Asia", "Oceania", "Americas", "Europe"]
+ROWS = [("all", "전체 도입국"), ("health_obj", "건강 목적 세금만")]
+lo = min(min(DISTS[(v, "basic", c)][1].min(), DISTS[(v, "basic", c)][0]) for v, _ in ROWS for c in ORDER)
+hi = max(max(DISTS[(v, "basic", c)][1].max(), DISTS[(v, "basic", c)][0]) for v, _ in ROWS for c in ORDER)
+bins = np.linspace(np.floor(lo), np.ceil(hi), 49)
+
+fig, axes = plt.subplots(2, 5, figsize=(16, 6.2), sharex=True, facecolor=SURF)
+for r, (ver, vlabel) in enumerate(ROWS):
+    for k, c in enumerate(ORDER):
+        ax = axes[r, k]
+        ax.set_facecolor(SURF)
+        real, f = DISTS[(ver, "basic", c)]
+        row = res[(res.version == ver) & (res.shuffle == "basic") & (res.stat == c)].iloc[0]
+        h, _, _ = ax.hist(f, bins=bins, color=FILL, edgecolor=SURF, linewidth=1)
+        ax.vlines(real, 0, h.max() * 1.1, color=LINE, lw=2)   # 선은 글자 아래까지만
+        ax.set_ylim(0, h.max() * 1.6)       # 글자 자리를 막대 위에 남김
+        ax.text(0.02, 0.97, f"{KO[c]}  도입국 {row.n_adopters}, 쌍 {row.n_pairs}", transform=ax.transAxes,
+                va="top", fontsize=10.5, color=INK, fontweight="bold")
+        word = ("우연보다 가까움" if row.p < 0.05 else "경계" if row.p < 0.1
+                else "우연보다 흩어짐" if row.p > 0.95 else "우연과 비슷")
+        ax.text(0.02, 0.84, f"실제 {real:.1f}년 vs 가짜 {f.mean():.1f}년 → {word}\np {row.p:.3f}",
+                transform=ax.transAxes, va="top", fontsize=9, color=INK2)
+        ax.set_yticks([])
+        for sp in ["top", "right", "left"]:
+            ax.spines[sp].set_visible(False)
+        ax.spines["bottom"].set_color(MUTED)
+        ax.tick_params(colors=MUTED, labelsize=8.5)
+    axes[r, 0].set_ylabel(vlabel, fontsize=11, color=INK, rotation=0, ha="right", va="center", labelpad=12)
+fig.supxlabel("같은 대륙 도입국 쌍의 평균 도입 연도 차이 (년)", fontsize=9.5, color=INK2, y=0.045)
+fig.suptitle("대륙별로 나누면: 아프리카는 우연보다 가깝고(아시아는 경계), 아메리카와 유럽은 우연보다 흩어짐. "
+             "건강 목적 세금만 보면 아프리카는 사라지고 아시아가 남음",
+             x=0.01, ha="left", fontsize=12, color=INK)
+fig.text(0.01, 0.005, "회색 = 연도만 섞은 가짜 세계 1,000개, 빨간 선 = 실제. 모든 칸 x축 같음. "
+         "선이 회색 왼쪽이면 같은 대륙끼리 도입 시기가 우연보다 가까움 (따라 했다는 뜻 아님)",
+         fontsize=8.5, color=MUTED)
+fig.tight_layout(rect=(0.02, 0.05, 1, 0.94))
+fig.savefig(ROOT / "figures" / "stage2_대륙별_순열분포.png", dpi=150, facecolor=SURF)
+print("저장: figures/stage2_대륙별_순열분포.png")
