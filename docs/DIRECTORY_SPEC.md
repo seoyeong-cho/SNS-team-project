@@ -59,7 +59,8 @@ docs/
 │  └─ trade.md          D
 ├─ analysis/
 │  ├─ stage2.md
-│  └─ validation.md
+│  ├─ validation.md
+│  └─ key_message.md     핵심 메시지 A/B 정의・판단 근거 (11/26 회의용)
 └─ meeting/             회의록 (필요하면)
    └─ 2026-11-18.md
 ```
