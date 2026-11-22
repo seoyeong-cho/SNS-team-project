@@ -33,6 +33,7 @@ python analysis/stage2_1.py                     # 9. 2-1단계: 다른 대륙 �
 python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실제 vs 가짜, 언어・식민 (B)
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
 python analysis/validation/sim_scenarios.py     # 11. V1: 가상 데이터 S0・S1・S2로 검정 성능 확인 (B, 1분 안팎)
+python analysis/validation/sensitivity.py       # 12. V4: 동일 가중, 그룹 하나 빼기, 나라 하나씩 빼기, BH, 효과 크기 (C, 2~5 다 끝난 뒤)
 ```
 
 - 3번: ICOW 식민 자료・countrycode 변환표는 재배포 금지라 git에 없음. 이 스크립트가 `layers/language/_external/`에 받아 옴 (git 제외). 빼먹으면 언어 `make_layer.py`가 `ICOW 없음`으로 멈춤
