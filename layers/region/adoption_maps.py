@@ -27,7 +27,6 @@ import pandas as pd
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib import font_manager  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
@@ -37,12 +36,10 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(ROOT / "src"))
-from common import load_nodes  # noqa: E402
+from common import load_nodes, use_font  # noqa: E402
 
 FIG = ROOT / "figures"
-have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = next((f for f in ["Pretendard", "Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")   # Pretendard 없으면 다음 것
-plt.rcParams["axes.unicode_minus"] = False
+use_font()   # 저장소 src/fonts/ Pretendard
 
 INK, INK2, MUTED, SURF = "#0b0b0b", "#52514e", "#898781", "#fcfcfb"
 NONE_FILL, EDGE, NONE_EDGE = "#fcfcfb", "#ffffff", "#c9c8c2"   # 미도입 = 바탕색 + 회색 테두리 (빈칸으로 읽힘)
@@ -129,7 +126,7 @@ for t in SNAPS:
 
     n_ana = int((ana.year_imp <= t).sum())
     fig.text(0.015, 0.955, f"{t}년까지 설탕세를 도입한 나라: 1990년 이후 {n_ana}개국 (+1990년 전 {n_before}개국)",
-             fontsize=15, fontweight="semibold", color=INK, va="top")
+             fontsize=15, fontweight="bold", color=INK, va="top")
     fig.text(0.015, 0.905, f"색이 진할수록 늦게 도입  ·  주황 선 = 둘 다 도입한 육상 국경 쌍 {n_both}개",
              fontsize=11, color=INK2, va="top")
 
@@ -137,7 +134,7 @@ for t in SNAPS:
     handles = [Patch(facecolor=col, edgecolor="none", label=name) for name, lo, _, col in PERIODS if lo <= t]
     handles += [Patch(facecolor=NONE_FILL, edgecolor=NONE_EDGE, label="안 함"),
                 Line2D([], [], color=LINE, lw=1.2, alpha=0.7, marker="o", ms=3.5, markeredgewidth=0, label="국경 (둘 다 도입)")]
-    fig.text(0.015, 0.104, "도입 시기", fontsize=10, color=INK, va="center", fontweight="semibold")
+    fig.text(0.015, 0.104, "도입 시기", fontsize=10, color=INK, va="center", fontweight="bold")
     fig.legend(handles=handles, loc="center left", bbox_to_anchor=(0.07, 0.104), ncol=len(handles),
                frameon=False, fontsize=9.5, handlelength=1.4, columnspacing=1.3, borderaxespad=0)
     fig.text(0.015, 0.012,

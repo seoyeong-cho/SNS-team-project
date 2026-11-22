@@ -44,7 +44,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT / "src"))
-from common import R, SEED, STRATA, _shuffles, _strata_labels, analysis_countries, load_nodes  # noqa: E402
+from common import R, SEED, STRATA, _shuffles, _strata_labels, analysis_countries, load_nodes, use_font  # noqa: E402
 
 L = ROOT / "layers"
 OUT = ROOT / "analysis"
@@ -187,11 +187,8 @@ print("\n저장: analysis/stage2_continent_check.csv, analysis/stage2_continent_
 import matplotlib  # noqa: E402
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib import font_manager  # noqa: E402
 
-have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = next((f for f in ["Pretendard", "Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have), "sans-serif")   # Pretendard 없으면 다음 것
-plt.rcParams["axes.unicode_minus"] = False
+use_font()   # 저장소 src/fonts/ Pretendard
 INK, INK2, MUTED, FILL, LINE, SURF = "#0b0b0b", "#52514e", "#898781", "#d5d3cc", "#e34948", "#fcfcfb"
 KO = {"Africa": "아프리카", "Asia": "아시아", "Oceania": "오세아니아", "Americas": "아메리카", "Europe": "유럽"}
 ORDER = ["Africa", "Asia", "Oceania", "Americas", "Europe"]

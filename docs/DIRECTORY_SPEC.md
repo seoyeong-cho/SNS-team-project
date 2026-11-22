@@ -14,7 +14,7 @@ sns_team_project/
 ├─ data/
 │  ├─ raw/              원본 그대로. 손대지 않음
 │  └─ processed/        nodes.csv 등 전처리 결과 (A만 수정)
-├─ src/                 공통 코드 (common.py, make_nodes.py)
+├─ src/                 공통 코드 (common.py, make_nodes.py), fonts/ 그림 글꼴 Pretendard (common.use_font())
 ├─ layers/
 │  ├─ region/           A  지역 + 지역기구
 │  ├─ language/         B  언어 + 식민
