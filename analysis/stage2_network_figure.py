@@ -10,7 +10,8 @@
   - 아래 설명 숫자: analysis/stage2_shared_count.csv (all) 그대로 읽음
 그림 2  figures/stage2_식민네트워크.png
   - layers/language/layer_colony_edges.csv, 도입국끼리만. 노드 색 = 대륙, 영국 그룹(colony_GBR・samecol_GBR) 선만 진하게
-  - 아래 설명 숫자: analysis/stage2_1_results.csv (영국 빼기), analysis/stage2_continent_share.csv (2014년 이후만)
+  - 아래 설명 숫자: analysis/stage2_share.csv (main・all・basic, 2단계 본 결과), analysis/stage2_1_results.csv (다른 대륙 쌍만, 영국 빼기),
+    analysis/stage2_continent_share.csv (2014년 이후만)
 
 - 검정 새로 안 함. 기존 CSV만 읽음 → 결과 CSV 변화 없음
 - 선은 '같은 그룹'이지 '영향'이 아님
@@ -151,7 +152,7 @@ shared_line = "  ·  ".join(
 n_ana = len(ac)
 fig.text(0.015, 0.965, f"6개 분야에서 {K}개 이상 같은 그룹인 도입국 쌍 {G.number_of_edges()}개 ({G.number_of_nodes()}개국)",
          fontsize=14, fontweight="bold", color=INK, va="top")
-fig.text(0.015, 0.92, "선으로 이어진 나라끼리 색(도입 시기)이 비슷한지 봄. 왼쪽이 오른쪽보다 끼리끼리 비슷한 색이면 '여러 연결이 겹친 나라끼리 시기가 묶임'",
+fig.text(0.015, 0.92, "선으로 이어진 나라끼리 도입 시기가 비슷한지 봄. 색만으로는 양쪽 차이가 잘 안 보임 → 제목의 평균 차이(실제 vs 가짜)와 아래 숫자로 읽을 것",
          fontsize=10, color=INK2, va="top")
 fig.text(0.015, 0.012,
          f"같은 그룹인 분야 수별 평균 도입 연도 차이 (가짜 세계 1,000개 평균, analysis/stage2_shared_count.csv):  {shared_line}\n"
@@ -191,8 +192,10 @@ n_cross_gbr = sum(cont[a] != cont[b] for a, b in gbr_pairs)
 
 s21 = pd.read_csv(ROOT / "analysis" / "stage2_1_results.csv")
 nogbr = s21[(s21.layer == "language/colony") & (s21.variant == "no_gbr") & (s21.test == "stage1_basic")].iloc[0]
+main = pd.read_csv(ROOT / "analysis" / "stage2_share.csv")
+c_all = main[(main.model == "main") & (main.version == "all") & (main.shuffle == "basic") & (main.layer == "colony")].iloc[0]
 share = pd.read_csv(ROOT / "analysis" / "stage2_continent_share.csv").set_index(["version", "layer"])
-c_all, c_14 = share.loc[("all", "colony")], share.loc[("since2014", "colony")]
+c_14 = share.loc[("since2014", "colony")]
 
 fig, ax = plt.subplots(figsize=(10.5, 8.2), facecolor="white")
 ax.set_facecolor("white")
@@ -227,7 +230,7 @@ fig.text(0.015, 0.965, f"식민 계층: 도입국 {H.number_of_nodes()}개국, �
 fig.text(0.015, 0.925, f"원 둘레 = 대륙별로 모은 도입국 (색 = 대륙). 영국 그룹 선 {len(gbr_pairs)}개 중 {n_cross_gbr}개가 대륙을 넘음 → 영국 옛 식민지끼리 대륙을 넘어 묶임",
          fontsize=10, color=INK2, va="top")
 fig.text(0.015, 0.012,
-         f"2단계 식민 몫 {c_all.coef:+.2f}년 ({p_txt(c_all.p)}). 영국 그룹을 빼면 1단계 {nogbr.gap_real:.2f}년 vs 가짜 {nogbr.gap_fake_avg:.2f}년 ({p_txt(nogbr.p)}, stage2_1_results.csv) → 식민 묶임은 영국 그룹에 기댐\n"
+         f"2단계 식민 몫 {c_all.coef:+.2f}년 ({p_txt(c_all.p)}, stage2_share.csv). 영국 그룹을 빼면 다른 대륙 쌍만(2-1단계, {int(nogbr.n_adopter_pairs)}쌍) {nogbr.gap_real:.2f}년 vs 가짜 {nogbr.gap_fake_avg:.2f}년 ({p_txt(nogbr.p)}, stage2_1_results.csv) → 식민 묶임은 영국 그룹에 기댐\n"
          f"2014년 이후 도입국만 보면 식민 몫 {c_14.coef:+.2f}년 ({p_txt(c_14.p)}, stage2_continent_share.csv) → 2014년 전 도입국까지 넣어야 나옴. "
          "같은 그룹끼리 도입 시기가 비슷했다는 뜻이지 따라 했다는 뜻이 아님",
          fontsize=8, color=MUTED, va="bottom", linespacing=1.6)
