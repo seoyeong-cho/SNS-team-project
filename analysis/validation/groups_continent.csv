@@ -1,0 +1,6 @@
+layer,group,n_adopters,n_pairs,interpret,gap_real,gap_fake_avg,gap_diff,z,fake_lo95,fake_hi95,p,all_without_gap_diff,all_without_p,loo_n,loo_skipped,loo_gap_diff_min,loo_gap_diff_max,loo_p_min,loo_p_max,loo_crosses_05,q_bh_all_groups,q_bh_interpret_only
+continent,Africa,40,780,True,6.563,9.153,2.59,2.83,7.255,10.783,0.005,-0.433,0.7812,40,,2.483,3.296,0.001,0.01,False,0.025,0.025
+continent,Americas,22,231,True,11.42,9.216,-2.204,-1.68,6.433,11.672,0.967,1.826,0.001,22,,-2.483,-1.476,0.8641,0.978,False,0.967,0.967
+continent,Asia,22,231,True,6.853,9.117,2.265,1.72,6.285,11.537,0.0549,0.983,0.031,22,,2.022,2.909,0.024,0.0799,True,0.1372,0.1372
+continent,Europe,17,136,True,11.691,9.157,-2.534,-1.63,5.954,11.927,0.952,1.57,0.001,17,,-2.946,-1.364,0.7922,0.974,False,0.967,0.967
+continent,Oceania,13,78,True,8.718,9.207,0.489,0.27,5.691,12.359,0.3716,1.226,0.003,13,,0.148,1.298,0.2278,0.4466,False,0.6193,0.6193
