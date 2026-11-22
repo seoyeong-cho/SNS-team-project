@@ -47,6 +47,7 @@ python layers/income/preprocess.py              # 4. 소득 등급 전처리 →
 python layers/income/make_layer.py              #    소득 계층 (C)
 python layers/income/merge_year_check.py        #    연도 검증 표 합치기 → year_check.csv
 python layers/income/exclude46.py               #    검증 대상 46・60개국 뺀 소득 1단계
+python layers/income/colombia_check.py          #    콜롬비아(2023년 11월)를 넣었을 때 1단계 민감도 (C, 2~5 다 끝난 뒤)
 python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
 python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
 python analysis/adoption_income.py              #    도입 여부 검사 소득 강건성, 전 계층 (A, 2~5 다 끝난 뒤)
@@ -200,8 +201,8 @@ git checkout language && git merge main
 설탕세 DB는 '지금 시행 중인 세금' 목록이라 폐지된 세금은 사라짐 → 미도입국처럼 보임. 우리는 '언제 도입했나'를 보니까 폐지했어도 도입한 해에 도입국으로 둠
 
 - `data/raw/manual_adoptions.csv`에 출처와 함께 추가 → `python src/make_nodes.py` 다시 실행
-- 지금 5개국: 이스라엘(2022 도입, 2023 폐지), 보츠와나(2021, DB 누락), 덴마크(1930년대, 2014 폐지), 노르웨이(1924, 2021 폐지), 콜롬비아(2023년 11월, DB 누락, 11/22 추가)
-- 11/22 C가 DB 세 버전・UNC 세금 지도(2026년 3월)와 대조해 더 찾음. 키르기스스탄(2022)・아이티(2020)는 법령 근거를 못 찾아 뺌 → `docs/layers/income.md` '폐지・누락 국가 찾기'
+- 지금 4개국: 이스라엘(2022 도입, 2023 폐지), 보츠와나(2021, DB 누락), 덴마크(1930년대, 2014 폐지), 노르웨이(1924, 2021 폐지)
+- 11/22 C가 DB 세 버전・UNC 세금 지도(2026년 3월)와 대조해 더 찾음 → 더 넣은 나라 없음. 콜롬비아(2023년 11월)는 DB 시점(2023년 8월) 뒤 시행이라 안 넣고 민감도로만 (`layers/income/colombia_check.py`, 11/22 서영 결정). 키르기스스탄(2022)・아이티(2020)는 법령 근거를 못 찾아 뺌 → `docs/layers/income.md` '폐지・누락 국가 찾기'
 
 ### 도입 연도・설탕세 판단 기준 (팀 공통)
 
@@ -272,7 +273,7 @@ git checkout language && git merge main
 | `SSB-Tax-Database-Feb23.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2023년 2월판 | 2026-11 | A |
 | `SSB-Tax-Database-Aug22.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2022년 8월판 | 2026-11 | A |
 | `countries.json` | 국가 코드, 대륙, 소지역, 국경 | github.com/mledoze/countries | 2026-11 | A |
-| `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 2) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
+| `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 1) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
 | `igo_year_formatv3.csv` | 기구×연도 가입 여부 (1816~2014). 탭 구분, latin-1 인코딩 | Correlates of War IGO v3 (igounit) | 2026-11 | A |
 | `igo_supplement.csv` | COW 이후(2015~2023) 가입, COW 오류(EAC)・비국가 회원(PIF 영토) 보충 | 행마다 기구 공식 회원국 페이지 | 2026-11 | A |
 | `UNComtrade-trade-statistics-official-CAHS-20261118-0323.csv` | **수입(M)** 기록, HS 2202 (가당・향 첨가 음료), 2010~2020 연간 | UN Comtrade | 2026-11-18 | D |
