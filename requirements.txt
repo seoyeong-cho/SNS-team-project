@@ -4,3 +4,4 @@ networkx>=3.0
 openpyxl>=3.1
 matplotlib>=3.7
 scipy>=1.10
+cartopy>=0.23        # 도입 지도 (layers/region/adoption_maps.py)만. 설치 파일이 미리 빌드돼 있어 pip로 바로 됨

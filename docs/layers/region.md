@@ -23,6 +23,7 @@ python layers/region/make_layer.py   # 4개 계층 전부: 엣지 → 1단계 �
 | `result_<이름>.csv` | 1단계: 같은 그룹 도입국끼리 도입 연도 차 vs 가짜 세계 | `group, n_adopters, n_pairs, mean_gap_real, mean_gap_fake_avg, p` |
 | `robustness_<이름>.csv` | 강건성: 소득・예산법 연도・도입 목적별로 섞은 가짜 세계로 1단계 다시 | `shuffle, mean_gap_real, mean_gap_fake_avg, p` |
 | `adoption_<이름>.csv` | 도입 여부: 연결된 나라끼리 도입 여부가 같은 비율 vs 가짜 세계 (204개국) | `n_pairs, same_status_real, same_status_fake_avg, both_adopted, p` |
+| `adoption_maps.py` | 연도별 도입 지도 4장 → `figures/stage3_도입지도_<연도>.png` (아래 '도입 지도') | |
 
 ## 원본 데이터
 
@@ -139,6 +140,29 @@ python layers/region/make_layer.py   # 4개 계층 전부: 엣지 → 1단계 �
 - 지역기구 효과는 GCC・LOAS・SADC・ECCAS 같은 **중동・아프리카 기구**가 끌고 감. EU는 반대
 - 대륙 효과도 대부분 아프리카에서 나옴 → 지역기구와 대륙이 같은 신호를 보는 것일 수 있음 (2단계에서 분리)
 - 유의한 결과도 "같은 지역・기구 나라끼리 시기가 우연보다 묶임"까지만 말함. **따라 했다(확산)고 단정하지 않음**
+
+## 도입 지도 (11/22)
+
+`python layers/region/adoption_maps.py` → `figures/stage3_도입지도_2014.png`, `_2017.png`, `_2019.png`, `_2023.png` (발표용 한 장씩, 16:9)
+
+| 요소 | 그리는 법 |
+|---|---|
+| 나라 면 | 도입 시기 5단계 색, 연한 파랑 (`#DCE8F8` → `#5E8FD8`, 1990년 전 가장 연함). 면은 배경이고 선이 주인공. 그 해까지 안 함 = 빈칸(바탕색 + 회색 테두리) |
+| 범례・글꼴 | 범례는 지도 아래 한 줄 (도입 시기 + 안 함 + 국경 선), 긴 국경선 점선은 각주. 글꼴 Pretendard (없으면 맑은 고딕・AppleGothic・나눔고딕) |
+| 선 | 둘 다 도입한 육상 국경 쌍. 두 나라 대표점(`countries.json` latlng)을 이음. 파랑의 반대색 주황(`#C2410C`), 굵기 1.2, 살짝 투명, 끝에 점. 경도 차 40도 넘는 긴 선(러시아 등)은 더 가늘고 흐린 점선 |
+| 작은 나라 | 면이 안 보이는 섬나라 등은 대표점에 같은 색 점 |
+| 지도 | Natural Earth 1:50m (cartopy가 받음, `ADM0_A3`, 남수단 SDS → SSD), Robinson 투영, 남극 뺌 |
+
+| 연도 | 1990년 이후 도입 | 둘 다 도입한 국경 쌍 |
+|---|---|---|
+| 2014 | 56 | 31 |
+| 2017 | 75 | 49 |
+| 2019 | 101 | 88 |
+| 2023 | 114 | 114 |
+
+- 숫자는 `nodes.csv`, `countries.json`에서 셈 (수정 `curves_maps.py` 스냅샷과 같음)
+- 폐지한 나라(덴마크 2014, 노르웨이 2021, 이스라엘 2023)도 도입 색 그대로 → 그림 각주
+- 선은 '연결'과 '시기'이지 '영향'이 아님
 
 ## 한계
 
