@@ -19,6 +19,7 @@
 - `conditional_<계층>.csv`: 그룹별 basic vs 대륙 안 (열은 서현의 `layers/language/v2_continent_*.csv`와 같음)
 - `conditional_summary.csv`: 계층 × 버전(`all`, `unsure46`) 계층 전체(ALL) 줄만, 언어・식민 포함
 - `conditional_continent_counts.csv`: 대륙별 도입국 수
+- 그림 `figures/v2_대륙안섞기.png` (`conditional_figure.py`, 11/22): 계층마다 전체 섞기(회색) vs 대륙 안 섞기(파랑) 차이를 점 2개로 나란히. `conditional_summary.csv` `all`만 읽음, 읽기 글자는 아래 표 그대로
 
 ### 왜 하나
 
