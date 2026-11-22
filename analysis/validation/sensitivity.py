@@ -190,7 +190,8 @@ KO = dict(continent="대륙", subregion="소지역", border="국경", igo="지�
 fig, axes = plt.subplots(2, 5, figsize=(17, 6.6), sharey=False)
 for ax, (name, (r, f)) in zip(axes.flat, dists.items()):
     s = out[(out.layer == name) & (out.condition == "pair_weighted")].iloc[0]
-    ax.hist(f, bins=40, color="#b8c4d6", edgecolor="white")
+    counts, _, _ = ax.hist(f, bins=40, color="#b8c4d6", edgecolor="white")
+    ax.set_ylim(0, counts.max() * 1.6)   # 위쪽 여유 → 글상자가 막대를 안 가림
     ax.axvline(r, color="#c0392b", lw=2)
     ax.set_title(f"{KO[name]}  ({s.n_pairs}쌍)", loc="left", fontsize=11)
     right = r < np.median(f)   # 글자는 빨간 선 반대쪽에
@@ -204,6 +205,8 @@ for ax in axes[1]:
     ax.set_xlabel("같은 그룹 도입국 쌍의 평균 도입 연도 차이 (년)", fontsize=8.5)
 fig.suptitle("V4 순열분포: 가짜 세계 1,000개 (회색) vs 실제 (빨간 선). 선이 왼쪽 끝일수록 같은 그룹끼리 도입 시기가 우연보다 가까움",
              x=0.01, ha="left", fontsize=12)
-fig.tight_layout(rect=(0, 0, 1, 0.95))
+fig.text(0.01, 0.01, "칸마다 x축 범위가 다름 (쌍 수가 적을수록 가짜 분포가 넓음) → 빨간 선 위치를 칸끼리 비교하지 말고 '차이(년)'와 p로 비교",
+         ha="left", fontsize=9.5, color="#555555")
+fig.tight_layout(rect=(0, 0.03, 1, 0.95))
 fig.savefig(ROOT / "figures" / "v4_순열분포.png", dpi=150)
 print("저장: figures/v4_순열분포.png")
