@@ -34,6 +34,7 @@ python analysis/validation/conditional_continent.py  # 8. V2: 대륙 안에서�
 python analysis/stage2_1.py                     # 9. 2-1단계: 다른 대륙 쌍만 1단계 + 따라 함 1~3년 (B, 2~5 다 끝난 뒤)
 python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실제 vs 가짜, 언어・식민 (B)
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
+python layers/region/adoption_maps.py           #     도입 지도 4장 (2014・2017・2019・2023) → figures/stage3_도입지도_<연도>.png (A, cartopy, 처음 실행 때 인터넷 필요)
 python analysis/validation/sim_scenarios.py     # 11. V1: 가상 데이터 S0・S1・S2로 검정 성능 확인 (B, 1분 안팎)
 python analysis/validation/sensitivity.py       # 12. V4: 동일 가중, 그룹 하나 빼기, 나라 하나씩 빼기, BH, 효과 크기 (C, 2~5 다 끝난 뒤)
 ```

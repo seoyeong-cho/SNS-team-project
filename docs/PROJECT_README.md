@@ -58,6 +58,7 @@ python analysis/validation/conditional_continent.py  # 8. V2: 대륙 안에서�
 python analysis/stage2_1.py                     # 9. 2-1단계: 다른 대륙 쌍만 1단계 + 따라 함 1~3년 (B, 2~5 다 끝난 뒤)
 python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실제 vs 가짜, 언어・식민 (B)
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
+python layers/region/adoption_maps.py           #     도입 지도 4장 (2014・2017・2019・2023) → figures/stage3_도입지도_<연도>.png (A, cartopy, 처음 실행 때 인터넷 필요)
 python analysis/validation/sim_scenarios.py     # 11. V1: 가상 데이터 S0・S1・S2로 검정 성능 확인 (B, 1분 안팎)
 python analysis/validation/sensitivity.py       # 12. V4: 동일 가중, 그룹 하나 빼기, 나라 하나씩 빼기, BH, 효과 크기 (C, 2~5 다 끝난 뒤)
 ```
@@ -274,6 +275,7 @@ git checkout language && git merge main
 | `SSB-Tax-Database-Feb23.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2023년 2월판 | 2026-11 | A |
 | `SSB-Tax-Database-Aug22.xlsx` | 같은 DB 이전판 (버전 비교용) | World Bank, 2022년 8월판 | 2026-11 | A |
 | `countries.json` | 국가 코드, 대륙, 소지역, 국경 | github.com/mledoze/countries | 2026-11 | A |
+| (저장소에 없음) Natural Earth 1:50m 나라 경계 | 도입 지도 배경. cartopy가 처음 실행 때 받아서 캐시에 둠 | naturalearthdata.com (퍼블릭 도메인) | 2026-11-22 | A |
 | `manual_adoptions.csv` | 현행 DB에 없는 도입국 (폐지 3, 누락 1) | 행마다 출처 URL | 2026-11 | A (추가는 C) |
 | `igo_year_formatv3.csv` | 기구×연도 가입 여부 (1816~2014). 탭 구분, latin-1 인코딩 | Correlates of War IGO v3 (igounit) | 2026-11 | A |
 | `igo_supplement.csv` | COW 이후(2015~2023) 가입, COW 오류(EAC)・비국가 회원(PIF 영토) 보충 | 행마다 기구 공식 회원국 페이지 | 2026-11 | A |
