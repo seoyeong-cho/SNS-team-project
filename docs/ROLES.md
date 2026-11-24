@@ -199,7 +199,7 @@ A 공통 틀 (11/17) → 넷이 각자 계층 + 1단계 (11/21) → 2단계 완�
 | 11/22 | 이슈 #30: 그림 글꼴 `use_font()`(Pretendard)로 통일, `stage3_paths.md`의 지워진 fig3 언급 고치기 | ✅ 11/22 `language-wrapup` | 스크립트 3개(`stage3_figures.py`, `sim_scenarios.py`, `supplementary_checks.py`) → 그림 4장 다시 그림. 결과 CSV 안 바뀜 |
 | 11/26 | data description 언어・식민 부분 (승아가 합침) | ✅ 11/22 `language-wrapup` | `docs/layers/language.md` 0장: 출처・시점・매칭・엣지 수・전처리・한계. ICOW 받는 방법(`fetch_external.py`, 재배포 안 함) 포함 |
 | – | ~~그룹별 확산 곡선 그림~~ → 수정에게 넘김 (계산은 보조 검증에 있음) | – | |
-| 11/23 | 식민 계층 재현 확인 (자기 PC, `fetch_external.py` → `make_layer.py`) | ⬜ | 11/22 점검은 인터넷이 막힌 환경이라 식민 계층만 못 돌려 봄 |
+| 11/23 | 식민 계층 재현 확인 (자기 PC, `fetch_external.py` → `make_layer.py`) | ✅ 11/24 | 자기 PC에서 README 재현 순서 전체(27줄) 돌림. ICOW sha256 일치, 커밋된 CSV 전부 그대로 (PNG는 matplotlib 3.11.2라 바이트만 다름) |
 | 11/26 | 슬라이드 자기 부분 (언어・식민, 2-1단계, 확산 경로, V1) 초안 → 회의 | ⬜ | |
 | 11/27 | 결론・한계 슬라이드 (11/26 메시지 반영) | ⬜ | |
 | 11/30 | **팀장**: 슬라이드 제출 확인 | ⬜ | e-Campus `Term Project 발표자료` |
