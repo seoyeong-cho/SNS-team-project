@@ -66,6 +66,7 @@ python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실�
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
 python layers/income/curves_maps.py             #     확산 곡선 2장 → figures/stage3_전체・그룹별_확산곡선.png (C)
 python layers/region/adoption_maps.py           #     도입 지도 4장 (2014・2017・2019・2023) → figures/stage3_도입지도_<연도>.png (A, cartopy, 처음 실행 때 인터넷 필요)
+python layers/trade/example_figure.py            #     투영・멀티플렉스 예시 그림 (4개국) → figures/method_투영멀티플렉스_예시.png (D, stage2.py 다음, 몇 초)
 python analysis/validation/sim_scenarios.py     # 11. V1: 가상 데이터 S0・S1・S2로 검정 성능 확인 (B, 1분 안팎)
 python analysis/validation/sensitivity.py       # 12. V4: 동일 가중, 그룹 하나 빼기, 나라 하나씩 빼기, BH, 효과 크기 (C, 2~5 다 끝난 뒤)
 ```
