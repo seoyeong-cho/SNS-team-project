@@ -65,6 +65,7 @@ python analysis/stage2_1.py                     # 9. 2-1단계: 다른 대륙 �
 python analysis/stage2_network_figure.py      #    2단계 네트워크 그림 2장 (가중치 네트워크 + 순열분포, 식민) → figures/stage2_*네트워크.png, analysis/stage2_network_figure.csv (A, stage2_1.py 다음)
 python analysis/stage3_paths.py                 # 10. 3단계 확산 경로 실제 vs 가짜, 언어・식민 (B)
 python analysis/stage3_figures.py               #     확산 경로 그림 2장 → figures/stage3_*.png (B)
+python layers/trade/field_maps.py               #     분야별 연결 지도 6칸 (둘 다 도입한 쌍, p 두 개・판정) → figures/stage3_분야별_연결지도.png (D, 8번 다음, cartopy)
 python layers/income/curves_maps.py             #     확산 곡선 2장 → figures/stage3_전체・그룹별_확산곡선.png (C)
 python layers/region/adoption_maps.py           #     도입 지도 4장 (2014・2017・2019・2023) → figures/stage3_도입지도_<연도>.png (A, cartopy, 처음 실행 때 인터넷 필요)
 python analysis/validation/sim_scenarios.py     # 11. V1: 가상 데이터 S0・S1・S2로 검정 성능 확인 (B, 1분 안팎)
