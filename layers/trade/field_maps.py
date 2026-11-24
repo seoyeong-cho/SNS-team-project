@@ -10,8 +10,9 @@
 - 6개 분야 전부 그림 (11/24 팀 결정, 서영): 묶인 분야만 고르지 않고 칸마다 p와 판정을 적음
 - 칸마다 p 두 개를 나란히 (11/22 팀 결정): 전체 섞기 = 각 계층 result_*.csv ALL p,
   대륙 안 섞기 = analysis/validation/conditional_summary.csv (version all) p_continent. 대륙은 대륙 안 섞기가 정의상 안 됨
-- 판정 = 둘 다 0.05 미만 '남음', 하나만 '약한 힌트', 둘 다 아니면 '우연과 차이 뚜렷하지 않음'.
-  어떤 p로 판정하는지(보정 전 / ×6 보정 후)는 팀 확인 중 → CORRECTION 한 곳만 바꾸면 됨. 칸에 보정 전・후를 적음
+- 판정 = ×6 보정 후 p로 (11/22 팀 결정, key_message.md: 보정 전 p는 판정에 안 씀. 1단계도 2단계와 같은 6개 분야라 ×6).
+  둘 다 0.05 미만 '남음', 하나만 '약한 힌트', 둘 다 아니면 '남지 않음'. 칸에 보정 전 → 보정 후 p를 같이 적음
+- 대륙은 대륙 안 섞기가 없어서 두 섞기 비교가 안 됨 → 전체 섞기만으로 '뚜렷함'(< 0.01)・'약함'(0.01~0.05)・'차이 없음' (11/24 서영)
 - 화살표 없음. 선은 '같은 그룹'이지 '영향'이 아님
 - 지도는 서영 layers/region/adoption_maps.py와 같게: Robinson, Natural Earth 1:50m, 대표점 countries.json latlng
 - 분야 색은 layers/trade/example_figure.py와 같음 (대륙・지역기구・언어・식민・소득・무역 순서 고정)
@@ -41,8 +42,8 @@ from common import load_nodes, use_font  # noqa: E402
 L = ROOT / "layers"
 OUT = ROOT / "figures" / "stage3_분야별_연결지도.png"
 
-# 판정에 쓰는 p: None = 보정 전, 6 = 6개 분야 Bonferroni (p × 6, 최대 1). 팀 확인 중 (11/24)
-CORRECTION = None
+# 판정에 쓰는 p: 6개 분야 Bonferroni (p × 6, 최대 1). 11/22 팀 결정 (11/24 서영 확인)
+CORRECTION = 6
 
 FIELDS = ["continent", "igo", "language", "colony", "income", "trade"]     # stage2.py MAIN 순서
 FIELD_KO = dict(continent="대륙", igo="지역기구", language="언어", colony="식민", income="소득", trade="무역 (k = 5)")
@@ -60,14 +61,17 @@ def fmt(p):
     return "–" if p is None else f"{p:.3f}"
 
 
+def adj(p):
+    return None if p is None else min(1.0, p * CORRECTION)
+
+
 def judge(p_basic, p_cont):
-    ps = [p for p in (p_basic, p_cont) if p is not None]
-    if CORRECTION:
-        ps = [min(1.0, p * CORRECTION) for p in ps]
-    if p_cont is None:
-        return None                          # 대륙: 대륙 안 섞기 없음 → 판정 안 함 (팀 확인 중)
-    n = sum(p < 0.05 for p in ps)
-    return {2: "남음", 1: "약한 힌트", 0: "우연과 차이 뚜렷하지 않음"}[n]
+    if p_cont is None:                       # 대륙: 대륙 안 섞기 없음 → 전체 섞기만으로 (11/24 서영)
+        q = adj(p_basic)
+        word = "뚜렷함" if q < 0.01 else "약함" if q < 0.05 else "차이 없음"
+        return f"전체 섞기 {word} (대륙 안 섞기는 해당 없음)"
+    n = sum(adj(p) < 0.05 for p in (p_basic, p_cont))
+    return {2: "남음", 1: "약한 힌트", 0: "남지 않음"}[n]
 
 
 # ---------- 데이터 ----------
@@ -104,7 +108,6 @@ PC, ROB = ccrs.PlateCarree(), ccrs.Robinson()
 Y_LO = ROB.transform_point(0, -57, PC)[1]
 Y_HI = ROB.transform_point(0, 84, PC)[1]
 fig = plt.figure(figsize=(16, 9.6), facecolor=SURF)
-corr = "보정 전" if not CORRECTION else f"×{CORRECTION} 보정 후"
 
 W, H = 0.325, 0.28
 for k, f in enumerate(FIELDS):
@@ -131,20 +134,21 @@ for k, f in enumerate(FIELDS):
     fig.patches.append(matplotlib.patches.Rectangle((x0, y0 + H + 0.078), 0.0035, 0.024,
                                                     transform=fig.transFigure, color=FIELD_COL[f]))   # 색 = 분야
     fig.text(tx, y0 + H + 0.076, FIELD_KO[f], fontsize=13.5, fontweight="bold", color=INK, va="bottom")
-    jt = d["judge"] or "판정 보류 (대륙 안 섞기 없음)"
+    jt = d["judge"]
     fig.text(x0 + W - 0.006, y0 + H + 0.078, jt, fontsize=10.5, fontweight="bold", color=INK, ha="right",
              va="bottom", bbox=dict(boxstyle="round,pad=0.3", fc="#f1f0ec", ec="none"))
     fig.text(tx, y0 + H + 0.047,
              f"둘 다 도입한 쌍 {d['n']:,}개 · 연결된 도입국 {len(ends)}개 · 평균 연도 차이 실제 {d['real']:.2f}년 vs 가짜 {d['fake']:.2f}년",
              fontsize=9.3, color=INK2, va="bottom")
-    pc = "대륙 안 섞기 해당 없음 (대륙 자체)" if d["p_cont"] is None else f"대륙 안 섞기 {fmt(d['p_cont'])}"
-    fig.text(tx, y0 + H + 0.020, f"p ({corr})  전체 섞기 {fmt(d['p_basic'])}  ·  {pc}", fontsize=9.3, color=INK2,
-             va="bottom")
+    pc = ("대륙 안 섞기 해당 없음" if d["p_cont"] is None
+          else f"대륙 안 섞기 {fmt(d['p_cont'])} → {fmt(adj(d['p_cont']))}")
+    fig.text(tx, y0 + H + 0.020, f"p (보정 전 → ×{CORRECTION} 보정 후)  전체 섞기 {fmt(d['p_basic'])} → {fmt(adj(d['p_basic']))}  ·  {pc}",
+             fontsize=9.3, color=INK2, va="bottom")
 
 fig.text(0.012, 0.975, "분야별 연결 지도: 같은 그룹인 '둘 다 도입한' 나라 쌍", fontsize=17, fontweight="bold",
          color=INK, va="top")
 fig.text(0.012, 0.938, "p = 같은 그룹끼리 도입 시기가 우연(가짜 세계 1,000개)보다 가까웠나.  "
-         "판정: 두 섞기 다 0.05 미만 '남음', 하나만 '약한 힌트' (11/22 팀 규칙)",
+         f"판정 (×{CORRECTION} 보정 후 p): 두 섞기 다 0.05 미만 '남음', 하나만 '약한 힌트' (11/22 팀 규칙)",
          fontsize=10.5, color=INK2, va="top")
 fig.text(0.012, 0.012,
          "선은 '같은 그룹'이라는 뜻이지 '영향'・'따라 함'이 아님 (화살표 없음).  무역: 연도 불확실한 19개국을 빼면 효과가 사라짐 "
