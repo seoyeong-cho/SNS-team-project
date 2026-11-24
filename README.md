@@ -1,12 +1,12 @@
 # 🍫 설탕세는 어떻게 퍼지는가
 
-소셜네트워크과학 팀 프로젝트 (2조)
+소셜네트워크과학 팀 프로젝트 (7팀, 팀장 서현)
 
 121개국 설탕세 도입(현행 DB 117 + 폐지・누락 보충 4)을 5개 분야 연결(지역, 언어・식민, 소득, 지역기구, 무역) 위에 놓고, 같은 그룹 나라끼리 도입 시기가 우연보다 더 묶이는지 가짜 세계 1,000개와 비교해 검증함. 나라끼리 따라 한 것(확산)인지, WHO 권고 같은 공통 원인에 다 같이 반응한 것인지 구분하는 게 목표.
 
 - 설계서・설명서: 노션 (팀 링크 참고)
 - **역할 분담 (누가 무엇을, 진행 상황): [docs/ROLES.md](docs/ROLES.md)**
-- 일정: 슬라이드 11/30, 발표 12/7, 최종 제출 12/18
+- 일정: 슬라이드 11/30(월) 23:59, 발표 12/7(월) 2일차 첫 번째 (15~20분 + 질의응답 5분, 질의응답은 팀원 전체), 최종 제출 12/18(금) 23:59 (보고서・코드・데이터・data description・산출물 실명제), 동료평가 12/20(일)
 
 ## 처음부터 다시 돌리기 (재현 순서)
 
@@ -27,6 +27,7 @@ python layers/income/colombia_check.py          #    콜롬비아(2023년 11월)
 python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
 python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
 python analysis/adoption_income.py              #    도입 여부 검사 소득 강건성, 전 계층 (A, 2~5 다 끝난 뒤)
+python analysis/layer_table.py                  #    계층 비교표: 구조 지표 + 도입국 쌍 수, 전 계층 (D, 2~5 다 끝난 뒤, 몇 초)
 python analysis/stage2.py                       # 7. 2단계: 겹침 6×6, 각 분야 몫, 공유 분야 수 (2~5 다 끝난 뒤)
 python analysis/stage2_region_split.py          #    2단계 보충: 대륙・지역기구・국경 겹침 분리 (A, stage2.py 다음)
 python analysis/stage2_continent_check.py       #    2단계 보충: 대륙 효과 점검 (대륙별・나라 가중・정의 점검 + 그림, A, stage2.py 다음)

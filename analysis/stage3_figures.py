@@ -24,7 +24,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
-from matplotlib import font_manager  # noqa: E402
 from matplotlib.patches import FancyArrowPatch  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -32,7 +31,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from common import R, SEED, load_nodes  # noqa: E402
+from common import R, SEED, load_nodes, use_font  # noqa: E402
 
 A = ROOT / "analysis"
 FIG = ROOT / "figures"
@@ -42,13 +41,6 @@ GROUP = "Arabic"
 SHORT = {"ARE": "UAE", "SAU": "사우디"}   # 긴 이름 줄임 (파일럿 그림과 같게)
 
 INK, MUTED, FIRST, ARROW, FAKE = "#1a1a1a", "#6b6b6b", "#2a6fdb", "#8a8a8a", "#c9c9c9"
-
-
-def set_font():
-    have = {f.name for f in font_manager.fontManager.ttflist}
-    plt.rcParams["font.family"] = next((f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic"] if f in have),
-                                       "DejaVu Sans")
-    plt.rcParams["axes.unicode_minus"] = False
 
 
 def korean_names():
@@ -177,7 +169,7 @@ def fig2():
 
 
 def main():
-    set_font()
+    use_font()
     FIG.mkdir(exist_ok=True)
     nodes = load_nodes()
     res = fig1(nodes, korean_names())
