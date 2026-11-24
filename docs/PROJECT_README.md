@@ -55,6 +55,7 @@ python layers/income/colombia_check.py          #    콜롬비아(2023년 11월)
 python layers/trade/make_layer.py               # 5. 무역 계층 k = 3, 5, 10 (D)
 python analysis/exclude_checked.py              # 6. 연도 의심 국가 제외 검사, 전 계층 (2~5 다 끝난 뒤)
 python analysis/adoption_income.py              #    도입 여부 검사 소득 강건성, 전 계층 (A, 2~5 다 끝난 뒤)
+python analysis/layer_table.py                  #    계층 비교표: 구조 지표 + 도입국 쌍 수, 전 계층 (D, 2~5 다 끝난 뒤, 몇 초)
 python analysis/stage2.py                       # 7. 2단계: 겹침 6×6, 각 분야 몫, 공유 분야 수 (2~5 다 끝난 뒤)
 python analysis/stage2_region_split.py          #    2단계 보충: 대륙・지역기구・국경 겹침 분리 (A, stage2.py 다음)
 python analysis/stage2_continent_check.py       #    2단계 보충: 대륙 효과 점검 (대륙별・나라 가중・정의 점검 + 그림, A, stage2.py 다음)
@@ -340,7 +341,7 @@ git checkout language && git merge main
 - [ ] 나라마다 상위 5개 교역국, **서로** 상위 5위 안일 때만 연결 → `layer_trade_edges.csv` (group = `top5_trade`)
 - [ ] 상위 3・5・10으로 바꿔도 결과 비슷한지 확인
 - [ ] 1단계 (`stage1`)
-- [ ] 계층 비교표 `analysis/layer_table.csv` (`structure()` 결과 모으기)
+- [x] 계층 비교표 `analysis/layer_table.csv` (`structure()` 결과 모으기) → `docs/analysis/layer_table.md` (11/23)
 
 쌍으로 정의되는 계층이라 `groups_to_edges` 대신 엣지 표를 직접 만듦. `check_edges` 통과 필수.
 
