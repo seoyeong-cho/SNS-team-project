@@ -188,13 +188,19 @@
 
 교역 기록이 아예 없는 3개국은 **보충하지 않고 고립국(연결 0개)으로 둠**
 
-| iso3 | 나라 | 추정 이유 |
+| iso3 | 나라 | 이유 (11/24 출처 확인) |
 |---|---|---|
-| `IMN` | 맨섬 | 영국 관세 영역에 포함돼 집계되는 것으로 추정 |
-| `LIE` | 리히텐슈타인 | 스위스 관세 영역에 포함돼 집계되는 것으로 추정 |
-| `MCO` | 모나코 | 프랑스 관세 영역에 포함돼 집계되는 것으로 추정 |
+| `IMN` | 맨섬 | 영국 HMRC 무역통계가 맨섬을 영국 영역에 포함함 [ONS]. Comtrade 영국(826) 자료는 HMRC 자료임 [Comtrade 826]. **Comtrade 문서에 맨섬이 직접 적혀 있지는 않음** (두 문서를 이어서 확인) |
+| `LIE` | 리히텐슈타인 | Comtrade 보고 코드 757 = "Switzerland and Liechtenstein" (스위스 M49 756 + 리히텐슈타인 438) [Comtrade 관세 영역] |
+| `MCO` | 모나코 | Comtrade 보고 코드 251 = 프랑스 관세 영역 + 해외 도 + 모나코 (M49 492) [Comtrade 관세 영역] |
 
-- 추정 이유는 출처 확인 필요
+- 리히텐슈타인・모나코 통계청도 스위스・프랑스와의 거래는 관세동맹이라 자기 통계에서 뺀다고 적음 [LLV], [IMSEE] → 같은 방향
+- 출처 (11/24 확인, Comtrade 문서는 날짜 없음)
+  - [Comtrade 관세 영역] UN Comtrade, Reporter country codes and their custom areas: https://uncomtrade.org/docs/reporter-country-codes-and-their-custom-areas/
+  - [Comtrade 826] UN Comtrade publication notes, United Kingdom: https://comtrade.un.org/db/mr/daPubNoteDetail.aspx?r=826
+  - [ONS] ONS, UK trade quality and methods guide: https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/methodologies/uktradeqmi
+  - [LLV] Liechtenstein 정부, Warenhandel 1. Quartal 2026: https://www.llv.li/en/news/warenhandel-1-quartal-2026
+  - [IMSEE] Monaco 통계청, Foreign trade: https://imsee.mc/en/thematics/economy/foreign-trade
 - 묶인 나라의 교역 관계를 빌려 쓰는 방법은 근거가 약해서 쓰지 않음
 
 ## 한계
@@ -206,5 +212,5 @@
 
 ## 정할 것
 
-- [ ] 누락 3개국 추정 이유 출처 확인
+- [x] 누락 3개국 추정 이유 출처 확인 → '누락 국가' 표 (11/24). 맨섬은 간접 근거
 - [x] C의 204개국 소득 등급이 나오면 도입 여부 검사 강건성 추가 → 서영이 전 계층으로 함 (11/22, `docs/analysis/adoption_income.md`)
