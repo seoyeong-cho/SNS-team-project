@@ -164,10 +164,10 @@ A 공통 틀 (11/17) → 넷이 각자 계층 + 1단계 (11/21) → 2단계 완�
 | 11/26 | 도입 지도 4장 (cartopy, 실제 지도 위) | ✅ 11/22 `region-maps` | `layers/region/adoption_maps.py` → `figures/stage3_도입지도_<연도>.png`. 수정 #27 점 지도 스냅샷 대신 발표용. `requirements.txt`에 cartopy 추가 |
 | 11/26 | V2 그림: 계층마다 전체 섞기 vs 대륙 안 섞기 나란히 | ✅ 11/22 `v2-figure` | `analysis/validation/conditional_figure.py` → `figures/v2_대륙안섞기.png`. CSV만 읽음 |
 | 11/26 | 네트워크 그림 (11/22 추가): 가중치 네트워크 + 순열분포, 식민 네트워크 | ✅ 11/22 `network-figure` | `analysis/stage2_network_figure.py` → `figures/stage2_가중치네트워크.png`, `stage2_식민네트워크.png`, `analysis/stage2_network_figure.csv`. 발표 2단계 슬라이드 |
-| 11/24 | 승아 계층 비교표 리뷰・머지 (동결 전 마지막 분석) | ⬜ | |
+| 11/24 | 승아 계층 비교표 리뷰・머지 (동결 전 마지막 분석) | ✅ 11/24 (#36) | 다시 돌려서 `layer_table.csv` 같음, 문서 숫자 CSV와 같음 확인. 같은 날 #34・#35(서현) 리뷰, #37(승아 예시 그림) 리뷰 |
 | 11/24 | 슬라이드 목차・첫 2분 초안 공유 | ⬜ | 코로나 봉쇄 → "정말 같이 움직였나?" → 골턴의 문제 → 설탕세 지도 → 질문. 용어 정의 자리 넣기 |
 | 11/25 | 동결: 전체 재현 다시 + `key_message.md` 숫자 최종 확인 | ✅ 11/24 `key-message-final` | README 28단계 오류 없음, 커밋된 CSV와 같음 (`stage3_path_comparison.csv` 상관계수 소수 15째 자리 차이만, 부동소수점). `key_message.md` 숫자 전부 CSV와 같음. 1단계 판정 표(보정 ×6) 추가. 동결 전에 분석 PR이 더 머지되면 다시 확인 |
-| 11/25 | data description 지역・지역기구・도입 연도 부분 | ⬜ | 승아가 합침 |
+| 11/25 | data description 지역・지역기구・도입 연도 부분 | ✅ 11/24 `region-data-description` | `docs/layers/region.md` 0장 (서현 `language.md` 0장과 같은 형식). 승아가 합침 |
 | 11/27 | **슬라이드 합쳐서 전체 초안** + 쪽수별 담당 기록 (실명제용) | ⬜ | 11/28 피드백, 11/29 시간 재보기 |
 | 12/3・12/6・12/7 | **발표 앞부분** (도입~2단계), 연습 2회 | ⬜ | 서현과 나눔 (2장 '발표' 표) |
 | 12/10 | 보고서 1, 2.1, 2.2, 3.1, 3.2, 4.2, 5.3, 부록 B (+ 3.4・4.1・5.2 자기 문단) | ⬜ | 2장 '보고서' 표 |
