@@ -4,7 +4,9 @@
 설명 문서: docs/analysis/stage3_paths.md
 
 그림 1  figures/stage3_확산경로_예시_실제vs가짜.png
-  언어 계층 아랍어 그룹 도입국(11개국)을 실제 연도 vs 가짜 세계 하나(연도를 섞은 첫 번째)로 나란히
+  언어 계층 아랍어 그룹 도입국(11개국)을 실제 연도 vs 가짜 세계 하나로 나란히
+  가짜 세계 하나 = 1,000개 중 평균 간격이 가짜 평균에 가장 가까운 것 (같으면 앞 번호). 11/25 서영:
+  예전엔 첫 번째(평균 4.7년)라 보통 가짜보다 퍼져 보여 실제와 차이가 과장됨 → 전형적인 하나로 바꿈
   화살표 = 같은 그룹에서 가장 최근에 먼저 도입한 나라 → 나중 나라 (같은 해 먼저 도입국이 여럿이면 알파벳 앞)
   평균 간격 p = 가짜 세계 1,000개 중 평균 간격이 실제보다 짧거나 같은 비율 (114개국 연도를 전체에서 섞음, seed 42)
 그림 2  figures/stage3_경로수_실제vs가짜.png
@@ -107,31 +109,32 @@ def fig1(nodes, names):
     real_lag, _ = mean_lag(codes, real)
 
     rng = np.random.default_rng(SEED)
-    fake_lags, first_fake = [], None
+    fake_lags, fakes = [], []
     for k in range(R):
         ys = rng.permutation(y_all)
         fy = {c: int(ys[i]) for c, i in zip(codes, idx)}
-        if k == 0:
-            first_fake = fy
+        fakes.append(fy)
         fake_lags.append(mean_lag(codes, fy)[0])
     fake_lags = np.array(fake_lags)
     p = (np.sum(fake_lags <= real_lag) + 1) / (R + 1)
+    k_show = int(np.argmin(np.abs(fake_lags - fake_lags.mean())))   # 평균에 가장 가까운 가짜 세계
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 6.2))
     draw_timeline(axes[0], codes, real, names, f"실제 (아랍어권 {len(codes)}개국)")
-    draw_timeline(axes[1], codes, first_fake, names, "가짜 세계 하나 (114개국 연도를 섞음)")
+    draw_timeline(axes[1], codes, fakes[k_show], names,
+                  f"가짜 세계 하나 (114개국 연도를 섞음, 1,000개 중 평균에 가장 가까운 것)")
     fig.suptitle("확산 경로는 '순서'일 뿐: 실제가 가짜보다 촘촘한지 비교해야 한다", x=0.015, ha="left",
                  fontsize=15, fontweight="bold", color=INK)
     verdict = ("이 더 촘촘해 보이지만 우연 범위 안" if p >= 0.05 else "로 가짜보다 촘촘함")         if real_lag < fake_lags.mean() else "로 가짜보다 촘촘하지 않음"
     fig.text(0.015, 0.045, f"가짜 세계 {R:,}개의 평균은 {fake_lags.mean():.1f}년. 실제 {real_lag:.1f}년{verdict} (p = {p:.3f})",
              fontsize=11, color=INK)
     fig.text(0.015, 0.012, "화살표: 같은 언어권에서 가장 최근에 먼저 도입한 나라 → 나중 나라. 순서일 뿐, 영향을 줬다는 증거는 아님."
-             "  파란 점: 그룹 안 첫 도입국", fontsize=9, color=MUTED)
+             "  파란 점: 그룹 안 첫 도입국. 에리트레아・튀니지 연도는 검증에서 '모름'", fontsize=9, color=MUTED)
     fig.tight_layout(rect=(0, 0.07, 1, 0.94))
     fig.savefig(FIG1, dpi=150)
     plt.close(fig)
     return dict(group=GROUP, n=len(codes), real_lag=round(real_lag, 2), fake_lag_mean=round(fake_lags.mean(), 2),
-                p=round(float(p), 4))
+                p=round(float(p), 4), fake_shown=k_show + 1, fake_shown_lag=round(float(fake_lags[k_show]), 2))
 
 
 def fig2():
